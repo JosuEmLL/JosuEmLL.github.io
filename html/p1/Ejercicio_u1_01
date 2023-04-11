@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<!--
+    Nombre: Josue Emmanuel Lopez Lopez
+    Materia: Programacion Web I
+    Fecha: 15/02/2023
+    Descripcion: Esqueleto HTML
+-->
+<html lang="es">
+    <head>
+        <title>Plantilla</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Josue Emmanuel Lopez Lopez">
+        <meta name="revised" content="Míercoles 15 de febrero de 2023">
+        <meta name="description" content="ol,ul,li,dl,dt,dd"> 
+    </head>
+    <body>
+        <p>Lunes 13 de febrero de 2023</p>
+        <p>Universidad Politecnica de San Luis Potosi</p>
+        <p>Josue Emmanuel López López</p>
+        <p>Hola mundo!....UPSLP</p>
+        
+    </body>
+
+
+
+
+
+
+
+</html>
+
+
