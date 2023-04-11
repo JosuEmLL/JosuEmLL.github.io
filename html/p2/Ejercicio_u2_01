@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<!--
+    Nombre: Josue Emmanuel Lopez Lopez
+    Materia: Programacion Web I
+    Fecha: 02/03/2023
+    Descripcion: Etiquetas para tablas
+-->
+<html lang="es">
+    <head>
+        <title>Unidad 02 - Ejercicio 01</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Josue Emmanuel Lopez Lopez">
+        <meta name="revised" content="Jueves 02 de marzo de 2023">
+        <meta name="description" content="table, tr, th, td, thead, tbody, colspan, rowspan, border"> 
+    </head>
+    <body>
+        <hgroup>
+            <h1>Tablas</h1>
+            <h2>Combinar renglones y columnas</h2>
+            <table border="3px">
+                <tr>
+                    <th>No.</th>
+                    <th>Nombre</th>
+                    <th>Apellido Paterno</th>
+                    <th>Apellido Materno</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Juan</td>
+                    <td></td>
+                    <td>Pérez</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Pedro</td>
+                    <td colspan="2">López</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td rowspan="2">Tomás</td>
+                    <td>López</td>
+                    <td>Pérez</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td colspan="2">Martínez</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td colspan="2">Zacarías</td>
+                    <td>Martínez</td>
+                </tr>
+            </table>
+        </hgroup>
+        <p><h2>Ejercicio 1</h2></p>
+        <hgroup>
+        <table border="3px">
+            <tr>
+                <th colspan="4">Tabla No.1</th>
+            </tr>
+            <tr>
+                <th>A</th>
+                <td>B</td>
+                <td rowspan="4">C</td>
+                <td>D</td>
+            </tr>
+            <tr>
+                <th rowspan="2">E</th>
+                <td>F</td>
+                <td rowspan=4>G</td>
+            </tr>
+            <tr>
+                <td>H</td>
+            </tr>
+            <tr>
+                <th>I</th>
+                <td>J</td>
+            </tr>
+        </table>
+        </hgroup>
+        <br>
+        <p><h2>Ejercicio 2</h1></p>
+        <hgroup>
+            <table border="3px">
+                <tr>
+                    <th colspan="4">Tabla No.2</th>
+                </tr>
+                <tr>
+                    <td >1</td>
+                    <td >2</td>
+                    <td >3</td>
+                    <td >4</td>
+                </tr>
+                <tr>
+                    <td rowspan="3">5</td>
+                    <td>6</td>
+                    <td colspan="2">7</td>
+                </tr>
+                <tr>
+                    <td>8</td><td>9</td><td rowspan="2">10</td>
+                </tr>
+                <tr>
+                    <td colspan="2">11</td>
+                </tr>
+            </table>
+            </hgroup>
+            <p><h2>Ejercio 3</h2></p>
+            <table border="3px">
+                <hgroup>
+                    <tr><th colspan="4">Tabla No.3</th></tr>
+                    <tr>
+                        <td></td>
+                        <th>Comida</th>
+                        <th>Hotel</th>
+                        <th>Transporte</th>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Vallarta</th>
+                    </tr>
+                    <tr>
+                        <td>01/Jul/2022</td>
+                        <td>15$</td>
+                        <td>120$</td>
+                        <td>ND</td>
+                    <tr>
+                        <td>02/Jul/2022</td>
+                        <td>$18</td>
+                        <td>$120</td>
+                        <td>$34</td> 
+                    </tr>
+                    <tr>
+                        <td>03/Jul/2022</td> 
+                        <td>$20</td>
+                        <td>$125</td>
+                        <td>ND</td>
+                    </tr>
+                    <th colspan="4">Nuevo Vallarta</th>
+                    </tr>
+                    <tr>
+                        <td>04/Jul/2022</td>
+                        <td>10$</td>
+                        <td>75$</td>
+                        <td>12$</td>
+                    <tr>
+                        <td>02/Jul/2022</td>
+                        <td>$12</td>
+                        <td>$75</td>
+                        <td>$14</td> 
+                    </tr>
+                    <tr>
+                        <th>TOTAL</th>
+                        <th>80</th>
+                        <th>510</th>
+                        <th>60</th>
+                    </tr>
+
+                </hgroup>
+            </table>
+        
+    </body>
+
+
+
+
+
+
+
+</html>
+
+
