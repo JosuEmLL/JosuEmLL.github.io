@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+    Nombre: Josue Emmanuel Lopez Lopez
+    Materia: Programacion Web I
+    Fecha: 03/05/2023
+    Descripcion: Tipos de Datos
+-->
+<html lang="es">
+    <head>
+        <title>Unidad 03 - Ejercicio 03</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Josue Emmanuel Lopez Lopez">
+        <meta name="revised" content="Martes 03 de Mayo de 2023">
+        <meta name="description" content="temp,typeof,varUndefined"> 
+        <style>
+            .Tit{background-color: black; color: aqua;}
+        </style>
+    </head>
+    <body>
+     <h1 class="Tit">JavaScript - Tipos de Datos</h1>
+     <script>
+       /* 2.2.1.21 Tipos de Datos Primitivos - Tareas */
+       let varBoolean = Boolean(true);
+       let varNumber = Number(3141592);
+       let varBigInt = BigInt(23);
+       let varString = String("UPSLP");
+       let varUndefined;
+
+       alert("varBoolean es de tipo: " + typeof varBoolean + "; con un valor de : " + varBoolean +
+       "\nvarNumber es de tipo: " + typeof varString + "; con un valor de : " + varString +
+       "\nvarBigInt es de tipo: " + typeof varNumber + "; con un valor de : " + varNumber +
+       "\nvarString es de tipo: " + typeof varBigInt + "; con un valor de : " + varBigInt +
+       "\nvarUndefined es de tipo: " + typeof varUndefined + "; con un valor de : " + varUndefined
+       );
+
+    let tempString = "1234";
+    let tempNumber = Number(varString);
+    let tempBigInt = BigInt(varNumber);
+    let tempBoolean = Boolean(varBigInt);
+
+    let varBoolean_1 = Boolean(true);
+    let varBoolean_2 = Boolean(false);
+
+    alert("varBoolean_1 es de tipo:" + typeof varBoolean_1 + "; y su valor es: " + varBoolean_1 +
+    "\n varBoolean_2 es de tipo:" + typeof varBoolean_2 + "; y su valor es:" + varBoolean_2);
+
+    alert("String + Number el resultado es: " + typeof (tempString + tempNumber) + 
+    "\nString + BigInt el resultado es. " + "Uncaught TypeError: Cannot mix BigInt and other types, use explicit conversions" +
+    "\nString  + Boolean el resultado es: " + typeof (tempString + tempBoolean) +
+    "\nNumber + BigInt el resultado es : " + "Uncaught TypeError: Cannot mix BigInt and other types, use explicit conversions" + 
+    "\nNumber + Boolean el resultado es : " + typeof(tempNumber + tempBoolean));
+     </script>
+    </body>
+
+
+
+
+
+
+
+</html>
+
+
