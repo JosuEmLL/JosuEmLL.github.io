@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!--
+    Nombre: Josue Emmanuel Lopez Lopez
+    Materia: Programacion Web I
+    Fecha: 10/05/2023
+    Descripcion: 
+-->
+<html lang="es">
+    <head>
+        <title>Unidad 03 - Ejercicio 07</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Josue Emmanuel Lopez Lopez">
+        <meta name="revised" content="Miercoles 10 de Mayo de 2023">
+        <meta name="description" content="for, while, do-while"> 
+        <style>
+            .Tit{background-color: black; color: aqua;}
+        </style>
+    </head>
+    <body>
+    <h1 class="Tit">JavaScript - Bucles</h1>
+    <script>
+        /* 4.2.1.15 Blucles - Tareas */
+        /* *****Tarea No. 01 ***** */
+        let a=100;
+        /* Ciclo For */
+        for(a;a>=0;a-=10){
+            console.log(a);
+        }
+
+        /* Ciclo Do-While */
+        let varNum = 100;
+        do {
+            console.log("Do-While >> valor : " + varNum);
+            varNum -= 10;
+        }while(varNum >= 0);
+
+        /*Ciclo While */
+        varNum = 100;
+        while(varNum >=0){
+            console.log("While >> valor: " + varNum);
+            varNum -= 10;
+        }
+
+        varNum = 0;
+        /*Ciclo ForInfinito */
+        varNum = 100;
+        for(;;) {
+            console.log("ForInfinito >> Valor : " + varNum);
+            if(varNum > 0)
+                varNum -=10;
+            else
+                break;
+        }
+
+        /* *****Tarea No. 2***** */
+        let varNum1;
+        let varValor_1 = Number(prompt("Valor inicial del ciclo: "));
+        let varValor_2 = Number(prompt("Valor final del ciclo: "));
+        let bandDec = false, bandInc =false;
+
+        if(varValor_1 > varValor_2)
+        {
+            bandDec = true;
+        } else {
+            bandInc = true;
+        }
+
+        if(Number.isNaN(varValor_1) || Number.isNaN(varValor_2))
+        {
+            alert("Los limites deben ser numericos....");
+        } else {
+            for(varNum = varValor_1;;)
+            {
+            console.log("ForDinamico >> Valor: " + varNum);
+             if(bandDec) {varNum -= 10; if(varNum >= varValor_2){ continue;}else break;}
+            if(bandInc) {varNum += 10; if(varNum <= varValor_2)continue;} else break;}
+        }
+
+        let varNum0;
+        let varNum_1 = Number(prompt("Valor inicial de la secuencia: "));
+        let varNum_2 = Number(prompt("Valor final de la secuencia: "));
+        let var_Delta = Number(prompt("Valor del cambio (incremento/decremento): "));
+
+        let bandDec1 = false, bandInc1 = false;
+        if(varValor_1 > varValor_2) {bandDec = true;
+        } else {bandInc = true;}
+
+
+            /* Tarea 06 */
+        let varNum01,varNum2,varOp,VarRes,varHistorial,varContinuar;
+         varHistorial = " -- Registro de operaciones realizadas --";
+        do{
+            varNum1 =Number(prompt("Valor del primer operando: "));
+            varNum2 =Number(prompt("Valor del segundp operando: "));
+            varOp = prompt("Operación a realizar (+,-,*,/)");
+            varRes = " -- Mensaje de Resultado --";
+
+            if(!Number.isNaN(varNum1) && !Number.isNaN(varNum2)) {
+            switch (varOp) {
+                case '+': VarRes = "El resultado de: (" + varNum1 + " + " + varNum2 + ") es : " + (varNum1 + varNum2);
+                    break;
+                case '-': VarRes = "El resultado de: (" + varNum1 + " - " + varNum2 + ") es : " + (varNum1 - varNum2);
+                    break;            
+                case '*': 
+                VarRes = "El resultado de: (" + varNum1 + " * " + varNum2 + ") es : " + (varNum1 * varNum2);
+                    break;
+                case '/': VarRes = "El resultado de: (" + varNum1 + " / " + varNum2 + ") es : " + (varNum1 / varNum2);
+                    break;            
+                default: VarRes = "Operación incorrecta....";
+            }
+        } else {
+            VarRes = ("Los operadores deben ser valores numericos....")};
+        alert(VarRes);
+        varHistorial += "\n" + varRes;
+
+        varContinuar = confirm("Deseas realizar otra operación?)");
+    }while(varContinuar);
+    alert(varHistorial);
+    </script>
+    </body>
+
+
+
+
+
+
+
+</html>
+
+
