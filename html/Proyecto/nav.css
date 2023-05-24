@@ -52,21 +52,21 @@ nav {
     padding: 0;
   }
   
-  nav ul li:hover .submenu {
+  nav ul li:hover .submenu .submenu2 {
     display: block;
   }
   
-  nav ul li .submenu li {
+  nav ul li .submenu .submenu2 li {
     display: block;
   }
   
-  nav ul li .submenu li a {
+  nav ul li .submenu .submenu2 li a {
     padding: 10px 20px;
     color: #fff;
     text-decoration: none;
   }
   
-  nav ul li .submenu li a:hover {
+  nav ul li .submenu .submenu2 li a:hover {
     background-color: #555;
   }
   summary {
