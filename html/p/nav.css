@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700&display=swap');
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto Slab', serif;
+    min-height: 100vh;
+    position: relative;
+    margin-bottom: 100px;
+    background-color: #D3D3C9;
+}
+
+/* Estilos para la barra de navegación */
+nav {
+    background-color: #333;
+    color: #fff;
+    margin-top: 0;
+    padding:  0;
+  }
+  
+  nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  nav ul li {
+    display: inline-block;
+    position: relative;
+  }
+  
+  nav ul li a {
+    display: block;
+    padding: 10px 20px;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  nav ul li a:hover {
+    background-color: #555;
+  }
+  
+  /* Estilos para el icono */
+  nav ul li a .icon {
+    margin-right: 5px;
+    font-size: 20px;
+  }
+  
+  /* Estilos para el menú desplegable */
+  nav ul li .submenu {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    padding: 0;
+  }
+  
+  nav ul li:hover .submenu {
+    display: block;
+  }
+  
+  nav ul li .submenu li {
+    display: block;
+  }
+  
+  nav ul li .submenu li a {
+    padding: 10px 20px;
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  nav ul li .submenu li a:hover {
+    background-color: #555;
+  }
+  summary {
+    list-style: none;
+  }
+  
+  summary::before {
+    content: "";
+    display: inline-block;
+    width: 0.5em;
+    height: 0.5em;
+    border-radius: 50%;
+    margin-right: 0.5em;
+    background-color: #000000; /* Puedes ajustar el color según tus necesidades */
+  }
+  
+  details[open] summary::before {
+    background-color: #000000; /* Cambia el color cuando el elemento se expande */
+  }
+
+  footer {
+    background-color: #333;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+  }
+  
+  footer p {
+    margin: 0;
+    text-align: center;
+    color: #fff;
+    font-size: 11px; /* Tamaño de fuente más pequeño */
+  }
+  
+  .footer-id {
+    font-weight: normal; /* Quita la negrita */
+  }
+
+p{
+    padding-left: 15px;
+}
+h1,h2,h3,h4,h5,h6{
+    padding-left: 15px;
+}
+details{
+    padding-left: 15px;
+}
+summary{
+    padding-left: 15px;
+}
+.Titulo{text-align:center;font-family: 'Roboto Slab', serif;}
+.li{line-height:3;}
+.index{font-family: 'Roboto Slab', serif; color:rgb(50, 50, 50);}
