@@ -6,7 +6,7 @@ body {
     min-height: 100vh;
     position: relative;
     margin-bottom: 100px;
-    background-color: #D0D3CA;
+    background-color: #C4C4C3;
 }
 
 /* Estilos para la barra de navegación */
@@ -81,7 +81,7 @@ nav {
     height: 0.5em;
     border-radius: 50%;
     margin-right: 0.5em;
-    background-color: #D0D3CA; /* Puedes ajustar el color según tus necesidades */
+    background-color: #000000; /* Puedes ajustar el color según tus necesidades */
   }
   
   details[open] summary::before {
