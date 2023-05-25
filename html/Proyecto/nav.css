@@ -45,28 +45,28 @@ nav {
   }
   
   /* Estilos para el menú desplegable */
-  nav ul li .submenu .submenu2 {
+  nav ul li .submenu {
     display: none;
     position: absolute;
     background-color: #333;
     padding: 0;
   }
   
-  nav ul li:hover .submenu .submenu2 {
+  nav ul li:hover .submenu {
     display: block;
   }
   
-  nav ul li .submenu .submenu2 li {
+  nav ul li .submenu li {
     display: block;
   }
   
-  nav ul li .submenu .submenu2 li a {
+  nav ul li .submenu li a {
     padding: 10px 20px;
     color: #fff;
     text-decoration: none;
   }
   
-  nav ul li .submenu .submenu2 li a:hover {
+  nav ul li .submenu li a:hover {
     background-color: #555;
   }
   summary {
