@@ -136,7 +136,7 @@
                 const asunto = form.asunto.value.trim();
                 const mensaje = form.mensaje.value.trim();
 
-                if(!nombre || asunto || !mensaje){
+                if(!nombre || !asunto || !mensaje){
                     errorEl.textContent = 'Por favor completa todos los campos.';
                     errorEl.hidden = false;
                     return;
