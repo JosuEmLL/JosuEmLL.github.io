@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<!--
+    Nombre: Josue Emmanuel Lopez Lopez
+    Materia: Programacion Web I
+    Fecha: 14/04/2023
+    Descripcion: Examen practico parcial 2
+-->
+<html lang="es">
+    <head>
+        <title>Examen Practico -Parcial 2</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Josue Emmanuel Lopez Lopez">
+        <meta name="revised" content="Viernes, 14 de Abril del 2023">
+        <meta name="description" content="">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Caveat&display=swap" rel="stylesheet"> 
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300&display=swap" rel="stylesheet">
+        <style type="text/css">
+            p,h1{font-family: 'Caveat', cursive;}
+            .tg  {border-collapse:collapse;border-spacing:0;}
+            .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+              overflow:hidden;padding:10px 5px;word-break:normal;}
+            .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+              font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+            .tg .tg-46ru{background-color:#96fffb;border-color:inherit;text-align:left;vertical-align:top}
+            .tg .tg-mukq{background-color:#96FFFB;border-color:inherit;text-align:left;vertical-align:top}
+            .tg .tg-55qk{background-color:#9698ED;border-color:inherit;text-align:left;vertical-align:top}
+            .tg .tg-a7m3{background-color:#f8a102;border-color:inherit;text-align:left;vertical-align:middle}
+            .tg .tg-lto5{background-color:#f8a102;border-color:inherit;text-align:left;vertical-align:top}
+            .tg .tg-266k{background-color:#9b9b9b;border-color:inherit;text-align:left;vertical-align:top}
+            .tg .tg-jdhy{background-color:#96fffb;border-color:inherit;text-align:left;vertical-align:middle}
+            .tg .tg-7od5{background-color:#9aff99;border-color:inherit;text-align:left;vertical-align:top}
+            .tg .tg-xkfo{background-color:#9698ed;border-color:inherit;text-align:left;vertical-align:top}
+            .tg .tg-smvl{background-color:#fd6864;border-color:inherit;text-align:left;vertical-align:top}
+            .tg .tg-q32f{background-color:#9AFF99;border-color:inherit;text-align:left;vertical-align:top}
+            .tg .tg-y24r{background-color:#F8A102;border-color:inherit;text-align:left;vertical-align:top}
+            .tg .tg-jilr{background-color:#fd6864;border-color:inherit;text-align:left;vertical-align:middle}
+        </style>
+    </head>
+    <body>
+      <hgroup>
+        <h1>Ecuaciones Cuadráticas</h1>
+        <p>(a+b)=a² + 2ab + b²</p>
+        <p>(a-b)=a² - 2ab + b²</p>
+        <p>(a²+b²)=(a + b)(a - b)</p>
+        <p>(a + b)³=a³ + 3a²b + 3ab² + b³</p>
+        <p>(a - b)³=a³ - 3a²b + 3ab² - b³</p>
+        <p>a³ + b³=(a + b)(a² - ab + b²)</p>
+        <p>a³ - b³=(a -b)(a² - ab + b²)</p>
+      </hgroup>
+            <table class="tg" style="font-family: 'Roboto Condensed', sans-serif;">
+            <thead>
+              <tr>
+                <th class="tg-266k" colspan="3"></th>
+                <th class="tg-266k" colspan="2">Nomenclatura</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="tg-266k">Tipo de compuesto</td>
+                <td class="tg-266k">Definición</td>
+                <td class="tg-266k">Formulación</td>
+                <td class="tg-266k">IUPAC</td>
+                <td class="tg-266k">Tradidicional</td>
+              </tr>
+              <tr>
+                <td class="tg-266k">Oxidos</td>
+                <td class="tg-7od5">O<sup>-2</sup> + El<sup>+</sup></td>
+                <td class="tg-46ru">Fe<sub>2</sub>O<sub>3</sub></td>
+                <td class="tg-xkfo">Óxido de Hierro (III)</td>
+                <td class="tg-lto5">Óxido Férrico</td>
+              </tr>
+              <tr>
+                <td class="tg-266k" rowspan="2" style="vertical-align: middle;">Hidruros</td>
+                <td class="tg-7od5">H<sup>-1</sup> + Me<sup>+</sup></td>
+                <td class="tg-46ru">CoH<sub>2</sub></td>
+                <td class="tg-xkfo">Hidruro de Cobalto (II)</td>
+                <td class="tg-lto5">Hidruro Cobaltoso</td>
+              </tr>
+              <tr>
+                <td class="tg-7od5">H<sup>+1</sup> + NoMe<sup>-</sup></td>
+                <td class="tg-46ru">H<sub>3</sub>N</td>
+                <td class="tg-smvl">Nitruro de Hidrógeno</td>
+                <td class="tg-smvl"></td>
+              </tr>
+              <tr>
+                <td class="tg-266k">Hidróxidos</td>
+                <td class="tg-7od5">Me<sup>+</sup> + (OH)<sup>-1</sup></td>
+                <td class="tg-mukq">Au(OH)<sub>3</sub></td>
+                <td class="tg-xkfo">Hidroóxido de Oro (III)</td>
+                <td class="tg-lto5">Hidróxido Áurico</td>
+              </tr>
+              <tr>
+                <td class="tg-266k">Ácidos Hidrácidos</td>
+                <td class="tg-q32f">H<sup>+1</sup> + NoMe<sup>-</sup></td>
+                <td class="tg-mukq">HCL</td>
+                <td class="tg-smvl" colspan="2">Ácido Clorhídrico</td>
+              </tr>
+              <tr>
+                <td class="tg-266k">Ácidos Óxiacidos</td>
+                <td class="tg-q32f">H<sup>+1</sup> + O<sup>-2</sup> + El<sup>+</sup></td>
+                <td class="tg-mukq">H<sub>2</sub>SO<sub>4</sub></td>
+                <td class="tg-55qk">Tetrasulfato de Hidrógeno</td>
+                <td class="tg-y24r">Sulfato de Hidrógeno</td>
+              </tr>
+              <tr>
+                <td class="tg-266k">Sales Neutras</td>
+                <td class="tg-7od5">Oxácido - H + Me</td>
+                <td class="tg-mukq">K<sub>4</sub>SO<sub>4</sub></td>
+                <td class="tg-xkfo">Tetrasulfato de Potasio</td>
+                <td class="tg-lto5">Sulfato de Potasio</td>
+              </tr>
+              <tr>
+                <td class="tg-266k">Sales Ácidas</td>
+                <td class="tg-7od5">Oxácido + Me</td>
+                <td class="tg-mukq">AL(HSO<sub>4</sub>)<sub>3</sub></td>
+                <td class="tg-xkfo">Tetrasulfato de Hidrógeno y Aluminio</td>
+                <td class="tg-lto5">Sulfato Ácido de Aluminio</td>
+              </tr>
+              <tr>
+                <td class="tg-266k" rowspan="2" style="vertical-align: middle;">Peróxidos</td>
+                <td class="tg-7od5">(O<sub>2</sub>)<sup>-2</sup> + Me<sup>+</sup></td>
+                <td class="tg-jdhy" rowspan="2">CAO<sub>2</sub></td>
+                <td class="tg-jilr" colspan="2" rowspan="2">Peóxido de Calcio</td>
+              </tr>
+              <tr>
+                <td class="tg-7od5">(O<sub>2</sub>)<sup>-2</sup> + H<sup>+1</sup></td>
+              </tr>
+              <tr>
+                <td class="tg-266k">Cationes</td>
+                <td class="tg-7od5">El<sup>  -</sup> + Xe<sup>-</sup></td>
+                <td class="tg-jdhy" rowspan="2">Mg<sup>±2</sup></td>
+                <td class="tg-xkfo">Catión de Magnesio (II)</td>
+                <td class="tg-a7m3" rowspan="2">Ion de Magnesio</td>
+              </tr>
+              <tr>
+                <td class="tg-266k">Aniones</td>
+                <td class="tg-7od5">El<sup>  +</sup> + Xe<sup>-</sup></td>
+                <td class="tg-xkfo">Anión de Magnesio (II)</td>
+              </tr>
+            </tbody>
+            </table>
+    </body>
+</html>
+
+

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!--
+    Nombre: Josue Emmanuel Lopez Lopez
+    Materia: Programacion Web I
+    Fecha: 28/04/2023
+    Descripcion: Funciones y Alertas
+-->
+<html lang="es">
+    <head>
+        <title>Unidad 03 - Ejercicio 02</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Josue Emmanuel Lopez Lopez">
+        <meta name="revised" content="Viernes 28 de Abril de 2023">
+        <meta name="description" content="alert,fuction,"> 
+        <style>
+            .Tit{background-color: black; color: aqua;}
+        </style>
+    </head>
+    <body>
+        <h1 class="Tit">JavaScript - Var & Alert</h1>
+        <script>
+            let x=100;
+            let y=50;
+            alert("valor de X (Main) " + x);
+            alert("valor de Y (Main) " + y);
+
+            function testFunction()
+            {
+                let x = 1;
+                let y = 5;
+            alert("valor de X (Main) " + x);
+            alert("valor de Y (Main) " + y);
+            }
+            testFunction();
+
+            alert("valor de X (Main) " + x);
+            alert("valor de Y (Main) " + y);
+        </script>
+        <script>
+         /*2.1.1.19 El Programa "¡Hola, Mundo!" - Tareas*/
+
+            
+            let Prosa = 8;
+            let Plirio = 10;
+            let Ptulipan = 2;
+
+            let Rosas = 70;
+            let Lirios = 50;
+            let Tulipanes = 120;
+            let Vrosa;
+            let Vlirio;
+            let Vtulipan;
+            let total;
+
+            function calcula(){
+            let Vrosa = Prosa * Rosas;
+            let Vlirio = Plirio * Lirios;
+            let Vtulipan = Ptulipan * Tulipanes;
+
+            let total = Vrosa + Vlirio + Vtulipan;
+            console.log("Rosa >> precio:", Prosa, ", cantidad:", Rosas, ", valor:", Vrosa);
+            console.log("Lirio >> precio:", Plirio, ", cantidad:", Lirios, ", valor:", Vlirio);
+            console.log("Tulipán >> precio:", Ptulipan, ", cantidad:", Tulipanes, ", valor:", Vtulipan);
+            console.log("Total: ", total);}
+
+            function resultado()
+            {alert("Rosas >> Precio: $" + Prosa + ", Cantidad: " + Rosas + ", valor: "+ Vrosa +
+            "\nLirio >> precio: $" + Plirio + ", Cantidad: " + Lirios + ", valor: "+ Vlirio +
+            "\nTulipanes >> precio: $" + Ptulipan+", Cantidad: " + Tulipanes + ", valor: "+ Vtulipan + "\nTotal:" + total);}
+
+            calcula();
+            resultado();
+
+            Rosas-=30;
+            Lirios-=20;
+
+            calcula();
+            resultado();
+
+            Tulipanes+=20;
+           
+            calcula();
+            resultado();
+
+        </script>
+        <script>
+            /* 2.1.1.20 LABORATORIO: Variables */
+            let nombre, telefono, correo;
+
+            function imprime (str1,str2,str3)
+            {
+                alert("Nombre" + str1 + "\nTelefóno" + str2 + "\nCorreo" + str3);
+            }
+
+            nombre="Maxwell Wright";
+            telefono="(0191) 719 6495";
+            correo="Curabitur.egestas.nunc@nonummyac.co.uk";
+
+            Nombre="Raja Villareal";
+            telefono="0866 398 2895";
+            correo="posuere.vulputate@sed.com";
+
+            nombre="Helen Richards";
+            telefono="0800 1111";
+            correo="libero@convallis.edu";
+            imprime(nombre, telefono, correo);
+
+        </script>
+    </body>
+
+
+
+
+
+
+
+</html>
+
+
