@@ -55,12 +55,6 @@
                     const asunto = (form.asunto && form.asunto.value || '').trim();
                     const mensaje = (form.mensaje && form.mensaje.value || '').trim();
 
-                    if(!nombre || !correo || !asunto || !mensaje){
-                        errorEl.textContent = 'Por favor completa todos los campos.';
-                        errorEl.hidden = false;
-                        return;
-                    }
-
                     // Parámetros para la plantilla que recibirá el propietario
                     const ownerParams = {
                         from_name: nombre,
@@ -106,7 +100,7 @@
             </script>
             <div class="field">
                 <label for="asunto">Asunto</label>
-                <input id="asunto" name="asunto" type="text" required autocomplete="off" />
+                <input id="asunto" name="asunto" type="text" required/>
             </div>
 
             <div class="field">
@@ -136,11 +130,6 @@
                 const asunto = form.asunto.value.trim();
                 const mensaje = form.mensaje.value.trim();
 
-                if(!nombre || !asunto || !mensaje){
-                    errorEl.textContent = 'Por favor completa todos los campos.';
-                    errorEl.hidden = false;
-                    return;
-                }
 
                 const subject = encodeURIComponent(asunto);
                 const bodyLines = [
