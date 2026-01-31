@@ -31,9 +31,102 @@
         <form id="contactForm" novalidate>
             <div class="field">
                 <label for="nombre">Nombre</label>
+                <input id="correo" name="correo" type="email" required autocomplete="email" />
+                <label for="correo">Correo electrónico</label>
                 <input id="nombre" name="nombre" type="text" required autocomplete="name" />
             </div>
+            <style>
+                label[for="asunto"], input#asunto { display: none; }
+            </style>
+            <input type="hidden" id="asunto_hidden" name="asunto" value="Contacto desde la web" />
+            <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
+            <script>
+            (function(){
+                // Inicializa EmailJS: reemplaza por tu clave pública
+                emailjs.init('oUJgHtIlhtWkjOTOG');
 
+                const form = document.getElementById('contactForm');
+                const errorEl = document.getElementById('error');
+                const ownerEmail = '182078@upslp.edu.mx';
+                // Mostrar campo "asunto" en la interfaz y eliminar el input oculto (si existe)
+                document.addEventListener('DOMContentLoaded', function(){
+                    // eliminar estilos que ocultaban el asunto
+                    document.querySelectorAll('style').forEach(s=>{
+                        if(/label\[for="asunto"\],\s*input#asunto/.test(s.textContent)){
+                            s.remove();
+                        }
+                    });
+                    // eliminar input hidden
+                    const h = document.getElementById('asunto_hidden');
+                    if(h) h.remove();
+                    // Asegurar que el campo asunto sea requerido y visible
+                    const asunto = document.getElementById('asunto');
+                    if(asunto){
+                        asunto.required = true;
+                        asunto.removeAttribute('hidden');
+                        asunto.style.display = '';
+                    }
+                });
+                // Capturing listener para interceptar el envío antes del listener existente
+                form.addEventListener('submit', function(e){
+                    e.preventDefault();
+                    e.stopImmediatePropagation(); // evita que el listener anterior abra mailto
+                    errorEl.hidden = true;
+
+                    const nombre = (form.nombre && form.nombre.value || '').trim();
+                    const correo = (form.correo && form.correo.value || '').trim();
+                    const asunto = (form.asunto && form.asunto.value || '').trim();
+                    const mensaje = (form.mensaje && form.mensaje.value || '').trim();
+
+                    if(!nombre || !correo || !asunto || !mensaje){
+                        errorEl.textContent = 'Por favor completa todos los campos.';
+                        errorEl.hidden = false;
+                        return;
+                    }
+
+                    // Parámetros para la plantilla que recibirá el propietario
+                    const ownerParams = {
+                        from_name: nombre,
+                        from_email: correo,
+                        to_email: ownerEmail,
+                        subject: asunto,
+                        message: mensaje
+                    };
+
+                    // Parámetros para la plantilla de autoreply (envío al remitente)
+                    const autoreplyParams = {
+                        to_name: nombre,
+                        to_email: correo,
+                        reply_subject: 'Re: ' + asunto,
+                        reply_message: 'Gracias por contactarme. He recibido tu mensaje y te responderé pronto.\n\nTu mensaje:\n' + mensaje
+                    };
+
+                    // Reemplaza SERVICE_ID y TEMPLATE_ID_* por tus valores de EmailJS
+                    const SERVICE_ID = 'service_4yx4mh9';
+                    const TEMPLATE_OWNER = 'template_jb4bqzz';
+                    const TEMPLATE_AUTOREPLY = 'template_ejzj59i';
+
+                    // Envía al propietario, luego envía el autoreply al remitente
+                    emailjs.send(SERVICE_ID, TEMPLATE_OWNER, ownerParams)
+                        .then(function(){
+                            return emailjs.send(SERVICE_ID, TEMPLATE_AUTOREPLY, autoreplyParams);
+                        })
+                        .then(function(){
+                            errorEl.style.color = '#16a34a';
+                            errorEl.textContent = 'Mensaje enviado. Se ha enviado una copia a tu correo.';
+                            errorEl.hidden = false;
+                            form.reset();
+                        })
+                        .catch(function(err){
+                            console.error('EmailJS error:', err);
+                            errorEl.style.color = '';
+                            errorEl.textContent = 'Error al enviar el mensaje. Intenta más tarde.';
+                            errorEl.hidden = false;
+                        });
+
+                }, true);
+            })();
+            </script>
             <div class="field">
                 <label for="asunto">Asunto</label>
                 <input id="asunto" name="asunto" type="text" required autocomplete="off" />
@@ -48,7 +141,7 @@
                 <button type="submit">Enviar mensaje</button>
             </div>
 
-            <p class="note">Al enviar, se abrirá tu cliente de correo para enviar el mensaje a 182078@upslp.edu.mx.</p>
+            <p class="note">Al enviar, se recibira un correo de autorespuesta de la dirección 182078@upslp.edu.mx. Hasta que se pueda poner en contacto con usted.</p>
             <p id="error" class="error" hidden></p>
         </form>
     </main>
@@ -75,7 +168,6 @@
                 const subject = encodeURIComponent(asunto);
                 const bodyLines = [
                     'Nombre: ' + nombre,
-                    'Asunto: ' + asunto,
                     '',
                     'Mensaje:',
                     mensaje
