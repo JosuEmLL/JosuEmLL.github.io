@@ -35,8 +35,8 @@
             </div>
 
             <div class="field">
-                <label for="correo">Correo electrónico</label>
-                <input id="correo" name="correo" type="email" required autocomplete="email" />
+                <label for="asunto">Asunto</label>
+                <input id="asunto" name="asunto" type="text" required autocomplete="off" />
             </div>
 
             <div class="field">
@@ -59,42 +59,29 @@
             const errorEl = document.getElementById('error');
             const destination = '182078@upslp.edu.mx';
 
-            function validateEmail(email){
-                // simple email check
-                return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-            }
-
             form.addEventListener('submit', function(e){
                 e.preventDefault();
                 errorEl.hidden = true;
                 const nombre = form.nombre.value.trim();
-                const correo = form.correo.value.trim();
+                const asunto = form.asunto.value.trim();
                 const mensaje = form.mensaje.value.trim();
 
-                if(!nombre || !correo || !mensaje){
+                if(!nombre || !asunto || !mensaje){
                     errorEl.textContent = 'Por favor completa todos los campos.';
                     errorEl.hidden = false;
                     return;
                 }
-                if(!validateEmail(correo)){
-                    errorEl.textContent = 'Correo electrónico no válido.';
-                    errorEl.hidden = false;
-                    return;
-                }
 
-                const subject = encodeURIComponent('Mensaje desde formulario de contacto');
+                const subject = encodeURIComponent(asunto);
                 const bodyLines = [
                     'Nombre: ' + nombre,
-                    'Correo: ' + correo,
+                    'Asunto: ' + asunto,
                     '',
                     'Mensaje:',
                     mensaje
                 ];
                 const body = encodeURIComponent(bodyLines.join('\n'));
-                // Open default mail client with prefilled email. This will not send automatically;
-                // user must confirm in their mail client.
                 const mailto = 'mailto:' + destination + '?subject=' + subject + '&body=' + body;
-                // Use location.href to open mail client
                 window.location.href = mailto;
             });
         })();
