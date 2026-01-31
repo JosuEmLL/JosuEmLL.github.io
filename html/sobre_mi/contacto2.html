@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Autoreply - Contacto</title>
+    <style>
+        :root{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;padding:0}
+        body{display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f4f6f8}
+        .card{background:#fff;padding:20px;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,.08);width:100%;max-width:560px}
+        h1{font-size:18px;margin:0 0 12px}
+        label{display:block;font-size:13px;margin-top:10px;color:#333}
+        input[type="text"], input[type="email"], textarea{
+            width:100%;padding:10px;border:1px solid #d6dbe0;border-radius:6px;margin-top:6px;font-size:14px;box-sizing:border-box
+        }
+        textarea{min-height:120px;resize:vertical}
+        .actions{display:flex;justify-content:flex-end;margin-top:14px}
+        button{background:#0366d6;color:#fff;border:none;padding:10px 14px;border-radius:6px;font-size:14px;cursor:pointer}
+        button:disabled{opacity:.6;cursor:not-allowed}
+        .note{font-size:12px;color:#666;margin-top:8px}
+        .status{margin-top:10px;font-size:13px}
+        .error{color:#b42318}
+        .success{color:#116530}
+    </style>
+</head>
+<body>
+    <main class="card" role="main">
+        <h1>Autoreply - Enviar correo</h1>
+        <form id="autoreplyForm">
+            <label for="name">Nombre del remitente</label>
+            <input id="name" name="name" type="text" required placeholder="Ej. Juan Pérez" />
+
+            <label for="email">Correo del remitente</label>
+            <input id="email" name="email" type="email" required placeholder="ejemplo@dominio.com" />
+
+            <label for="subject">Asunto</label>
+            <input id="subject" name="subject" type="text" required placeholder="Asunto del correo" />
+
+            <label for="message">Mensaje (autoreply)</label>
+            <textarea id="message" name="message" required placeholder="Texto del autoreply..."></textarea>
+
+            <div class="actions">
+                <button id="sendBtn" type="submit">Enviar autoreply</button>
+            </div>
+            <div class="note">Recibira un correo con el autoreply de forma automatica hasta que el dueño del dominio se pueda poner en contacto con usted.</div>
+            <div id="status" class="status" aria-live="polite"></div>
+        </form>
+    </main>
+
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
+    <script>
+        // Reemplaza estos valores con los de tu cuenta EmailJS
+        const EMAILJS_USER_ID = 'oUJgHtIlhtWkjOTOG';
+        const EMAILJS_SERVICE_ID = 'service_4yx4mh9';
+        const EMAILJS_TEMPLATE_ID = 'template_jb4bqzz';
+
+        // Inicializa EmailJS
+        (function(){
+            if (emailjs && !emailjs.__inited) {
+                emailjs.init(EMAILJS_USER_ID);
+                emailjs.__inited = true;
+            }
+        })();
+
+        const form = document.getElementById('autoreplyForm');
+        const sendBtn = document.getElementById('sendBtn');
+        const statusEl = document.getElementById('status');
+
+        form.addEventListener('submit', function(e){
+            e.preventDefault();
+            statusEl.textContent = '';
+            statusEl.className = 'status';
+            sendBtn.disabled = true;
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value.trim();
+            const message = document.getElementById('message').value.trim();
+
+            if (!name || !email || !subject || !message) {
+                statusEl.textContent = 'Rellena todos los campos.';
+                statusEl.classList.add('error');
+                sendBtn.disabled = false;
+                return;
+            }
+
+            // Parámetros que debe aceptar tu plantilla en EmailJS.
+            const templateParams = {
+                from_name: name,
+                to_email: email,
+                subject: subject,
+                message: message
+            };
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+                .then(function(response) {
+                    statusEl.textContent = 'Autoreply enviado correctamente.';
+                    statusEl.classList.add('success');
+                    form.reset();
+                }, function(error) {
+                    statusEl.textContent = 'Error al enviar: ' + (error && error.text ? error.text : 'ver consola');
+                    statusEl.classList.add('error');
+                    console.error('EmailJS error:', error);
+                }).finally(() => {
+                    sendBtn.disabled = false;
+                });
+        });
+    </script>
+</body>
+</html>
