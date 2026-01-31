@@ -35,7 +35,6 @@
                 <label for="correo">Correo electrónico</label>
                 <input id="nombre" name="nombre" type="text" required autocomplete="name" />
             </div>
-            <input type="hidden" id="asunto_hidden" name="asunto" value="Contacto desde la web" />
             <script src="https://cdn.emailjs.com/sdk/3.2.0/email.min.js"></script>
             <script>
             (function(){
@@ -45,25 +44,6 @@
                 const form = document.getElementById('contactForm');
                 const errorEl = document.getElementById('error');
                 const ownerEmail = '182078@upslp.edu.mx';
-                // Mostrar campo "asunto" en la interfaz y eliminar el input oculto (si existe)
-                document.addEventListener('DOMContentLoaded', function(){
-                    // eliminar estilos que ocultaban el asunto
-                    document.querySelectorAll('style').forEach(s=>{
-                        if(/label\[for="asunto"\],\s*input#asunto/.test(s.textContent)){
-                            s.remove();
-                        }
-                    });
-                    // eliminar input hidden
-                    const h = document.getElementById('asunto_hidden');
-                    if(h) h.remove();
-                    // Asegurar que el campo asunto sea requerido y visible
-                    const asunto = document.getElementById('asunto');
-                    if(asunto){
-                        asunto.required = true;
-                        asunto.removeAttribute('hidden');
-                        asunto.style.display = '';
-                    }
-                });
                 // Capturing listener para interceptar el envío antes del listener existente
                 form.addEventListener('submit', function(e){
                     e.preventDefault();
@@ -156,7 +136,7 @@
                 const asunto = form.asunto.value.trim();
                 const mensaje = form.mensaje.value.trim();
 
-                if(!nombre || !asunto || !mensaje){
+                if(!nombre || asunto || !mensaje){
                     errorEl.textContent = 'Por favor completa todos los campos.';
                     errorEl.hidden = false;
                     return;
