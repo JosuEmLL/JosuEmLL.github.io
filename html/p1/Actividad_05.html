@@ -17,19 +17,31 @@
     .section-title::before{content:"";display:block;width:6px;height:34px;background:#0e050f;border-radius:2px}
     @media(min-width:900px){.section-title{font-size:22px}}
     table {
+      overflow-x: auto;
       width: 100%;
       border-collapse: collapse;
       margin-bottom: 40px;
       background-color: #fff;
+      width: 100%;
+      max-width: 100%;
     }
-    th, td {
+    td {
+      word-wrap: break-word;
+      white-space: normal;
       border: 1px solid #ccc;
       padding: 8px 12px;
       text-align: left;
       vertical-align: top;
-      margin:8px 0 0;font-size:18px
+      margin:8px 0 0;font-size:7px;
     }
     th {
+      word-wrap: break-word;
+      white-space: normal;
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: left;
+      vertical-align: top;
+      margin:8px 0 0;font-size:9px;
       background-color: #eaeaea;
       font-weight: bold;
     }
@@ -76,10 +88,8 @@
       <th>Objetivo principal</th>
       <th>Escenarios de uso</th>
       <th>Orientación</th>
-      <th>Autores</th>
       <th>URL Oficial</th>
-      <th>Existencia de certificados</th>
-      <th>Versiones vigentes</th>
+      
     </tr>
     <tr class="mitre">
       <td>MITRE ATT&amp;CK</td>
@@ -88,10 +98,8 @@
       <td>Proporcionar una base de conocimiento estructurada y exhaustiva de los TTP utilizados por atacantes.</td>
       <td>Detección y análisis, Conocimiento de amenazas, Emulación adversaria, Asesoramiento e ingeniería</td>
       <td>Orientada a recopilar, modelar y comprender el comportamiento de cibercriminales.</td>
-      <td>MITRE Corporation</td>
       <td><a href="https://attack.mitre.org/" target="_blank">attack.mitre.org</a></td>
-      <td>Certificados: ATT&amp;CK Fundamentals, CTI, Emulación adversaria, Assessment SOC, Purple Teaming</td>
-      <td>Versión ATT&amp;CK V18.1 (28/10/2025)</td>
+      
     </tr>
     <tr class="owasp">
       <td>OWASP WSTG</td>
@@ -100,10 +108,8 @@
       <td>Proporcionar un marco estandarizado para evaluar la seguridad de aplicaciones web.</td>
       <td>Pruebas de Configuración, Identidad, Autenticación, Autorización, Sesiones, Validación de Entradas, Lógica de Negocio</td>
       <td>Orientada a la recopilación de vulnerabilidades y testing sistemático.</td>
-      <td>Matteo Meucci, Andrew Muller, Eoin Keary, Daniel Cuthbert, Rick Mitchell, Elie Saad, Rejah Rehim, Victoria Drake</td>
       <td><a href="https://devguide.owasp.org/" target="_blank">devguide.owasp.org</a></td>
-      <td>No existen certificaciones oficiales, pero sí relacionadas (OWASP Fundamentals, MASVS/MASTG).</td>
-      <td>Versión 4.2 (03/12/2020)</td>
+      
     </tr>
     <tr class="osstmm">
       <td>OSSTMM</td>
@@ -112,10 +118,8 @@
       <td>Proporcionar un marco para auditorías de seguridad y pentesting.</td>
       <td>Auditorías físicas, Redes y telecomunicaciones, Ingeniería social, Seguridad operativa</td>
       <td>Se centra en métricas verificables y visión integral de vulnerabilidades.</td>
-      <td>Pete Herzog (ISECOM)</td>
       <td><a href="https://www.isecom.org/certification.html" target="_blank">isecom.org</a></td>
-      <td>Certificados: Professional Security Analyst, Security Tester, Security Expert, Wireless Security Expert, Trust Analyst, Hacker Analyst, etc.</td>
-      <td>Versión 3 (2010, con actualizaciones menores)</td>
+      
     </tr>
     <tr class="ptes">
       <td>PTES</td>
@@ -124,10 +128,8 @@
       <td>Proporcionar un marco estandarizado y de calidad para pruebas de penetración.</td>
       <td>Infraestructura de red, Aplicaciones web y API, Ingeniería social, Nube, Inspección reglamentaria</td>
       <td>Enfocado en evaluación de seguridad de infraestructura y redes.</td>
-      <td>Colectivo anónimo de expertos</td>
       <td><a href="http://www.penteststandard.org/index.php/Main_Page" target="_blank">penteststandard.org</a></td>
-      <td>No existen certificados oficiales, pero es considerado estándar en la industria.</td>
-      <td>Versión 1.0 (16/08/2014)</td>
+      
     </tr>
     <tr class="issaf">
       <td>ISSAF</td>
@@ -136,10 +138,8 @@
       <td>Proporcionar una metodología detallada para pruebas de seguridad.</td>
       <td>Pentesting, Evaluación de aplicaciones web, Auditoría de seguridad</td>
       <td>Conecta pasos de pruebas con herramientas específicas.</td>
-      <td>OISSG (Open Information Systems Security Group)</td>
       <td><a href="http://form.com/oissg/" target="_blank">form.com/oissg</a></td>
-      <td>No existen certificados asociados.</td>
-      <td>Draft 0.2 / 0.2.1A (2005)</td>
+      
     </tr>
   </table>
 
