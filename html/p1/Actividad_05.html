@@ -12,7 +12,7 @@
     .panel h2{margin:8px 0 0;font-size:18px;letter-spacing:1px}
     .panel p, .parrafo{margin:8px 0 0;font-size:18px}
     @media(min-width:900px){.panel h1{font-size:32px}}
-    .section{width:90%;max-width:1000px;margin:24px auto;padding:20px;background:#f4f6f8;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+    .section{width:90%;max-width:1000px;margin:24px auto;padding:20px;background:#f4f6f8;border-radius:2px;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
     .section-title{display:flex;align-items:center;gap:14px;color:#0f0411;font-weight:700;font-size:20px;margin:0}
     .section-title::before{content:"";display:block;width:6px;height:34px;background:#0e050f;border-radius:2px}
     @media(min-width:900px){.section-title{font-size:22px}}
@@ -70,6 +70,7 @@
             padding: 12px 20px;
             text-decoration: none;
             border-radius: 5px;
+            margin: 24px auto;
         }
         
         .btn-pdf:hover {
@@ -156,12 +157,15 @@
     </tr>
   </table>
 <div class="section">
-    <h3 class="section-title">Versión extendida en PDF</h3>
+    <h3 class="section-title">Exportar a PDF</h3>
 </div>
-    <a style="margin: 10px;" href="182078-act05.pdf" download>
+<div style="margin:24px auto; padding: 24px auto;">
+    <a  href="182078-act05.pdf" download>
             <button class="btn-pdf">
-                Descargar versión formal en PDF
+                Descargar
             </button>
         </a>
+</div>
+
 </body>
 </html>
