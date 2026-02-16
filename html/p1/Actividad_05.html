@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Actividad 05 - Comparación de Metodologías</title>
+  <style>
+    html,body{height:100%;margin:0;font-family:Arial,Helvetica,sans-serif;background:#ffffff}
+    .wrap{min-height:10vh;display:flex;align-items:flex-start;justify-content:center;padding:12px 20px;box-sizing:border-box}
+    .panel{width:90%;max-width:1000px;background:#1a0713;color:#fff;padding:36px;border-radius:8px;box-shadow:0 6px 18px rgba(17, 3, 17, 0.12);text-align:center}
+    .panel h1{margin:0;font-size:28px;letter-spacing:1px}
+    .panel h2{margin:8px 0 0;font-size:18px;letter-spacing:1px}
+    .panel p, .parrafo{margin:8px 0 0;font-size:18px}
+    @media(min-width:900px){.panel h1{font-size:32px}}
+    .section{width:90%;max-width:1000px;margin:24px auto;padding:20px;background:#f4f6f8;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.08)}
+    .section-title{display:flex;align-items:center;gap:14px;color:#0f0411;font-weight:700;font-size:20px;margin:0}
+    .section-title::before{content:"";display:block;width:6px;height:34px;background:#0e050f;border-radius:2px}
+    @media(min-width:900px){.section-title{font-size:22px}}
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 40px;
+      background-color: #fff;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      text-align: left;
+      vertical-align: top;
+      margin:8px 0 0;font-size:18px
+    }
+    th {
+      background-color: #eaeaea;
+      font-weight: bold;
+    }
+    /* Colores temáticos */
+    .mitre { background-color: #e6f0ff; }   /* Azul claro */
+    .owasp { background-color: #fff3e0; }   /* Naranja suave */
+    .osstmm { background-color: #e8f5e9; }  /* Verde claro */
+    .ptes { background-color: #f3e5f5; }    /* Violeta suave */
+    .issaf { background-color: #fce4ec; }   /* Rosa claro */
+    /* Alternancia de color en filas dentro de cada bloque */
+    tr:nth-child(even) td {
+      border-top: 1px solid #ddd;
+    }
+    a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="panel">
+      <h1>Actividad 05</h1>
+      <h2>COMPARACIÓN DE METODOLOGÍAS DE SEGURIDAD INFORMATICA</h2>
+      <p>Lopez Lopez Josué Emmanuel </p>
+    </div>
+  </div>
+  <div class="section">
+    <h3 class="section-title">Introducción</h3>
+  </div>
+<p class="parrafo">La seguridad informática es una disciplina importante dentro de nuestro contexto actual y en el tema de las vulnerabilidades de los sistemas de información, en esta actividad se tiene como fin analizar las metodologías mas relevantes y analizar sus aplicaciones en diferentes entornos, así como, sus fortalezas y debilidades.</p>
+<div class="section">
+    <h3 class="section-title">Desarrollo</h3>
+  </div>
+<table>
+    <tr>
+      <th>Metodología</th>
+      <th>Descripción breve</th>
+      <th>Fases principales</th>
+      <th>Objetivo principal</th>
+      <th>Escenarios de uso</th>
+      <th>Orientación</th>
+      <th>Autores</th>
+      <th>URL Oficial</th>
+      <th>Existencia de certificados</th>
+      <th>Versiones vigentes</th>
+    </tr>
+    <tr class="mitre">
+      <td>MITRE ATT&amp;CK</td>
+      <td>Base de conocimiento globalmente accesible de tácticas y técnicas adversarias basadas en observaciones del mundo real.</td>
+      <td>Reconocimiento, Desarrollo de recursos, Acceso inicial, Ejecución, Persistencia, Escalación de privilegios, Evasión de defensa, Acceso de credenciales, Descubrimiento, Movimiento lateral, Colección, Comando y control, Exfiltración, Impacto</td>
+      <td>Proporcionar una base de conocimiento estructurada y exhaustiva de los TTP utilizados por atacantes.</td>
+      <td>Detección y análisis, Conocimiento de amenazas, Emulación adversaria, Asesoramiento e ingeniería</td>
+      <td>Orientada a recopilar, modelar y comprender el comportamiento de cibercriminales.</td>
+      <td>MITRE Corporation</td>
+      <td><a href="https://attack.mitre.org/" target="_blank">attack.mitre.org</a></td>
+      <td>Certificados: ATT&amp;CK Fundamentals, CTI, Emulación adversaria, Assessment SOC, Purple Teaming</td>
+      <td>Versión ATT&amp;CK V18.1 (28/10/2025)</td>
+    </tr>
+    <tr class="owasp">
+      <td>OWASP WSTG</td>
+      <td>Guía completa para probar la seguridad de sitios y aplicaciones web.</td>
+      <td>Gestión de Configuración, Identidad, Autenticación, Autorización, Sesiones, Validación de Entrada, Manejo de Errores, Criptografía Débil, Lógica de Negocio, Cliente, API</td>
+      <td>Proporcionar un marco estandarizado para evaluar la seguridad de aplicaciones web.</td>
+      <td>Pruebas de Configuración, Identidad, Autenticación, Autorización, Sesiones, Validación de Entradas, Lógica de Negocio</td>
+      <td>Orientada a la recopilación de vulnerabilidades y testing sistemático.</td>
+      <td>Matteo Meucci, Andrew Muller, Eoin Keary, Daniel Cuthbert, Rick Mitchell, Elie Saad, Rejah Rehim, Victoria Drake</td>
+      <td><a href="https://devguide.owasp.org/" target="_blank">devguide.owasp.org</a></td>
+      <td>No existen certificaciones oficiales, pero sí relacionadas (OWASP Fundamentals, MASVS/MASTG).</td>
+      <td>Versión 4.2 (03/12/2020)</td>
+    </tr>
+    <tr class="osstmm">
+      <td>OSSTMM</td>
+      <td>Estándar abierto y científico para auditorías técnicas de seguridad operativa, pentesting y análisis de vulnerabilidades.</td>
+      <td>Seguridad de la información, Proceso de seguridad, Tecnologías de internet, Comunicaciones, Seguridad inalámbrica, Seguridad física</td>
+      <td>Proporcionar un marco para auditorías de seguridad y pentesting.</td>
+      <td>Auditorías físicas, Redes y telecomunicaciones, Ingeniería social, Seguridad operativa</td>
+      <td>Se centra en métricas verificables y visión integral de vulnerabilidades.</td>
+      <td>Pete Herzog (ISECOM)</td>
+      <td><a href="https://www.isecom.org/certification.html" target="_blank">isecom.org</a></td>
+      <td>Certificados: Professional Security Analyst, Security Tester, Security Expert, Wireless Security Expert, Trust Analyst, Hacker Analyst, etc.</td>
+      <td>Versión 3 (2010, con actualizaciones menores)</td>
+    </tr>
+    <tr class="ptes">
+      <td>PTES</td>
+      <td>Marco integral de referencia para pruebas de penetración.</td>
+      <td>Interacciones previas, Recolección de inteligencia, Modelado de amenazas, Análisis de vulnerabilidades, Explotación, Post explotación, Reporte</td>
+      <td>Proporcionar un marco estandarizado y de calidad para pruebas de penetración.</td>
+      <td>Infraestructura de red, Aplicaciones web y API, Ingeniería social, Nube, Inspección reglamentaria</td>
+      <td>Enfocado en evaluación de seguridad de infraestructura y redes.</td>
+      <td>Colectivo anónimo de expertos</td>
+      <td><a href="http://www.penteststandard.org/index.php/Main_Page" target="_blank">penteststandard.org</a></td>
+      <td>No existen certificados oficiales, pero es considerado estándar en la industria.</td>
+      <td>Versión 1.0 (16/08/2014)</td>
+    </tr>
+    <tr class="issaf">
+      <td>ISSAF</td>
+      <td>Marco estructurado para pruebas de penetración y evaluaciones de seguridad.</td>
+      <td>Planificación y Preparación, Evaluación, Reporte y Limpieza</td>
+      <td>Proporcionar una metodología detallada para pruebas de seguridad.</td>
+      <td>Pentesting, Evaluación de aplicaciones web, Auditoría de seguridad</td>
+      <td>Conecta pasos de pruebas con herramientas específicas.</td>
+      <td>OISSG (Open Information Systems Security Group)</td>
+      <td><a href="http://form.com/oissg/" target="_blank">form.com/oissg</a></td>
+      <td>No existen certificados asociados.</td>
+      <td>Draft 0.2 / 0.2.1A (2005)</td>
+    </tr>
+  </table>
+
+</body>
+</html>
