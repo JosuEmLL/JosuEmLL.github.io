@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Actividad 01 - Análisis de un Ataque de un ciberataque Real</title>
+  <title>Actividad 02 - Casos de estudio sobre ciberataques</title>
   <style>
     html,body{height:100%;margin:0;font-family:Arial,Helvetica,sans-serif;background:#ffffff}
     .wrap{min-height:10vh;display:flex;align-items:flex-start;justify-content:center;padding:12px 20px;box-sizing:border-box}
@@ -80,15 +80,15 @@
 <div>
   <div class="wrap">
     <div class="panel">
-      <h1>Actividad 01</h1>
-      <h2>Análisis de un Ataque de un ciberataque Real</h2>
+      <h1>Actividad 02</h1>
+      <h2>Casos de estudio sobre ciberataques</h2>
       <p>Lopez Lopez Josué Emmanuel </p>
     </div>
   </div>
   <div class="section">
     <h3 class="section-title">Introducción</h3>
   </div>
-<p class="parrafo">La seguridad informática es una disciplina importante dentro de nuestro contexto actual y en el tema de las vulnerabilidades de los sistemas de información, en esta actividad se tiene como fin analizar las metodologías mas relevantes y analizar sus aplicaciones en diferentes entornos, así como, sus fortalezas y debilidades.</p>
+<p class="parrafo">El marco unificado sugerido para estructurar la seguridad dentro de las redes de comunicación en seguridad informatica es conocido como ITU-T X.800 que junto con el glosario oficial de la web RFC 4949 crean un marco de referencia para la gestión de seguridad informática., en esta actividad se analizaran varios casos de estudio bajo estas herramientas a medio de practica.</p>
 <div class="section">
     <h3 class="section-title">Desarrollo</h3>
   </div>
@@ -99,83 +99,120 @@
     <li><p class="parrafo">CVE-2019-0604: Vulnerabilidad de Ejecución Remota de Código (RCE) en SharePoint. Falta de políticas de gestión de parches (Patch Management).</p></li>
     <li><p class="parrafo">Defensa Perimetral Débil: Servidores expuestos a internet sin segmentación adecuada (DMZ) y posible falta de concientización de usuarios ante correos maliciosos.</p></li>
   </ul>
-  <p style="font-size:21px; font-weight:bold;">Cronología del Ataque</p>
+  <p style="font-size:21px; font-weight:bold;">Desglose del Analísis</p>
 <table>
+  <thead>
     <tr>
-      <th>Fase</th>
-      <th>Descripción breve</th>
-      <th>Fecha</th>
-
-      
+      <th>Escenario</th>
+      <th>Servicios X.800 comprometidos</th>
+      <th>Definiciones RFC 4949</th>
+      <th>Tipo de amenaza</th>
+      <th>Vector de ataque</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>01</td>
+      <td>Confidencialidad, Integridad, Disponibilidad</td>
+      <td>Multi-stage attack, Data breach, Availability attack</td>
+      <td>Externa (acceso no autorizado)</td>
+      <td>Ransomware, exfiltración</td>
     </tr>
     <tr>
-      <td>Antecedente de Vulnerabilidades</td>
-      <td>Microsoft anuncia una falla de seguridad dentro de la aplicación SharePoint (CVE-2019-0604) y lanza actualizaciones para su correción, sin embargo, PEMEX hace caso omiso de estas y mantiene su sistema sin parchear.</td>
-      <td>Marzo - Abril 2019</td>
-    </tr>
-    <tr>
-      <td>Acceso inicial</td>
-      <td>Los atacantes (Grupo INDRIK SPIDER) explotan la vulnerabilidad CVE-2019-0604 para obtener acceso inicial al sistema.</td>
-      <td>Septiembre - Octubre 2019</td>
-    </tr>
-    <tr>
-      <td>Persistencia</td>
-      <td>Los atacantes permanecen en la red (Dwell Time) realizando reconocimiento. Usan herramientas como Mimikatz (robo de credenciales) y Cobalt Strike para escalar privilegios hasta obtener control de Administrador de Dominio.</td>
-      <td>Octubre - Inicios Noviembre 2019</td>
-    </tr>
-    <tr>
-      <td>Ejecución e Impacto</td>
-      <td>Se despliega el ransomware DoppelPaymer masivamente. El malware termina proceso de seguridad y bases de datos, y cifra la información con algoritmos AES-256 + RSA-2048</td>
-      <td>10 de Noviembre 2019 (Domingo)</td>
-    </tr>
-    <tr>
-      <td>Descubrimiento y Respuesta</td>
-      <td>Aparece la nota de rescate exigiendo 565 Bitcoins (4.9 MDD) con amenaza de publicar datos robados (Doble Extorsión). Pemex ordena desconectar la red para contener la propagación</td>
-      <td>11 de Noviembre 2019</td>
-    </tr>
-    <tr>
-      <td>Consecuencias Operativas</td>
-      <td>Colapso de sistemas de facturación y logísticas. Se recurre a proceso manuales ("papel y lapiz") para el despacho de combustible, generando retrasos en la cadena de suministro.</td>
-      <td>Noviembre 2019 (Post Ataque)</td>
-    </tr>
-  </table>
-  <p style="font-size:21px; font-weight:bold;">Analísis bajo el marco CIA</p>
-  <table>
-    <th>Principio</th>
-    <TH>Descripción</TH>
-    <th>Evidencia del caso</th>
-    <tr>
+      <td>02</td>
       <td>Confidencialidad</td>
-      <td>El principio de confidencialidad se refiere a la protección de la información contra accesos no autorizados. En este caso, el ataque comprometió la confidencialidad de los datos de PEMEX, ya que los atacantes robaron información sensible antes de cifrar los sistemas.</td>
-      <td>La nota de rescate indicaba que los atacantes tenían acceso a datos robados y amenazaban con publicarlos si no se pagaba el rescate, lo que evidencia la violación a la confidencialidad.</td>
+      <td>Misconfiguration, Exposure</td>
+      <td>Interna (error humano)</td>
+      <td>Falla de configuración en nube</td>
     </tr>
     <tr>
-      <td>Integridad</td>
-      <td>El principio de integridad se refiere a la protección de la información contra modificaciones no autorizadas. En este caso, el ataque comprometió la integridad de los sistemas de PEMEX, ya que el ransomware cifró los archivos y bases de datos, impidiendo su acceso y alterando su estado original.</td>
-      <td>El cifrado masivo de datos con algoritmos AES-256 + RSA-2048 evidencia la violación a la integridad, ya que los datos fueron modificados (cifrados) sin autorización.</td>
+      <td>03</td>
+      <td>Integridad, Confidencialidad</td>
+      <td>Supply chain attack</td>
+      <td>Externa (compromiso de proveedor)</td>
+      <td>Distribución de software malicioso</td>
     </tr>
     <tr>
+      <td>04</td>
+      <td>Autenticación, Control de acceso</td>
+      <td>Credential compromise, Authentication failure</td>
+      <td>Externa (phishing)</td>
+      <td>Robo de credenciales válidas</td>
+    </tr>
+    <tr>
+      <td>05</td>
+      <td>Disponibilidad, Integridad</td>
+      <td>Data destruction, Availability attack</td>
+      <td>Externa (ransomware avanzado)</td>
+      <td>Eliminación de respaldos</td>
+    </tr>
+    <tr>
+      <td>06</td>
+      <td>Confidencialidad, Control de acceso</td>
+      <td>Insider threat</td>
+      <td>Interna (empleado malicioso)</td>
+      <td>Venta de datos con acceso legítimo</td>
+    </tr>
+    <tr>
+      <td>07</td>
+      <td>Integridad, No repudio</td>
+      <td>Evidentiary integrity, Audit trail</td>
+      <td>Externa (ataque destructivo)</td>
+      <td>Alteración/cifrado de logs</td>
+    </tr>
+    <tr>
+      <td>08</td>
       <td>Disponibilidad</td>
-      <td>El principio de disponibilidad se refiere a la garantía de que la información y los sistemas estén accesibles cuando se necesiten. En este caso, el ataque comprometió la disponibilidad de los sistemas de PEMEX, ya que el ransomware bloqueó el acceso a los sistemas críticos, afectando las operaciones diarias.</td>
-      <td>El colapso de sistemas de facturación y logística, y la necesidad de recurrir a procesos manuales para el despacho de combustible evidencian la violación a la disponibilidad.</td>
-  </table>
+      <td>Operational failure</td>
+      <td>Interna (error de actualización)</td>
+      <td>Actualización mal ejecutada</td>
+    </tr>
+    <tr>
+      <td>09</td>
+      <td>Autenticación, Confidencialidad</td>
+      <td>Masquerade, Phishing</td>
+      <td>Externa (ingeniería social)</td>
+      <td>Suplantación de identidad</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>Confidencialidad, Integridad, Disponibilidad</td>
+      <td>Destructive attack</td>
+      <td>Externa (ataque deliberado)</td>
+      <td>Exfiltración seguida de destrucción</td>
+    </tr>
+  </tbody>
+</table>
     <div class="section">
         <h3 class="section-title">Reflexiones del Alumno</h3>
     </div>
-        <p class="parrafo">Esta actividad fue un buen punto de inicio para el entendimiento sobre como los adversarios eligen blancos y ejecutan ataques de ransomware. Se observó cómo se aplica el principio de CIA (Confidencialidad, Integridad, Disponibilidad) en un caso real de ciberataque.</p>
-        <p class="parrafo">Me intrigo de especial manera cómo los atacantes seleccionan sus objetivos y cómo se ejecutan los ataques de ransomware. La complejidad de estos ataques y su impacto en infraestructuras críticas como PEMEX es algo que me ha llamado la atención.</p>
+        <p class="parrafo">En conclusión, los escenarios analizados muestran que los problemas de seguridad pueden tener distintos orígenes, desde errores humanos hasta ataques planeados, pero todos pueden afectar gravemente a las organizaciones. Más allá de la complejidad técnica, lo importante es reconocer que la prevención, la preparación y la respuesta rápida son claves para reducir el daño.</p>
     <div class="section">
         <h3 class="section-title">Referencias Tecnicas</h3>
     </div>
-        <p class="citas" style="font-size: 16px;">MITRE Corporation. (2025). <i>MITRE ATT&amp;CK</i>. Recuperado de https://attack.mitre.org/</p>
-        <p class="citas" style="font-size: 16px;">INCIBE (Instituto Nacional de Ciberseguridad): INCIBE-CERT. (2019, noviembre 12). La petrolera PEMEX sufrió un ciberataque de ransomware. Instituto Nacional de Ciberseguridad (INCIBE). https://www.incibe.es/incibe-cert/publicaciones/bitacora-de-seguridad/petrolera-pemex-sufrio-ciberataqueransomware</p>
-        <p class="citas" style="font-size: 16px;">Krebs on Security. (2019, noviembre 12). Pemex Hit by DoppelPaymer Ransomware. Krebs on Security. https://krebsonsecurity.com/2019/11/pemex-hit-by-doppelpaymer-ransomware/</p>
+        <p class="citas" style="font-size: 16px;">
+    Shirey, R. (2007). <i>Internet Security Glossary, Version 2</i> (RFC 4949). 
+    Internet Engineering Task Force (IETF). 
+    Recuperado de 
+    <a href="https://www.rfc-editor.org/rfc/rfc4949.html" target="_blank">
+      https://www.rfc-editor.org/rfc/rfc4949.html
+    </a>
+  </p>
+  <p class="citas" style="font-size: 16px;">
+    International Telecommunication Union. (1991). 
+    <i>Security architecture for Open Systems Interconnection for CCITT applications</i> 
+    (Recommendation ITU-T X.800). ITU-T. 
+    Recuperado de 
+    <a href="https://www.itu.int/rec/T-REC-X.800-199103-I" target="_blank">
+      https://www.itu.int/rec/T-REC-X.800-199103-I
+    </a>
+  </p>
     <div class="section">
         <h3 class="section-title">Exportar a PDF</h3>
         
     </div>
     <div style="margin:24px auto;width: 100%; text-align: center; font-size: 16px;" >
-        <a  href="act01-Equipo2.pdf" download>
+        <a  href="182078-act02.pdf" download>
                 <button class="btn-pdf">
                     Descargar
                 </button>
