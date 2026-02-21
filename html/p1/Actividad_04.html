@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Actividad 01 - Análisis de un Ataque de un ciberataque Real</title>
+  <title>Actividad 04 - Evaluación de conocimientos sobre reglas de iptables</title>
   <style>
     html,body{height:100%;margin:0;font-family:Arial,Helvetica,sans-serif;background:#ffffff}
     .wrap{min-height:10vh;display:flex;align-items:flex-start;justify-content:center;padding:12px 20px;box-sizing:border-box}
@@ -80,102 +80,64 @@
 <div>
   <div class="wrap">
     <div class="panel">
-      <h1>Actividad 01</h1>
-      <h2>Análisis de un Ataque de un ciberataque Real</h2>
+      <h1>Actividad 04</h1>
+      <h2>Evaluación de conocimientos sobre reglas de iptables</h2>
       <p>Lopez Lopez Josué Emmanuel </p>
     </div>
   </div>
   <div class="section">
     <h3 class="section-title">Introducción</h3>
   </div>
-<p class="parrafo">La seguridad informática es una disciplina importante dentro de nuestro contexto actual y en el tema de las vulnerabilidades de los sistemas de información, en esta actividad se tiene como fin analizar las metodologías mas relevantes y analizar sus aplicaciones en diferentes entornos, así como, sus fortalezas y debilidades.</p>
+<p class="parrafo">Esta actividad tiene como objetivo evaluar los conocimientos adquiridos sobre las reglas de iptables, una herramienta fundamental en la gestión de seguridad de redes en sistemas Linux. Se espera que el estudiante comprenda cómo se definen y aplican las reglas de filtrado de paquetes para controlar el tráfico de red.</p>
 <div class="section">
     <h3 class="section-title">Desarrollo</h3>
   </div>
-  <p style="font-size:21px; font-weight:bold;">Vector de Ataque</p>
-  <ul>
-    <li><p class="parrafo">Vulnerabilidades conocidas dado el uso de software obsoleto (Windows Server 2003) y un sistema operativo sin soporte vigente (Windows 7)</p></li>
-    <li><p class="parrafo">Uso de un sistema legacy sin soporte y falto de actualizaciones de seguridad</p></li>
-    <li><p class="parrafo">CVE-2019-0604: Vulnerabilidad de Ejecución Remota de Código (RCE) en SharePoint. Falta de políticas de gestión de parches (Patch Management).</p></li>
-    <li><p class="parrafo">Defensa Perimetral Débil: Servidores expuestos a internet sin segmentación adecuada (DMZ) y posible falta de concientización de usuarios ante correos maliciosos.</p></li>
-  </ul>
   <p style="font-size:21px; font-weight:bold;">Cronología del Ataque</p>
-<table>
-    <tr>
-      <th>Fase</th>
-      <th>Descripción breve</th>
-      <th>Fecha</th>
-
-      
-    </tr>
-    <tr>
-      <td>Antecedente de Vulnerabilidades</td>
-      <td>Microsoft anuncia una falla de seguridad dentro de la aplicación SharePoint (CVE-2019-0604) y lanza actualizaciones para su correción, sin embargo, PEMEX hace caso omiso de estas y mantiene su sistema sin parchear.</td>
-      <td>Marzo - Abril 2019</td>
-    </tr>
-    <tr>
-      <td>Acceso inicial</td>
-      <td>Los atacantes (Grupo INDRIK SPIDER) explotan la vulnerabilidad CVE-2019-0604 para obtener acceso inicial al sistema.</td>
-      <td>Septiembre - Octubre 2019</td>
-    </tr>
-    <tr>
-      <td>Persistencia</td>
-      <td>Los atacantes permanecen en la red (Dwell Time) realizando reconocimiento. Usan herramientas como Mimikatz (robo de credenciales) y Cobalt Strike para escalar privilegios hasta obtener control de Administrador de Dominio.</td>
-      <td>Octubre - Inicios Noviembre 2019</td>
-    </tr>
-    <tr>
-      <td>Ejecución e Impacto</td>
-      <td>Se despliega el ransomware DoppelPaymer masivamente. El malware termina proceso de seguridad y bases de datos, y cifra la información con algoritmos AES-256 + RSA-2048</td>
-      <td>10 de Noviembre 2019 (Domingo)</td>
-    </tr>
-    <tr>
-      <td>Descubrimiento y Respuesta</td>
-      <td>Aparece la nota de rescate exigiendo 565 Bitcoins (4.9 MDD) con amenaza de publicar datos robados (Doble Extorsión). Pemex ordena desconectar la red para contener la propagación</td>
-      <td>11 de Noviembre 2019</td>
-    </tr>
-    <tr>
-      <td>Consecuencias Operativas</td>
-      <td>Colapso de sistemas de facturación y logísticas. Se recurre a proceso manuales ("papel y lapiz") para el despacho de combustible, generando retrasos en la cadena de suministro.</td>
-      <td>Noviembre 2019 (Post Ataque)</td>
-    </tr>
-  </table>
-  <p style="font-size:21px; font-weight:bold;">Analísis bajo el marco CIA</p>
-  <table>
-    <th>Principio</th>
-    <TH>Descripción</TH>
-    <th>Evidencia del caso</th>
-    <tr>
-      <td>Confidencialidad</td>
-      <td>El principio de confidencialidad se refiere a la protección de la información contra accesos no autorizados. En este caso, el ataque comprometió la confidencialidad de los datos de PEMEX, ya que los atacantes robaron información sensible antes de cifrar los sistemas.</td>
-      <td>La nota de rescate indicaba que los atacantes tenían acceso a datos robados y amenazaban con publicarlos si no se pagaba el rescate, lo que evidencia la violación a la confidencialidad.</td>
-    </tr>
-    <tr>
-      <td>Integridad</td>
-      <td>El principio de integridad se refiere a la protección de la información contra modificaciones no autorizadas. En este caso, el ataque comprometió la integridad de los sistemas de PEMEX, ya que el ransomware cifró los archivos y bases de datos, impidiendo su acceso y alterando su estado original.</td>
-      <td>El cifrado masivo de datos con algoritmos AES-256 + RSA-2048 evidencia la violación a la integridad, ya que los datos fueron modificados (cifrados) sin autorización.</td>
-    </tr>
-    <tr>
-      <td>Disponibilidad</td>
-      <td>El principio de disponibilidad se refiere a la garantía de que la información y los sistemas estén accesibles cuando se necesiten. En este caso, el ataque comprometió la disponibilidad de los sistemas de PEMEX, ya que el ransomware bloqueó el acceso a los sistemas críticos, afectando las operaciones diarias.</td>
-      <td>El colapso de sistemas de facturación y logística, y la necesidad de recurrir a procesos manuales para el despacho de combustible evidencian la violación a la disponibilidad.</td>
-  </table>
+  <ul>
+    <li><p class="parrafo">Establecer una politíca de seguridad restrictiva</p>
+    <ul><li><p class="parrafo">iptables -P INPUT DROP</p></li></ul>
+    <ul><li><p class="parrafo">iptables -P FORWARD DROP</p></li></ul>
+    <ul><li><p class="parrafo">iptables -P OUTPUT DROP</p></li></ul>
+    </li>
+    <li><p class="parrafo">Permitir tráfico de conexiones ya establecidas</p>
+    <ul><li><p class="parrafo">iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</p></li></ul> 
+    </li>
+      <li><p class="parrafo">Aceptar tráfico DNS (TCP) saliente de la red local</p>
+      <ul><li><p class="parrafo">iptables -A OUTPUT -p tcp --dport 53 -j ACCEPT</p></li></ul>
+      </li>
+      <li><p class="parrafo">Aceptar correo entrante proveniente de Internet</p>
+      <ul><li><p class="parrafo">iptables -A INPUT -p tcp --dport 25 -j ACCEPT</p></li></ul>
+      </li>
+      <li><p class="parrafo">Permitir correo saliente a Internet desde el servidor de correo</p>
+      <ul><li><p class="parrafo">iptables -A OUTPUT -p tcp --dport 25 -j ACCEPT</p></li></ul>
+      </li>
+      <li><p class="parrafo">Aceptar conexiones HTTPS desde Internet a nuestro servidor web</p>
+      <ul><li><p class="parrafo">iptables -A INPUT -p tcp --dport 443 -j ACCEPT</p></li></ul>
+      </li>
+      <li><p class="parrafo">Permitir tráfico HTTP desde la red local a Internet</p>
+      <ul><li><p class="parrafo">iptables -A OUTPUT -p tcp --dport 80 -j ACCEPT</p></li></ul>
+      </li>
+  </ul>
     <div class="section">
         <h3 class="section-title">Reflexiones del Alumno</h3>
     </div>
-        <p class="parrafo">Esta actividad fue un buen punto de inicio para el entendimiento sobre como los adversarios eligen blancos y ejecutan ataques de ransomware. Se observó cómo se aplica el principio de CIA (Confidencialidad, Integridad, Disponibilidad) en un caso real de ciberataque.</p>
-        <p class="parrafo">Me intrigo de especial manera cómo los atacantes seleccionan sus objetivos y cómo se ejecutan los ataques de ransomware. La complejidad de estos ataques y su impacto en infraestructuras críticas como PEMEX es algo que me ha llamado la atención.</p>
+      <p class="parrafo">A través de esta actividad, he podido comprender la importancia de las reglas de iptables en la gestión de la seguridad de redes. La capacidad de definir políticas de filtrado específicas me permite controlar el tráfico de red y proteger los sistemas contra posibles amenazas. Además, la práctica de aplicar estas reglas me ha ayudado a consolidar mis conocimientos sobre cómo funcionan las conexiones de red y cómo se pueden asegurar eficazmente.</p>
+      <p class="parrafo">Esta experiencia me ha permitido aplicar los conceptos teóricos aprendidos en el curso de seguridad de redes, especialmente en el manejo de reglas de filtrado y control de acceso a través de iptables. La comprensión del funcionamiento interno del sistema operativo Linux y su capacidad para gestionar tráfico de red mediante reglas específicas es fundamental para cualquier profesional en el área de seguridad informática.</p>
     <div class="section">
         <h3 class="section-title">Referencias Tecnicas</h3>
     </div>
-        <p class="citas" style="font-size: 16px;">MITRE Corporation. (2025). <i>MITRE ATT&amp;CK</i>. Recuperado de https://attack.mitre.org/</p>
-        <p class="citas" style="font-size: 16px;">INCIBE (Instituto Nacional de Ciberseguridad): INCIBE-CERT. (2019, noviembre 12). La petrolera PEMEX sufrió un ciberataque de ransomware. Instituto Nacional de Ciberseguridad (INCIBE). https://www.incibe.es/incibe-cert/publicaciones/bitacora-de-seguridad/petrolera-pemex-sufrio-ciberataqueransomware</p>
-        <p class="citas" style="font-size: 16px;">Krebs on Security. (2019, noviembre 12). Pemex Hit by DoppelPaymer Ransomware. Krebs on Security. https://krebsonsecurity.com/2019/11/pemex-hit-by-doppelpaymer-ransomware/</p>
+  <p class="citas" style="font-size:16px;">Bauer, M. (2021). <em>Linux iptables: A complete guide to packet filtering</em>. Packt Publishing.</p>
+  <p class="citas" style="font-size:16px;">Nemeth, E., Snyder, G., Hein, T. R., Whaley, B., & Mackin, D. (2017). <em>Unix and Linux system administration handbook</em> (5th ed.). Pearson Education.</p>
+  <p class="citas" style="font-size:16px;">Red Hat. (2023). <em>Using iptables in Red Hat Enterprise Linux</em>. Red Hat Documentation. 
+    <a href="https://access.redhat.com/documentation" target="_blank">https://access.redhat.com/documentation</a></p>
+  <p class="citas" style="font-size:16px;">Netfilter Project. (2024). <em>iptables man page</em>. Netfilter.org. 
+    <a href="https://www.netfilter.org/projects/iptables" target="_blank">https://www.netfilter.org/projects/iptables</a></p>
+  <p class="citas" style="font-size:16px;">Ziegler, C. (2020). <em>Mastering Linux security and hardening</em>. Packt Publishing.</p>
     <div class="section">
         <h3 class="section-title">Exportar a PDF</h3>
-        
     </div>
     <div style="margin:24px auto;width: 100%; text-align: center; font-size: 16px;" >
-        <a  href="act01-Equipo2.pdf" download>
+        <a  href="182078_act04.pdf" download>
                 <button class="btn-pdf">
                     Descargar
                 </button>

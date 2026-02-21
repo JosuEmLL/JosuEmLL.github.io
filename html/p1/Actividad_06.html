@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Actividad 01 - Análisis de un Ataque de un ciberataque Real</title>
+  <title>Actividad 06 - Implementación de IPSec VPN en una red cerrada</title>
   <style>
     html,body{height:100%;margin:0;font-family:Arial,Helvetica,sans-serif;background:#ffffff}
     .wrap{min-height:10vh;display:flex;align-items:flex-start;justify-content:center;padding:12px 20px;box-sizing:border-box}
@@ -80,104 +80,141 @@
 <div>
   <div class="wrap">
     <div class="panel">
-      <h1>Actividad 01</h1>
-      <h2>Análisis de un Ataque de un ciberataque Real</h2>
+      <h1>Actividad 06</h1>
+      <h2>Implementación de IPSec VPN en una red cerrada</h2>
       <p>Lopez Lopez Josué Emmanuel </p>
     </div>
   </div>
   <div class="section">
     <h3 class="section-title">Introducción</h3>
   </div>
-<p class="parrafo">La seguridad informática es una disciplina importante dentro de nuestro contexto actual y en el tema de las vulnerabilidades de los sistemas de información, en esta actividad se tiene como fin analizar las metodologías mas relevantes y analizar sus aplicaciones en diferentes entornos, así como, sus fortalezas y debilidades.</p>
+<p class="parrafo">La IPSec VPN es una tecnología de red que permite establecer conexiones seguras entre diferentes redes a través de Internet. Esta implementación asegura la integridad, confidencialidad y autenticidad de los datos transmitidos entre los dispositivos conectados a la red cerrada.</p>
+<p class="parrafo">En esta actividad, se llevará a cabo la implementación de una IPSec VPN en una red cerrada utilizando herramientas y configuraciones específicas para garantizar la seguridad de la comunicación entre los dispositivos. Para esto haciendo uso de la herramienta de simulación de redes de Cisco: Cisco Packet Tracer.</p>
 <div class="section">
     <h3 class="section-title">Desarrollo</h3>
   </div>
-  <p style="font-size:21px; font-weight:bold;">Vector de Ataque</p>
+  <p style="font-size:21px; font-weight:bold;">Configuración Inicial IPSec VPN</p>
   <ul>
-    <li><p class="parrafo">Vulnerabilidades conocidas dado el uso de software obsoleto (Windows Server 2003) y un sistema operativo sin soporte vigente (Windows 7)</p></li>
-    <li><p class="parrafo">Uso de un sistema legacy sin soporte y falto de actualizaciones de seguridad</p></li>
-    <li><p class="parrafo">CVE-2019-0604: Vulnerabilidad de Ejecución Remota de Código (RCE) en SharePoint. Falta de políticas de gestión de parches (Patch Management).</p></li>
-    <li><p class="parrafo">Defensa Perimetral Débil: Servidores expuestos a internet sin segmentación adecuada (DMZ) y posible falta de concientización de usuarios ante correos maliciosos.</p></li>
+    <li><p class="parrafo">En packet tracer se realizara una topología sencilla que permita realizar la prueba de IPSec VPN</p></li>
+    <img src="act06_topologia.png" alt="Topología de Red en Packet Tracer" style="width:100%;max-width:600px;margin:16px 0;">
+    <li><p class="parrafo">Configurar los routers y switches según la imagen de referencia (asignación de IP's y conexiones) para establecer la conexión VPN
+    <img src="act06_configuracion.png" alt="Configuración de Routers para IPSec VPN" style="width:100%;max-width:600px;margin:16px 0;"></p></li>
+    <li><p class="parrafo">Configurar el acceso de licencia en los routers para el acceso a los paquetes de seguridad que se usaran</p></li>
+    <img src="act06_license.png" alt="Configuración de Licencia en Routers" style="width:100%;max-width:600px;margin:16px 0;">
+    <li><p class="parrafo">Configurar la IPSec VPN en ambos routers, asegurando que las políticas de seguridad y los parámetros de autenticación sean consistentes en ambos extremos de la conexión.</p></li>
+    <img src="act06_ipsec.png" alt="Configuración de IPSec VPN en Routers" style="width:100%;max-width:600px;margin:16px 0;"> 
+    <img src="act06_ipsec2.png" alt="Configuración de IPSec VPN en Routers" style="width:100%;max-width:600px;margin:16px 0;">
+    <img src="act06_ipsec3.png" alt="Configuración de IPSec VPN en Routers" style="width:100%;max-width:600px;margin:16px 0;">
   </ul>
-  <p style="font-size:21px; font-weight:bold;">Cronología del Ataque</p>
+  <p style="font-size:21px; font-weight:bold;">Conexiones y Configuración de Routers</p>
 <table>
     <tr>
-      <th>Fase</th>
-      <th>Descripción breve</th>
-      <th>Fecha</th>
-
+      <th>ID</th>
+      <th>Ip pública</th>
+      <th>Ip privada</th>
+      <th>Conexiones</th>
       
     </tr>
     <tr>
-      <td>Antecedente de Vulnerabilidades</td>
-      <td>Microsoft anuncia una falla de seguridad dentro de la aplicación SharePoint (CVE-2019-0604) y lanza actualizaciones para su correción, sin embargo, PEMEX hace caso omiso de estas y mantiene su sistema sin parchear.</td>
-      <td>Marzo - Abril 2019</td>
+      <td>R1</td>
+      <td>209.165.100.2</td>
+      <td>209.165.200.2</td>
+      <td>R2 Gig0/0 - R1 Gig0/0, R3 Gig0/0, R1 Gig0/1</td>
     </tr>
     <tr>
-      <td>Acceso inicial</td>
-      <td>Los atacantes (Grupo INDRIK SPIDER) explotan la vulnerabilidad CVE-2019-0604 para obtener acceso inicial al sistema.</td>
-      <td>Septiembre - Octubre 2019</td>
+      <td>R2</td>
+      <td>209.165.100.1</td>
+      <td>192.168.1.1</td>
+      <td>R1 Gig0/0 - R2 Gig0/0, R1 Gig0/1 - Switch1 Gig0/1</td>
     </tr>
     <tr>
-      <td>Persistencia</td>
-      <td>Los atacantes permanecen en la red (Dwell Time) realizando reconocimiento. Usan herramientas como Mimikatz (robo de credenciales) y Cobalt Strike para escalar privilegios hasta obtener control de Administrador de Dominio.</td>
-      <td>Octubre - Inicios Noviembre 2019</td>
-    </tr>
-    <tr>
-      <td>Ejecución e Impacto</td>
-      <td>Se despliega el ransomware DoppelPaymer masivamente. El malware termina proceso de seguridad y bases de datos, y cifra la información con algoritmos AES-256 + RSA-2048</td>
-      <td>10 de Noviembre 2019 (Domingo)</td>
-    </tr>
-    <tr>
-      <td>Descubrimiento y Respuesta</td>
-      <td>Aparece la nota de rescate exigiendo 565 Bitcoins (4.9 MDD) con amenaza de publicar datos robados (Doble Extorsión). Pemex ordena desconectar la red para contener la propagación</td>
-      <td>11 de Noviembre 2019</td>
-    </tr>
-    <tr>
-      <td>Consecuencias Operativas</td>
-      <td>Colapso de sistemas de facturación y logísticas. Se recurre a proceso manuales ("papel y lapiz") para el despacho de combustible, generando retrasos en la cadena de suministro.</td>
-      <td>Noviembre 2019 (Post Ataque)</td>
+      <td>R3</td>
+      <td>209.165.200.1</td>
+      <td>192.168.3.1</td>
+      <td>R1 Gig0/0 - R3 Gig0/0, R1 Gig0/1 - Switch2 Gig0/1</td>
     </tr>
   </table>
-  <p style="font-size:21px; font-weight:bold;">Analísis bajo el marco CIA</p>
-  <table>
-    <th>Principio</th>
-    <TH>Descripción</TH>
-    <th>Evidencia del caso</th>
-    <tr>
-      <td>Confidencialidad</td>
-      <td>El principio de confidencialidad se refiere a la protección de la información contra accesos no autorizados. En este caso, el ataque comprometió la confidencialidad de los datos de PEMEX, ya que los atacantes robaron información sensible antes de cifrar los sistemas.</td>
-      <td>La nota de rescate indicaba que los atacantes tenían acceso a datos robados y amenazaban con publicarlos si no se pagaba el rescate, lo que evidencia la violación a la confidencialidad.</td>
-    </tr>
-    <tr>
-      <td>Integridad</td>
-      <td>El principio de integridad se refiere a la protección de la información contra modificaciones no autorizadas. En este caso, el ataque comprometió la integridad de los sistemas de PEMEX, ya que el ransomware cifró los archivos y bases de datos, impidiendo su acceso y alterando su estado original.</td>
-      <td>El cifrado masivo de datos con algoritmos AES-256 + RSA-2048 evidencia la violación a la integridad, ya que los datos fueron modificados (cifrados) sin autorización.</td>
-    </tr>
-    <tr>
-      <td>Disponibilidad</td>
-      <td>El principio de disponibilidad se refiere a la garantía de que la información y los sistemas estén accesibles cuando se necesiten. En este caso, el ataque comprometió la disponibilidad de los sistemas de PEMEX, ya que el ransomware bloqueó el acceso a los sistemas críticos, afectando las operaciones diarias.</td>
-      <td>El colapso de sistemas de facturación y logística, y la necesidad de recurrir a procesos manuales para el despacho de combustible evidencian la violación a la disponibilidad.</td>
-  </table>
+    <p style="font-size:21px; font-weight:bold;">Comandos de terminal Empleados</p>
+  <ul>
+    <li><p class="parrafo">Habilitación de paquetes de seguridad (securityk9)</p>
+    <ul><li><p class="parrafo">license boot module c1900 technology-package securityk9</p></li></ul>
+    </li>
+    <li><p class="parrafo">Configuración de la política de seguridad para la fase 1 (IKE)</p>
+    <ul><li><p class="parrafo">crypto isakmp policy 10</p></li></ul>
+    </li>
+    <li><p class="parrafo">Encriptación y autenticación para la fase 1</p>
+    <ul><li><p class="parrafo">encryption aes 256</p></li></ul>
+    </li>
+    <li><p class="parrafo">Autentificación pre share y grupo 5</p>
+    <ul><li><p class="parrafo">hash sha</p></li></ul>
+    <ul><li><p class="parrafo">group 5</p></li></ul>
+    </li>
+    <li><p class="parrafo">Configuración de la clave pre compartida para la fase 1</p>
+    <ul><li><p class="parrafo">crypto isakmp key address 209.165.100.1 (.200.1 para el segundo router)</p></li></ul>
+    </li>
+    <li><p class="parrafo">Configuración de la política de seguridad para la fase 2 (IPSec)</p>
+    <ul><li><p class="parrafo">crypto ipsec transform-set R3-R1 esp-aes 256 esp-sha-hmac</p></li></ul>
+    </li>
+    <li><p class="parrafo">Configuración del mapa de bits para la fase 2</p>
+    <ul><li><p class="parrafo">crypto map IPSEC-MAP 10 ipsec-isakmp</p></li></ul>
+    </li>
+    <li><p class="parrafo">setear peer y setear pfs en el grupo 5</p>
+    <ul><li><p class="parrafo">set peer 209.165.200.1</p></li></ul>
+    <ul><li><p class="parrafo">set pfs group5</p></li></ul>
+    </li>
+    <li><p class="parrafo">setear el cliclo de vida de la asociación de seguridad</p>
+    <ul><li><p class="parrafo">set security-association lifetime seconds 86400</p></li></ul>
+    </li>
+    <li><p class="parrafo">setear la transformación del set R3-R1</p>
+    <ul><li><p class="parrafo">set transform-set R3-R1</p></li></ul>
+    </li>
+    <li><p class="parrafo">hacer match con la dirección 100</p>
+    <ul><li><p class="parrafo">match address 100</p></li></ul>
+    </li>
+    <li><p class="parrafo">Aplicar el mapa de bits a la interfaz GigabitEthernet 0/0</p>
+    <ul><li><p class="parrafo">interface GigabitEthernet 0/0</p></li></ul>
+    <ul><li><p class="parrafo">crypto map IPSEC-MAP</p></li></ul>
+    </li>
+    <li><p class="parrafo">Configurar la lista de acceso para el tráfico que se desea cifrar</p>
+    <ul><li><p class="parrafo">access-list 100 permit ip 10.10.10.0 0.0.0.255 192.168.10.0 0.0.0.255</p></li></ul>  
+    </li>
+    <li><p class="parrafo">Activar la nueva configuración</p>
+    <ul><li><p class="parrafo">do wr</p></li></ul>
+    </li>
+  </ul>
+</div>
     <div class="section">
         <h3 class="section-title">Reflexiones del Alumno</h3>
     </div>
-        <p class="parrafo">Esta actividad fue un buen punto de inicio para el entendimiento sobre como los adversarios eligen blancos y ejecutan ataques de ransomware. Se observó cómo se aplica el principio de CIA (Confidencialidad, Integridad, Disponibilidad) en un caso real de ciberataque.</p>
-        <p class="parrafo">Me intrigo de especial manera cómo los atacantes seleccionan sus objetivos y cómo se ejecutan los ataques de ransomware. La complejidad de estos ataques y su impacto en infraestructuras críticas como PEMEX es algo que me ha llamado la atención.</p>
+        <p class="parrafo">Las conexiones IPsec VPN o peer to peer son una forma de establecer comunicaciones seguras entre dos puntos finales a través de una red pública. Estas conexiones permiten cifrar el tráfico de red, garantizando la confidencialidad, integridad y disponibilidad de los datos transmitidos.</p>
+        <p class="parrafo">Quiero recalcar que me ha parecido muy interesante cómo se configuran las conexiones IPsec VPN, especialmente el proceso de establecer claves precompuestas y políticas de seguridad para garantizar la integridad del tráfico.</p>
     <div class="section">
         <h3 class="section-title">Referencias Tecnicas</h3>
     </div>
-        <p class="citas" style="font-size: 16px;">MITRE Corporation. (2025). <i>MITRE ATT&amp;CK</i>. Recuperado de https://attack.mitre.org/</p>
-        <p class="citas" style="font-size: 16px;">INCIBE (Instituto Nacional de Ciberseguridad): INCIBE-CERT. (2019, noviembre 12). La petrolera PEMEX sufrió un ciberataque de ransomware. Instituto Nacional de Ciberseguridad (INCIBE). https://www.incibe.es/incibe-cert/publicaciones/bitacora-de-seguridad/petrolera-pemex-sufrio-ciberataqueransomware</p>
-        <p class="citas" style="font-size: 16px;">Krebs on Security. (2019, noviembre 12). Pemex Hit by DoppelPaymer Ransomware. Krebs on Security. https://krebsonsecurity.com/2019/11/pemex-hit-by-doppelpaymer-ransomware/</p>
+  <p class="citas" style="font-size:16px;">Cisco Systems. (2023). <em>IPSec VPN configuration guide</em>. Cisco Documentation. 
+    <a href="https://www.cisco.com/c/en/us/support/docs/security-vpn/ipsec-negotiation.html" target="_blank">https://www.cisco.com/c/en/us/support/docs/security-vpn/ipsec-negotiation.html</a></p>
+  
+  <p class="citas" style="font-size:16px;">Stallings, W. (2020). <em>Network security essentials: Applications and standards</em> (6th ed.). Pearson Education.</p>
+  
+  <p class="citas" style="font-size:16px;">Kurose, J. F., & Ross, K. W. (2021). <em>Computer networking: A top-down approach</em> (8th ed.). Pearson Education.</p>
+  
+  <p class="citas" style="font-size:16px;">OpenVPN Project. (2024). <em>IPSec vs SSL VPN: Technical comparison</em>. OpenVPN.net. 
+    <a href="https://openvpn.net" target="_blank">https://openvpn.net</a></p></li>
+  
+  <p class="citas" style="font-size:16px;">Kent, S., & Seo, K. (2005). <em>Security architecture for the Internet Protocol</em>. RFC 4301. IETF. 
+    <a href="https://datatracker.ietf.org/doc/html/rfc4301" target="_blank">https://datatracker.ietf.org/doc/html/rfc4301</a></p>
     <div class="section">
-        <h3 class="section-title">Exportar a PDF</h3>
-        
+        <h3 class="section-title">Exportar a PDF & Archivo de Simulación</h3> 
     </div>
     <div style="margin:24px auto;width: 100%; text-align: center; font-size: 16px;" >
-        <a  href="act01-Equipo2.pdf" download>
+        <a  href="182078-act06.pdf" download>
                 <button class="btn-pdf">
-                    Descargar
+                    Descargar Reporte Completo
+                </button>
+        </a>
+        <a  href="Actividad IPSec VPN.pkt" download>
+                <button class="btn-pdf">
+                    Descargar Archivo de Simulación
                 </button>
         </a>
     </div>
