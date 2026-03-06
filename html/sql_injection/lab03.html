@@ -147,7 +147,8 @@
             <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p>
             <p class='parrafo'>1. Identificamos el parámetro <code>category</code> vulnerable.</p>
             <p class='parrafo'>2. Usamos el payload con incrementos de NULLs. Probamos:
-                <code>'+UNION+SELECT+NULL--</code> (error).</p>
+                <code>'+UNION+SELECT+NULL--</code> (error).
+            </p>
             <p class='parrafo'>3. Continuamos agregando <code>NULL</code>: <code>'+UNION+SELECT+NULL,NULL,NULL--</code>
             </p>
             <p class='parrafo'>4. Cuando ya no devuelve error (sino una respuesta estructurada o adicional), ese será el
@@ -168,13 +169,13 @@
             <div
                 style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
                 <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Request interceptado en Burp Suite</p>
-                <img src="labs_img/lab03_1.png" alt="Request interceptado en Burp Suite">
+                <img src="labs_img/lab03_01.png" alt="Request interceptado en Burp Suite">
                 <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Payload utilizado</p>
-                <img src="labs_img/lab03_2.png" alt="Payload utilizado">
+                <img src="labs_img/lab03_02.png" alt="Payload utilizado">
                 <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Respuesta del servidor</p>
-                <img src="labs_img/lab03_3.png" alt="Respuesta del servidor">
+                <img src="labs_img/lab03_03.png" alt="Respuesta del servidor">
                 <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Evidencia laboratorio completado</p>
-                <img src="labs_img/lab03_4.png" alt="Evidencia laboratorio completado">
+                <img src="labs_img/lab03_04.png" alt="Evidencia laboratorio completado">
             </div>
         </div>
 
