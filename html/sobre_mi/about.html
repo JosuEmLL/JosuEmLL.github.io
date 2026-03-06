@@ -1,27 +1,194 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Sobre mí - Josué Emmanuel López López</title>
+    <!-- Se asume que bootstrap.min.css o sitio.css se cargan desde el index.html principal,
+         pero agregamos los estilos específicos para el Profile Card directamente aquí.-->
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            background-color: transparent;
+            /* Hereda del index.html */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .profile-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .profile-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 800px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            border-top: 5px solid #1e3a8a;
+            color: #333333;
+        }
+
+        .profile-header {
+            text-align: center;
+            padding: 40px 30px 20px 30px;
+            background: linear-gradient(to bottom, #f8fafc, #ffffff);
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .profile-avatar {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 6px solid #ffffff;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            margin: 0 auto 20px auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-name {
+            margin: 0;
+            color: #1e3a8a;
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .profile-role {
+            color: #64748b;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-top: 8px;
+        }
+
+        .profile-body {
+            padding: 30px 40px;
+            background: #ffffff;
+        }
+
+        .profile-section-title {
+            color: #1e3a8a;
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+            display: inline-block;
+        }
+
+        .profile-text {
+            color: #475569;
+            font-size: 1.1rem;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .skills-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+        }
+
+        .skills-list li {
+            position: relative;
+            padding-left: 25px;
+            margin-bottom: 12px;
+            color: #475569;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        .skills-list li::before {
+            content: '•';
+            color: #3b82f6;
+            font-weight: bold;
+            font-size: 1.5rem;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+
+        .skill-highlight {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .banner-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            display: block;
+            margin: 20px auto 0 auto;
+        }
+
+        @media screen and (max-width: 600px) {
+            .profile-body {
+                padding: 20px;
+            }
+
+            .profile-name {
+                font-size: 1.5rem;
+            }
+
+            .profile-avatar {
+                width: 150px;
+                height: 150px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <main>
-        <article>
-            <h1>Sobre mí</h1>
-            <p>Soy Josué Emmanuel López López, estudiante de Ingeniería en Tecnologías de la Información, cursando el 8.º semestre. Me apasiona la música y los videojuegos; en mi tiempo libre toco el piano y asisto a clases de canto.</p>
-            <img alt="Foto de mí" style="width:250px; height:auto; border-radius:50%; display:block; margin:1rem auto;" src="yo2.jpeg">
-            <p>En cuanto a mis competencias relacionadas con la seguridad informática y mi vida normal:</p>
-            <ul>
-                <li>Carrera: Ingeniería en Tecnologías de la Información (8.º semestre)</li>
-                <li>Hobbies: música y videojuegos</li>
-                <li>Instrumento: piano</li>
-                <li>Competencias relacionadas con la seguridad informática: Curso de ciberseguridad amateur impartido por cisco, ademas de los conocimientos adquiridos relacionados a las redes y su función adquiridos en la carrera en materias como PIC II Y I.</li>
-                <li style="list-style:none; text-align:center; margin-top:1rem;">
-                    <img alt="Foto de mí" style="width:250px; height:auto; border-radius:50%;" src="https://www.epitech-it.es/wp-content/uploads/2022/06/tipos-de-ciberseguridad-1.jpg">
-                </li>
-            </ul>
+    <div class="profile-container">
+        <article class="profile-card">
+
+            <header class="profile-header">
+                <img src="yo2.jpeg" alt="Josué Emmanuel López López" class="profile-avatar">
+                <h1 class="profile-name">Josué Emmanuel López López</h1>
+                <p class="profile-role">Estudiante de Ingeniería en TI | 8.º Semestre</p>
+            </header>
+
+            <section class="profile-body">
+                <p class="profile-text">
+                    Me apasiona la música y los videojuegos. En mi tiempo libre disfruto tocar el piano y asistir a
+                    clases de canto,
+                    combinando mi lado creativo con mi formación técnica.
+                </p>
+
+                <h2 class="profile-section-title">Competencias y Perfil</h2>
+                <ul class="skills-list">
+                    <li><span class="skill-highlight">Carrera:</span> Ingeniería en Tecnologías de la Información (8.º
+                        semestre).</li>
+                    <li><span class="skill-highlight">Hobbies:</span> Música y videojuegos.</li>
+                    <li><span class="skill-highlight">Instrumento:</span> Piano.</li>
+                    <li><span class="skill-highlight">Seguridad Informática:</span> Curso de ciberseguridad amateur
+                        impartido por Cisco, además de conocimientos sólidos sobre redes y su funcionalidad, adquiridos
+                        en materias universitarias como PIC I y II.</li>
+                </ul>
+
+                <!-- Imagen complementaria utilizada como banner visual debajo de las competencias -->
+                <div style="text-align: center;">
+                    <img src="https://www.epitech-it.es/wp-content/uploads/2022/06/tipos-de-ciberseguridad-1.jpg"
+                        alt="Tipos de ciberseguridad" class="banner-image">
+                </div>
+            </section>
+
         </article>
-    </main>
+    </div>
 </body>
+
 </html>

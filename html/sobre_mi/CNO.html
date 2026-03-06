@@ -1,51 +1,208 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Seguridad Informática — Descripción de la materia</title>
     <style>
-        body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; line-height:1.6; margin:2rem; color:#111; }
-        header { margin-bottom:1rem; }
-        h1 { font-size:1.6rem; margin:0 0 .25rem 0; }
-        p.lead { margin:0 0 1rem 0; color:#333; }
-        section { margin:1rem 0; }
-        ul { margin:0.5rem 0 0.5rem 1.25rem; }
-        .meta { font-size:0.9rem; color:#555; }
-        footer { margin-top:2rem; font-size:0.85rem; color:#666; }
-        .card { border:1px solid #e3e3e3; padding:1rem; border-radius:6px; background:#fafafa; }
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            background-color: transparent;
+            /* Hereda de index.html */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #334155;
+        }
+
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .dashboard-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .dashboard-title {
+            color: #1e3a8a;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 0 0 10px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .dashboard-meta {
+            font-size: 1rem;
+            color: #64748b;
+            font-weight: 500;
+            display: inline-block;
+            background: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 20px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        /* En pantallas más grandes, el grid cambia para dar variedad visual */
+        @media (min-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .card-full-width {
+                grid-column: 1 / -1;
+            }
+        }
+
+        .info-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid #3b82f6;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-card:nth-child(even) {
+            border-top-color: #1e3a8a;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            color: #1e3a8a;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0 0 15px 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .card-text {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #475569;
+        }
+
+        .card-list {
+            margin: 0;
+            padding-left: 20px;
+        }
+
+        .card-list li {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            margin-bottom: 8px;
+            color: #475569;
+            position: relative;
+        }
+
+        .card-list li::marker {
+            color: #3b82f6;
+        }
+
+        .image-card {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+        }
+
+        .content-image {
+            width: 100%;
+            max-width: 350px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .content-image:hover {
+            transform: scale(1.03);
+        }
     </style>
 </head>
+
 <body>
-    <header>
-        <h1>Seguridad Informática CNO V</h1>
-        <p class="meta">Duración: 1 semestre • Créditos: 6 • Modalidad: Presencial</p>
-    </header>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1 class="dashboard-title">Seguridad Informática CNO V</h1>
+            <div class="dashboard-meta">Duración: 1 semestre • Créditos: 6 • Modalidad: Presencial</div>
+        </header>
 
-    <section class="card">
-        <h2>Descripción</h2>
-        <p>Esta asignatura introduce los principios, técnicas y buenas prácticas para proteger sistemas, redes y datos frente a amenazas y vulnerabilidades. Cubre conceptos teóricos y labores prácticas para la identificación, mitigación y respuesta ante incidentes de seguridad informática.</p>
-    </section>
+        <div class="cards-grid">
 
-    <section>
-        <h2>Objetivos</h2>
-        <ul>
-            <li>Comprender modelos y fundamentos de la seguridad de la información.</li>
-            <li>Identificar y evaluar vulnerabilidades en sistemas y redes.</li>
-            <li>Aplicar medidas de protección: criptografía, control de acceso y hardening.</li>
-            <li>Planificar y ejecutar respuestas a incidentes y recuperación ante desastres.</li>
-        </ul>
-        <li style="list-style:none; text-align:center; margin-top:1rem;">
-                    <img alt="Foto de mí" style="width:250px; height:auto; border-radius:50%;" src="https://www.epitech-it.es/wp-content/uploads/2022/06/tipos-de-ciberseguridad-1.jpg">
-                </li>
-    </section>
-    <section>
-        <h2>Portafolio digital</h2>
-        <p>El proposito principal del portafolio digital es la recopilación de evidencias a lo largo del curso, para de esa forma tener constancia de las competencias y habilidades adquiridas por el alumno, ademas el portafolio digital fungira como un medio de pruebas para el alumno y una forma de demostrarse asimismo y al docente las capacidades adquiridas.</p>
-    </section>
-    <section>
-        <h2>Informacion Tecnica</h2>
-        <p>Este portafolio digital esta realizado en su mayoria con el lenguaje de hipertextos HTML y su complemento para estilos embebidos CSS. Mientras que posee algunos scripts realizados en JavaScript para las funcionalidades correspondientes a la interfaz de autorespuesta solicitada.</p>
-        <p> Adicionalmente se debe mencionar que la plataforma de hosting utilizada es GitHub Pages. y este proyecto fue desarrollo con el uso en paralelo de las herramientas de GitHub Desktop y Visual Studio Code.</p>
+            <!-- Tarjeta: Descripción -->
+            <section class="info-card card-full-width">
+                <h2 class="card-title">Descripción</h2>
+                <p class="card-text">
+                    Esta asignatura introduce los principios, técnicas y buenas prácticas para proteger sistemas, redes
+                    y datos frente a amenazas y vulnerabilidades. Cubre conceptos teóricos y labores prácticas para la
+                    identificación, mitigación y respuesta ante incidentes de seguridad informática.
+                </p>
+            </section>
+
+            <!-- Tarjeta: Objetivos -->
+            <section class="info-card">
+                <h2 class="card-title">Objetivos</h2>
+                <ul class="card-list">
+                    <li>Comprender modelos y fundamentos de la seguridad de la información.</li>
+                    <li>Identificar y evaluar vulnerabilidades en sistemas y redes.</li>
+                    <li>Aplicar medidas de protección: criptografía, control de acceso y hardening.</li>
+                    <li>Planificar y ejecutar respuestas a incidentes y recuperación ante desastres.</li>
+                </ul>
+            </section>
+
+            <!-- Tarjeta: Imagen Visual (Se extrajo la imagen de los objetivos a su propia celda visual) -->
+            <section class="image-card">
+                <img alt="Tipos de ciberseguridad" class="content-image"
+                    src="https://www.epitech-it.es/wp-content/uploads/2022/06/tipos-de-ciberseguridad-1.jpg">
+            </section>
+
+            <!-- Tarjeta: Portafolio -->
+            <section class="info-card card-full-width">
+                <h2 class="card-title">Portafolio Digital</h2>
+                <p class="card-text">
+                    El propósito principal del portafolio digital es la recopilación de evidencias a lo largo del curso,
+                    para de esa forma tener constancia de las competencias y habilidades adquiridas por el alumno.
+                    Además, el portafolio digital fungirá como un medio de pruebas para el alumno y una forma de
+                    demostrarse a sí mismo y al docente las capacidades adquiridas.
+                </p>
+            </section>
+
+            <!-- Tarjeta: Info Técnica -->
+            <section class="info-card card-full-width" style="border-top-color: #64748b;">
+                <h2 class="card-title">Información Técnica</h2>
+                <p class="card-text">
+                    Este portafolio digital está realizado en su mayoría con el lenguaje de hipertextos HTML y su
+                    complemento para estilos embebidos CSS. Mientras que posee algunos scripts realizados en JavaScript
+                    para las funcionalidades correspondientes a la interfaz de autorespuesta solicitada.
+                </p>
+                <p class="card-text">
+                    Adicionalmente, se debe mencionar que la plataforma de hosting utilizada es GitHub Pages, y este
+                    proyecto fue desarrollado con el uso en paralelo de las herramientas de GitHub Desktop y Visual
+                    Studio Code.
+                </p>
+            </section>
+
+        </div>
+    </div>
 </body>
+
 </html>
