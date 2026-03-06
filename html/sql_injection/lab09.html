@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Lab 01 - Vulnerabilidad SQLi en cláusula WHERE</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #ffffff
+        }
+
+        .wrap {
+            min-height: 10vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 12px 20px;
+            box-sizing: border-box
+        }
+
+        .panel {
+            width: 90%;
+            max-width: 1000px;
+            background: #1a0713;
+            color: #fff;
+            padding: 36px;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(17, 3, 17, 0.12);
+            text-align: center
+        }
+
+        .panel h1 {
+            margin: 0;
+            font-size: 28px;
+            letter-spacing: 1px
+        }
+
+        .panel h2 {
+            margin: 8px 0 0;
+            font-size: 18px;
+            letter-spacing: 1px
+        }
+
+        .panel p,
+        .parrafo {
+            margin: 8px 0 0;
+            font-size: 18px;
+            line-height: 1.5
+        }
+
+        @media(min-width:900px) {
+            .panel h1 {
+                font-size: 32px
+            }
+        }
+
+        .section {
+            width: 90%;
+            max-width: 1000px;
+            margin: 24px auto;
+            padding: 20px;
+            background: #f4f6f8;
+            border-radius: 2px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08)
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: #0f0411;
+            font-weight: 700;
+            font-size: 20px;
+            margin: 0
+        }
+
+        .section-title::before {
+            content: "";
+            display: block;
+            width: 6px;
+            height: 34px;
+            background: #0e050f;
+            border-radius: 2px
+        }
+
+        @media(min-width:900px) {
+            .section-title {
+                font-size: 22px
+            }
+        }
+
+        .content-area {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto 40px auto;
+            color: #333
+        }
+
+        .citas {
+            font-style: italic;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-left: 4px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="wrap">
+            <div class="panel">
+                <h1>Laboratorio 09</h1>
+                <h2>Vulnerabilidad SQLi en cláusula WHERE</h2>
+                <p>PortSwigger Web Security Academy</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">Introducción</h3>
+        </div>
+        <div class="content-area">
+            <p class="parrafo">Este laboratorio de PortSwigger se enfoca en explotar una vulnerabilidad clásica de
+                inyección SQL (SQLi) ubicada en la cláusula <code>WHERE</code> de una consulta utilizada para filtrar
+                productos comerciales por categoría.</p>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">Desarrollo</h3>
+        </div>
+        <div class="content-area">
+            <p style="font-size:21px; font-weight:bold;">Técnica Aplicada</p>
+            <p class="parrafo">Al enviar el payload <code>' OR 1=1--</code> en el parámetro de la URL, somos capaces de
+                interferir con la estructura de la consulta original, la cual generalmente tiene este aspecto:</p>
+            <pre
+                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '[input_usuario]' AND released = 1</pre>
+            <p class="parrafo">El payload altera la lógica resultando en:</p>
+            <pre
+                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '' OR 1=1--' AND released = 1</pre>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">Reflexiones del Alumno</h3>
+        </div>
+        <div class="content-area">
+            <p class="parrafo">Al comprender cómo las bases de datos interpretan la sentencia lógica <code>OR 1=1</code>
+                como matemáticamente verdadera, es fácil deducir por qué devuelven todos los registros almacenados
+                (incluso aquellos normalmente ocultos u obsoletos). Esta resolución evidencia la necesidad crítica de
+                parametrizar cualquier entrada controlada por el usuario.</p>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">Referencias Técnicas</h3>
+        </div>
+        <div class="content-area">
+            <p class="citas" style="font-size: 16px;">PortSwigger. (n.d.). <i>SQL injection vulnerability in WHERE
+                    clause allowing retrieval of hidden data</i>. Web Security Academy. Recuperado de
+                https://portswigger.net/</p>
+        </div>
+    </div>
+</body>
+
+</html>

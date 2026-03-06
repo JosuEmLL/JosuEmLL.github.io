@@ -1,325 +1,346 @@
-<style>
-    .roadmap-wrapper {
-        background-color: #ffffff;
-        color: #333333;
-        padding: 40px 20px;
-        border-radius: 12px;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        margin: 20px 0;
-    }
+<!DOCTYPE html>
+<html lang="es">
 
-    .roadmap-header {
-        text-align: center;
-        margin-bottom: 50px;
-    }
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SQL Injection Roadmap</title>
+    <link rel="stylesheet" href="../estilo/bootstrap.min.css">
+    <link rel="stylesheet" href="../estilo/sitio.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        body {
+            background-color: transparent;
+        }
 
-    .roadmap-header h2 {
-        color: #337ab7;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 2px;
-        font-size: 2.5rem;
-        margin-bottom: 10px;
-    }
+        .roadmap-wrapper {
+            background-color: #ffffff;
+            color: #333333;
+            padding: 40px 20px;
+            border-radius: 12px;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            margin: 20px 0;
+        }
 
-    .roadmap-header p {
-        color: #777;
-        font-size: 1.1rem;
-    }
+        .roadmap-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
 
-    .timeline {
-        position: relative;
-        max-width: 900px;
-        margin: 0 auto;
-    }
+        .roadmap-header h2 {
+            color: #337ab7;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
 
-    .timeline::after {
-        content: '';
-        position: absolute;
-        width: 6px;
-        background-color: #e5e5e5;
-        top: 0;
-        bottom: 0;
-        left: 50%;
-        margin-left: -3px;
-        border-radius: 3px;
-    }
+        .roadmap-header p {
+            color: #777;
+            font-size: 1.1rem;
+        }
 
-    .timeline-item {
-        padding: 10px 40px;
-        position: relative;
-        background-color: inherit;
-        width: 50%;
-        box-sizing: border-box;
-    }
+        .timeline {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+        }
 
-    .timeline-item.left {
-        left: 0;
-    }
-
-    .timeline-item.right {
-        left: 50%;
-    }
-
-    .timeline-item::after {
-        content: '';
-        position: absolute;
-        width: 25px;
-        height: 25px;
-        right: -12.5px;
-        background-color: #ffffff;
-        border: 4px solid #337ab7;
-        top: 15px;
-        border-radius: 50%;
-        z-index: 1;
-        transition: all 0.3s ease;
-    }
-
-    .timeline-item.right::after {
-        left: -12.5px;
-    }
-
-    .timeline-item:hover::after {
-        background-color: #337ab7;
-        box-shadow: 0 0 10px rgba(51, 122, 183, 0.4);
-    }
-
-    .timeline-content {
-        padding: 20px;
-        background-color: #f9f9f9;
-        position: relative;
-        border-radius: 8px;
-        border-left: 4px solid #337ab7;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .timeline-item.right .timeline-content {
-        border-left: none;
-        border-right: 4px solid #337ab7;
-    }
-
-    .timeline-content:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 15px rgba(51, 122, 183, 0.15);
-    }
-
-    .timeline-content h3 {
-        margin-top: 0;
-        color: #337ab7;
-        font-size: 1.3rem;
-        font-weight: 700;
-    }
-
-    .timeline-content p {
-        margin-bottom: 0;
-        color: #555;
-        font-size: 0.95rem;
-        line-height: 1.5;
-    }
-
-    .lab-number {
-        position: absolute;
-        top: -15px;
-        right: 20px;
-        background: #337ab7;
-        color: #fff;
-        padding: 5px 10px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: bold;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .timeline-item.right .lab-number {
-        right: auto;
-        left: 20px;
-    }
-
-    @media screen and (max-width: 768px) {
         .timeline::after {
-            left: 31px;
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #e5e5e5;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
         }
 
         .timeline-item {
-            width: 100%;
-            padding-left: 70px;
-            padding-right: 25px;
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            box-sizing: border-box;
         }
 
-        .timeline-item.left,
-        .timeline-item.right {
+        .timeline-item.left {
             left: 0;
         }
 
-        .timeline-item.left::after,
+        .timeline-item.right {
+            left: 50%;
+        }
+
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -12.5px;
+            background-color: #ffffff;
+            border: 4px solid #337ab7;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
         .timeline-item.right::after {
-            left: 18px;
+            left: -12.5px;
+        }
+
+        .timeline-item:hover::after {
+            background-color: #337ab7;
+            box-shadow: 0 0 10px rgba(51, 122, 183, 0.4);
+        }
+
+        .timeline-content {
+            padding: 20px;
+            background-color: #f9f9f9;
+            position: relative;
+            border-radius: 8px;
+            border-left: 4px solid #337ab7;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
         }
 
         .timeline-item.right .timeline-content {
-            border-right: none;
-            border-left: 4px solid #337ab7;
+            border-left: none;
+            border-right: 4px solid #337ab7;
+        }
+
+        .timeline-content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(51, 122, 183, 0.15);
+        }
+
+        .timeline-content h3 {
+            margin-top: 0;
+            color: #337ab7;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .timeline-content p {
+            margin-bottom: 0;
+            color: #555;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .lab-number {
+            position: absolute;
+            top: -15px;
+            right: 20px;
+            background: #337ab7;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .timeline-item.right .lab-number {
-            left: auto;
-            right: 20px;
+            right: auto;
+            left: 20px;
         }
-    }
-</style>
 
-<div class="roadmap-wrapper">
-    <div class="roadmap-header">
-        <h2>Hall of Fame</h2>
-        <p>18 Laboratorios de SQL Injection - PortSwigger Web Security Academy</p>
+        @media screen and (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+
+            .timeline-item {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+
+            .timeline-item.left,
+            .timeline-item.right {
+                left: 0;
+            }
+
+            .timeline-item.left::after,
+            .timeline-item.right::after {
+                left: 18px;
+            }
+
+            .timeline-item.right .timeline-content {
+                border-right: none;
+                border-left: 4px solid #337ab7;
+            }
+
+            .timeline-item.right .lab-number {
+                left: auto;
+                right: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="roadmap-wrapper">
+        <div class="roadmap-header">
+            <h2>Hall of Fame</h2>
+            <p>18 Laboratorios de SQL Injection - PortSwigger Web Security Academy</p>
+        </div>
+
+        <div class="timeline">
+            <!-- Laboratorios de SQL Injection -->
+            <div class="timeline-item left">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab01.html')">
+                    <span class="lab-number">Lab 01</span>
+                    <h3>Vulnerabilidad SQLi en cláusula WHERE</h3>
+                    <p>SQL injection vulnerability in WHERE clause allowing retrieval of hidden data.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab02.html')">
+                    <span class="lab-number">Lab 02</span>
+                    <h3>Evasión de login a través de SQLi</h3>
+                    <p>SQL injection vulnerability allowing login bypass.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab03.html')">
+                    <span class="lab-number">Lab 03</span>
+                    <h3>Ataque UNION - columnas devueltas</h3>
+                    <p>SQL injection UNION attack, determining the number of columns returned by the query.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab04.html')">
+                    <span class="lab-number">Lab 04</span>
+                    <h3>Ataque UNION - columna con texto</h3>
+                    <p>SQL injection UNION attack, finding a column containing text.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab05.html')">
+                    <span class="lab-number">Lab 05</span>
+                    <h3>Ataque UNION - extraer otras tablas</h3>
+                    <p>SQL injection UNION attack, retrieving data from other tables.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab06.html')">
+                    <span class="lab-number">Lab 06</span>
+                    <h3>Ataque UNION - múltiples valores</h3>
+                    <p>SQL injection UNION attack, retrieving multiple values in a single column.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab07.html')">
+                    <span class="lab-number">Lab 07</span>
+                    <h3>Tipo y versión de base de datos (Oracle)</h3>
+                    <p>Querying the database type and version on Oracle.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab08.html')">
+                    <span class="lab-number">Lab 08</span>
+                    <h3>Tipo y versión (MySQL / Microsoft)</h3>
+                    <p>Querying the database type and version on MySQL and Microsoft.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab09.html')">
+                    <span class="lab-number">Lab 09</span>
+                    <h3>Exfiltrar base de datos (No Oracle)</h3>
+                    <p>SQL injection attack, listing the database contents on non-Oracle databases.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab10.html')">
+                    <span class="lab-number">Lab 10</span>
+                    <h3>Exfiltrar base de datos (Oracle)</h3>
+                    <p>SQL injection attack, listing the database contents on Oracle.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab11.html')">
+                    <span class="lab-number">Lab 11</span>
+                    <h3>Blind SQLi - respuestas condicionales</h3>
+                    <p>Blind SQL injection with conditional responses.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab12.html')">
+                    <span class="lab-number">Lab 12</span>
+                    <h3>Blind SQLi - errores condicionales</h3>
+                    <p>Blind SQL injection with conditional errors.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab13.html')">
+                    <span class="lab-number">Lab 13</span>
+                    <h3>SQLi basada en errores visibles</h3>
+                    <p>Visible error-based SQL injection.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab14.html')">
+                    <span class="lab-number">Lab 14</span>
+                    <h3>Blind SQLi - tiempo de retardo</h3>
+                    <p>Blind SQL injection with time delays.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab15.html')">
+                    <span class="lab-number">Lab 15</span>
+                    <h3>Blind SQLi - tiempo de retardo y extracción</h3>
+                    <p>Blind SQL injection with time delays and information retrieval.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab16.html')">
+                    <span class="lab-number">Lab 16</span>
+                    <h3>Blind SQLi - interacción out-of-band</h3>
+                    <p>Blind SQL injection with out-of-band interaction.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item left">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab17.html')">
+                    <span class="lab-number">Lab 17</span>
+                    <h3>Blind SQLi - exfiltración de datos OAST</h3>
+                    <p>Blind SQL injection with out-of-band data exfiltration.</p>
+                </div>
+            </div>
+
+            <div class="timeline-item right">
+                <div class="timeline-content" onclick="parent.cargaPractica('html/sql_injection/lab18.html')">
+                    <span class="lab-number">Lab 18</span>
+                    <h3>SQLi - Evasión de filtros con XML</h3>
+                    <p>SQL injection with filter bypass via XML encoding.</p>
+                </div>
+            </div>
+        </div>
     </div>
+</body>
 
-    <div class="timeline">
-        <!-- Laboratorios de SQL Injection -->
-        <div class="timeline-item left">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 01</span>
-                <h3>Vulnerabilidad SQLi en cláusula WHERE</h3>
-                <p>SQL injection vulnerability in WHERE clause allowing retrieval of hidden data.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item right">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 02</span>
-                <h3>Evasión de login a través de SQLi</h3>
-                <p>SQL injection vulnerability allowing login bypass.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item left">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 03</span>
-                <h3>Ataque UNION - columnas devueltas</h3>
-                <p>SQL injection UNION attack, determining the number of columns returned by the query.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item right">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 04</span>
-                <h3>Ataque UNION - columna con texto</h3>
-                <p>SQL injection UNION attack, finding a column containing text.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item left">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 05</span>
-                <h3>Ataque UNION - extraer otras tablas</h3>
-                <p>SQL injection UNION attack, retrieving data from other tables.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item right">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 06</span>
-                <h3>Ataque UNION - múltiples valores</h3>
-                <p>SQL injection UNION attack, retrieving multiple values in a single column.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item left">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 07</span>
-                <h3>Tipo y versión de base de datos (Oracle)</h3>
-                <p>Querying the database type and version on Oracle.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item right">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 08</span>
-                <h3>Tipo y versión (MySQL / Microsoft)</h3>
-                <p>Querying the database type and version on MySQL and Microsoft.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item left">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 09</span>
-                <h3>Exfiltrar base de datos (No Oracle)</h3>
-                <p>SQL injection attack, listing the database contents on non-Oracle databases.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item right">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 10</span>
-                <h3>Exfiltrar base de datos (Oracle)</h3>
-                <p>SQL injection attack, listing the database contents on Oracle.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item left">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 11</span>
-                <h3>Blind SQLi - respuestas condicionales</h3>
-                <p>Blind SQL injection with conditional responses.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item right">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 12</span>
-                <h3>Blind SQLi - errores condicionales</h3>
-                <p>Blind SQL injection with conditional errors.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item left">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 13</span>
-                <h3>SQLi basada en errores visibles</h3>
-                <p>Visible error-based SQL injection.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item right">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 14</span>
-                <h3>Blind SQLi - tiempo de retardo</h3>
-                <p>Blind SQL injection with time delays.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item left">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 15</span>
-                <h3>Blind SQLi - tiempo de retardo y extracción</h3>
-                <p>Blind SQL injection with time delays and information retrieval.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item right">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 16</span>
-                <h3>Blind SQLi - interacción out-of-band</h3>
-                <p>Blind SQL injection with out-of-band interaction.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item left">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 17</span>
-                <h3>Blind SQLi - exfiltración de datos OAST</h3>
-                <p>Blind SQL injection with out-of-band data exfiltration.</p>
-            </div>
-        </div>
-
-        <div class="timeline-item right">
-            <div class="timeline-content">
-                <span class="lab-number">Lab 18</span>
-                <h3>SQLi - Evasión de filtros con XML</h3>
-                <p>SQL injection with filter bypass via XML encoding.</p>
-            </div>
-        </div>
-    </div>
-</div>
+</html>
