@@ -149,7 +149,8 @@
             <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p>
             <p class='parrafo'>1. Verificamos que al inyectar un error intencional
                 <code>TrackingId=x'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'</code> la web
-                crashea.</p>
+                crashea.
+            </p>
             <p class='parrafo'>2. Inyectamos la condición dependiente de la contraseña:
                 <code>TrackingId=x'||(SELECT CASE WHEN SUBSTR(password,1,1)='a' THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'</code>.
             </p>
@@ -159,7 +160,8 @@
             <p class='parrafo'>La técnica de Error Based Blind aprovecha las declaraciones condicionales
                 <code>CASE WHEN</code> a nivel de base de datos para abortar la consulta solo si interceptamos la
                 información correcta, convirtiendo un error de backend en un canal lateral (side-channel) de filtrado de
-                datos.</p>
+                datos.
+            </p>
         </div>
 
         <div class="section">
@@ -170,7 +172,14 @@
                 ejecutados exitosamente en la aplicación de prueba.</p>
             <div
                 style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
-                [Espacio reservado para captura de pantalla del usuario]
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Request interceptado en Burp Suite</p>
+                <img src="labs_img/lab12_1.png" alt="Request interceptado en Burp Suite">
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Payload utilizado</p>
+                <img src="labs_img/lab12_2.png" alt="Payload utilizado">
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Respuesta del servidor</p>
+                <img src="labs_img/lab12_3.png" alt="Respuesta del servidor">
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Evidencia laboratorio completado</p>
+                <img src="labs_img/lab12_4.png" alt="Evidencia laboratorio completado">
             </div>
         </div>
 
@@ -178,7 +187,12 @@
             <h3 class="section-title">Reflexiones del Alumno</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">[Espacio para las reflexiones del alumno]</p>
+            <p class="parrafo">Este laboratorio me permitió entender la vulnerabilidad de inyección SQL en la cláusula
+                WHERE de una consulta SQL.</p>
+            <p class="parrafo">Además, aprendí a identificar y explotar vulnerabilidades de inyección SQL mediante la
+                inyección de payloads en parámetros de entrada.</p>
+            <p class="parrafo">También me ayudó a comprender la importancia de validar y sanitizar entradas de usuario
+                para prevenir ataques de inyección SQL.</p>
         </div>
 
         <div class="section">

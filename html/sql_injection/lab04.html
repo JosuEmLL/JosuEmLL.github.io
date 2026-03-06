@@ -149,9 +149,11 @@
             <p class='parrafo'>1. Averiguamos el número de columnas, como en el lab anterior (3 columnas).</p>
             <p class='parrafo'>2. Comprobamos la compatibilidad de tipo texto en cada columna con payloads como:
                 <code>'+UNION+SELECT+'a',NULL,NULL--</code>. Si da error, probamos
-                <code>'+UNION+SELECT+NULL,'a',NULL--</code>, y así sucesivamente.</p>
+                <code>'+UNION+SELECT+NULL,'a',NULL--</code>, y así sucesivamente.
+            </p>
             <p class='parrafo'>3. Encontramos la columna de texto e insertamos el texto requerido por el laboratorio:
-                <code>'+UNION+SELECT+NULL,'cadena_solicitada',NULL--</code>.</p>
+                <code>'+UNION+SELECT+NULL,'cadena_solicitada',NULL--</code>.
+            </p>
             <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p>
             <p class='parrafo'>Se asume que al hacer UNION, una columna que espera un INTEGER fallará si inyectamos una
                 cadena ('a'). Al probar iterativamente, encontramos cuál es de tipo de texto y logramos que la
@@ -166,7 +168,14 @@
                 ejecutados exitosamente en la aplicación de prueba.</p>
             <div
                 style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
-                [Espacio reservado para captura de pantalla del usuario]
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Request interceptado en Burp Suite</p>
+                <img src="labs_img/lab04_1.png" alt="Request interceptado en Burp Suite">
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Payload utilizado</p>
+                <img src="labs_img/lab04_2.png" alt="Payload utilizado">
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Respuesta del servidor</p>
+                <img src="labs_img/lab04_3.png" alt="Respuesta del servidor">
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Evidencia laboratorio completado</p>
+                <img src="labs_img/lab04_4.png" alt="Evidencia laboratorio completado">
             </div>
         </div>
 
@@ -174,7 +183,12 @@
             <h3 class="section-title">Reflexiones del Alumno</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">[Espacio para las reflexiones del alumno]</p>
+            <p class="parrafo">Este laboratorio me permitió entender la vulnerabilidad de inyección SQL en la cláusula
+                WHERE de una consulta SQL.</p>
+            <p class="parrafo">Además, aprendí a identificar y explotar vulnerabilidades de inyección SQL mediante la
+                inyección de payloads en parámetros de entrada.</p>
+            <p class="parrafo">También me ayudó a comprender la importancia de validar y sanitizar entradas de usuario
+                para prevenir ataques de inyección SQL.</p>
         </div>
 
         <div class="section">

