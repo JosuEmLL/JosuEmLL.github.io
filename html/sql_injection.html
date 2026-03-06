@@ -1,11 +1,11 @@
 <style>
     .roadmap-wrapper {
-        background-color: #1a1a1a;
-        color: #f0f0f0;
+        background-color: #ffffff;
+        color: #333333;
         padding: 40px 20px;
         border-radius: 12px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
         margin: 20px 0;
     }
 
@@ -15,7 +15,7 @@
     }
 
     .roadmap-header h2 {
-        color: #ff6600;
+        color: #337ab7;
         font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 2px;
@@ -24,7 +24,7 @@
     }
 
     .roadmap-header p {
-        color: #aaa;
+        color: #777;
         font-size: 1.1rem;
     }
 
@@ -38,7 +38,7 @@
         content: '';
         position: absolute;
         width: 6px;
-        background-color: #333;
+        background-color: #e5e5e5;
         top: 0;
         bottom: 0;
         left: 50%;
@@ -68,8 +68,8 @@
         width: 25px;
         height: 25px;
         right: -12.5px;
-        background-color: #1a1a1a;
-        border: 4px solid #ff6600;
+        background-color: #ffffff;
+        border: 4px solid #337ab7;
         top: 15px;
         border-radius: 50%;
         z-index: 1;
@@ -81,39 +81,40 @@
     }
 
     .timeline-item:hover::after {
-        background-color: #ff6600;
-        box-shadow: 0 0 15px #ff6600;
+        background-color: #337ab7;
+        box-shadow: 0 0 10px rgba(51, 122, 183, 0.4);
     }
 
     .timeline-content {
         padding: 20px;
-        background-color: #2b2b2b;
+        background-color: #f9f9f9;
         position: relative;
         border-radius: 8px;
-        border-left: 4px solid #ff6600;
+        border-left: 4px solid #337ab7;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .timeline-item.right .timeline-content {
         border-left: none;
-        border-right: 4px solid #ff6600;
+        border-right: 4px solid #337ab7;
     }
 
     .timeline-content:hover {
         transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(255, 102, 0, 0.2);
+        box-shadow: 0 8px 15px rgba(51, 122, 183, 0.15);
     }
 
     .timeline-content h3 {
         margin-top: 0;
-        color: #ff6600;
+        color: #337ab7;
         font-size: 1.3rem;
         font-weight: 700;
     }
 
     .timeline-content p {
         margin-bottom: 0;
-        color: #ccc;
+        color: #555;
         font-size: 0.95rem;
         line-height: 1.5;
     }
@@ -122,13 +123,13 @@
         position: absolute;
         top: -15px;
         right: 20px;
-        background: #ff6600;
+        background: #337ab7;
         color: #fff;
         padding: 5px 10px;
         border-radius: 20px;
         font-size: 0.8rem;
         font-weight: bold;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     .timeline-item.right .lab-number {
@@ -159,7 +160,7 @@
 
         .timeline-item.right .timeline-content {
             border-right: none;
-            border-left: 4px solid #ff6600;
+            border-left: 4px solid #337ab7;
         }
 
         .timeline-item.right .lab-number {
