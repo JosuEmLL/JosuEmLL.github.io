@@ -113,7 +113,10 @@
 
 <body>
     <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
-        <button onclick="parent.cargaPractica('html/sql_injection.html')" style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;" onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
+        <button onclick="parent.cargaPractica('html/sql_injection.html')"
+            style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;"
+            onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'"
+            onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
             &#8592; Regresar al Roadmap
         </button>
     </div>
@@ -127,25 +130,44 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">IntroducciÃ³n</h3>
+            <h3 class="section-title">Introducción</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Este laboratorio tambiÃ©n presenta una inyecciÃ³n SQL con base en errores, pero los mensajes de error originados en la base de datos (como el seguimiento de pila) se filtran e imprimen directamente de vuelta en el HTML de la pÃ¡gina web que visualizamos.</p>
+            <p class="parrafo">Este laboratorio también presenta una inyección SQL con base en errores, pero los
+                mensajes de error originados en la base de datos (como el seguimiento de pila) se filtran e imprimen
+                directamente de vuelta en el HTML de la página web que visualizamos.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p class='parrafo'>El propÃ³sito es diseÃ±ar una consulta que fuerce un error de tipado o conversiÃ³n de datos en la base y que encapsule en el mensaje de error el secreto que deseamos exfiltrar.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Identificamos el parÃ¡metro inyectable en la cookie TrackingId probando un payload de concatenaciÃ³n invÃ¡lido: <code>TrackingId=x' AND CAST((SELECT 1) AS int)--</code>.</p><p class='parrafo'>2. Generamos el error encapsulando la contraseÃ±a que intentamos leer y convirtiÃ©ndola forzadamente a un tipo INTEGER ilÃ­cito: <code>TrackingId=x' AND CAST((SELECT password FROM users WHERE username='administrator') AS int)--</code>.</p><p class='parrafo'>3. Ya que una contraseÃ±a como 's3cr3t' no es un INTEGER vÃ¡lido, la aplicaciÃ³n colapsarÃ¡ entregando un mensaje como: <i>Unterminated string constant... error converting value 's3cr3t'</i>. </p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÃ³n</p><p class='parrafo'>Este es uno de los ataques mÃ¡s directos: forzamos a la base de datos a intentar convertir texto en nÃºmeros enteros, por lo que arrojarÃ¡ una excepciÃ³n que incluirÃ¡ exactamente el string infractor, revelando de inmediato los valores ocultos.</p>
+            <p class='parrafo'>El propÃ³sito es diseÃ±ar una consulta que fuerce un error de tipado o conversiÃ³n de
+                datos en la base y que encapsule en el mensaje de error el secreto que deseamos exfiltrar.</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p>
+            <p class='parrafo'>1. Identificamos el parÃ¡metro inyectable en la cookie TrackingId probando un payload de
+                concatenaciÃ³n invÃ¡lido: <code>TrackingId=x' AND CAST((SELECT 1) AS int)--</code>.</p>
+            <p class='parrafo'>2. Generamos el error encapsulando la contraseÃ±a que intentamos leer y convirtiÃ©ndola
+                forzadamente a un tipo INTEGER ilÃ­cito:
+                <code>TrackingId=x' AND CAST((SELECT password FROM users WHERE username='administrator') AS int)--</code>.
+            </p>
+            <p class='parrafo'>3. Ya que una contraseÃ±a como 's3cr3t' no es un INTEGER vÃ¡lido, la aplicaciÃ³n
+                colapsarÃ¡ entregando un mensaje como: <i>Unterminated string constant... error converting value
+                    's3cr3t'</i>. </p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÃ³n</p>
+            <p class='parrafo'>Este es uno de los ataques mÃ¡s directos: forzamos a la base de datos a intentar
+                convertir texto en nÃºmeros enteros, por lo que arrojarÃ¡ una excepciÃ³n que incluirÃ¡ exactamente el
+                string infractor, revelando de inmediato los valores ocultos.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Contenido Multimedia</h3>
         </div>
         <div class="content-area" style="text-align: center;">
-            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
-            <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads
+                ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
+            <div
+                style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
                 [Espacio reservado para captura de pantalla del usuario]
             </div>
         </div>
@@ -161,10 +183,10 @@
             <h3 class="section-title">Referencias TÃ©cnicas</h3>
         </div>
         <div class="content-area">
-            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>Visible error-based SQL injection</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
+            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>Visible error-based SQL injection</i>. Web
+                Security Academy. Recuperado de https://portswigger.net/</p>
         </div>
     </div>
 </body>
 
 </html>
-

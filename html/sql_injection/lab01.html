@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Lab 01 - Vulnerabilidad SQLi en clÃ¡usula WHERE</title>
+    <title>Lab 01 - Vulnerabilidad SQLi en cláusula WHERE</title>
     <style>
         html,
         body {
@@ -133,9 +133,9 @@
             <h3 class="section-title">Introducción</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Este laboratorio contiene una vulnerabilidad de inyección SQL en el filtro de categorÃ­as
-                de productos. Cuando el usuario selecciona una categorÃ­a, la aplicaciÃ³n lleva a cabo una consulta SQL
-                directamente en la base de datos sin sanitizar la entrada.</p>
+            <p class="parrafo">Este laboratorio de PortSwigger se enfoca en explotar una vulnerabilidad clásica de
+                inyección SQL (SQLi) ubicada en la cláusula <code>WHERE</code> de una consulta utilizada para filtrar
+                productos comerciales por categoría.</p>
         </div>
 
         <div class="section">
@@ -143,19 +143,21 @@
         </div>
         <div class="content-area">
             <p class='parrafo'>Para resolver el laboratorio, debemos realizar un ataque de inyección SQL que haga que la
-                aplicaciÃ³n muestre detalles de todos los productos de la tienda, tanto los pÃºblicos como los no
+                aplicación muestre detalles de todos los productos de la tienda, tanto los públicos como los no
                 lanzados.</p>
             <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p>
-            <p class='parrafo'>1. Identificamos el parÃ¡metro <code>category</code> en la URL. Por ejemplo:
-                <code>/filter?category=Gifts</code>.</p>
+            <p class='parrafo'>1. Identificamos el parámetro <code>category</code> en la URL. Por ejemplo:
+                <code>/filter?category=Gifts</code>.
+            </p>
             <p class='parrafo'>2. Inyectamos el payload <code>'+OR+1=1--</code> en la URL.</p>
             <p class='parrafo'>3. Observamos que se muestran todos los productos.</p>
-            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÃ³n</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p>
             <p class='parrafo'>La consulta esperada es:
                 <code>SELECT * FROM products WHERE category = '[input]' AND released = 1</code>. Al inyectar el payload,
                 la consulta se convierte en: <code>... WHERE category = 'Gifts' OR 1=1--' AND released = 1</code>. La
-                condiciÃ³n <code>OR 1=1</code> hace que la clÃ¡usula sea verdadera para todos los registros, y el
-                <code>--</code> ignora el resto de la consulta.</p>
+                condición <code>OR 1=1</code> hace que la cláusula sea verdadera para todos los registros, y el
+                <code>--</code> ignora el resto de la consulta.
+            </p>
         </div>
 
         <div class="section">
@@ -163,7 +165,7 @@
         </div>
         <div class="content-area" style="text-align: center;">
             <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads
-                ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
+                ejecutados exitosamente en la aplicación de prueba.</p>
             <div
                 style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
                 [Espacio reservado para captura de pantalla del usuario]
@@ -178,7 +180,7 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">Referencias TÃ©cnicas</h3>
+            <h3 class="section-title">Referencias Técnicas</h3>
         </div>
         <div class="content-area">
             <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection vulnerability in WHERE

@@ -113,7 +113,10 @@
 
 <body>
     <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
-        <button onclick="parent.cargaPractica('html/sql_injection.html')" style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;" onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
+        <button onclick="parent.cargaPractica('html/sql_injection.html')"
+            style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;"
+            onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'"
+            onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
             &#8592; Regresar al Roadmap
         </button>
     </div>
@@ -127,25 +130,42 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">IntroducciÃ³n</h3>
+            <h3 class="section-title">Introducción</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Este laboratorio contiene una vulnerabilidad de inyecciÃ³n SQL UNION en el filtro de categorÃ­as de productos. Una vez conocido el nÃºmero de columnas, el objetivo es inyectar un valor de cadena especificado para identificar quÃ© columna es capaz de almacenar texto.</p>
+            <p class="parrafo">Este laboratorio contiene una vulnerabilidad de inyección SQL UNION en el filtro de
+                categorías de productos. Una vez conocido el número de columnas, el objetivo es inyectar un valor de
+                cadena especificado para identificar qué columna es capaz de almacenar texto.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p class='parrafo'>Para resolver el laboratorio, debemos usar <code>UNION SELECT</code> para introducir una cadena de texto predefinida (por ejemplo, el string aleatorio que PortSwigger indica en vivo) en una de las columnas resultantes.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Averiguamos el nÃºmero de columnas, como en el lab anterior (3 columnas).</p><p class='parrafo'>2. Comprobamos la compatibilidad de tipo texto en cada columna con payloads como: <code>'+UNION+SELECT+'a',NULL,NULL--</code>. Si da error, probamos <code>'+UNION+SELECT+NULL,'a',NULL--</code>, y asÃ­ sucesivamente.</p><p class='parrafo'>3. Encontramos la columna de texto e insertamos el texto requerido por el laboratorio: <code>'+UNION+SELECT+NULL,'cadena_solicitada',NULL--</code>.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÃ³n</p><p class='parrafo'>Se asume que al hacer UNION, una columna que espera un INTEGER fallarÃ¡ si inyectamos una cadena ('a'). Al probar iterativamente, encontramos cuÃ¡l es de tipo de texto y logramos que la aplicaciÃ³n nos devuelva la cadena requerida, demostrando que controlamos esa porciÃ³n de extracciÃ³n.</p>
+            <p class='parrafo'>Para resolver el laboratorio, debemos usar <code>UNION SELECT</code> para introducir una
+                cadena de texto predefinida (por ejemplo, el string aleatorio que PortSwigger indica en vivo) en una de
+                las columnas resultantes.</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p>
+            <p class='parrafo'>1. Averiguamos el número de columnas, como en el lab anterior (3 columnas).</p>
+            <p class='parrafo'>2. Comprobamos la compatibilidad de tipo texto en cada columna con payloads como:
+                <code>'+UNION+SELECT+'a',NULL,NULL--</code>. Si da error, probamos
+                <code>'+UNION+SELECT+NULL,'a',NULL--</code>, y así sucesivamente.</p>
+            <p class='parrafo'>3. Encontramos la columna de texto e insertamos el texto requerido por el laboratorio:
+                <code>'+UNION+SELECT+NULL,'cadena_solicitada',NULL--</code>.</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p>
+            <p class='parrafo'>Se asume que al hacer UNION, una columna que espera un INTEGER fallará si inyectamos una
+                cadena ('a'). Al probar iterativamente, encontramos cuál es de tipo de texto y logramos que la
+                aplicación nos devuelva la cadena requerida, demostrando que controlamos esa porción de extracción.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Contenido Multimedia</h3>
         </div>
         <div class="content-area" style="text-align: center;">
-            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
-            <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads
+                ejecutados exitosamente en la aplicación de prueba.</p>
+            <div
+                style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
                 [Espacio reservado para captura de pantalla del usuario]
             </div>
         </div>
@@ -158,13 +178,13 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">Referencias TÃ©cnicas</h3>
+            <h3 class="section-title">Referencias Técnicas</h3>
         </div>
         <div class="content-area">
-            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection UNION attack, finding a column containing text</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
+            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection UNION attack, finding a
+                    column containing text</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
         </div>
     </div>
 </body>
 
 </html>
-

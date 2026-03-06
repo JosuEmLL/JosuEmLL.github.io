@@ -113,7 +113,10 @@
 
 <body>
     <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
-        <button onclick="parent.cargaPractica('html/sql_injection.html')" style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;" onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
+        <button onclick="parent.cargaPractica('html/sql_injection.html')"
+            style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;"
+            onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'"
+            onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
             &#8592; Regresar al Roadmap
         </button>
     </div>
@@ -127,25 +130,43 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">IntroducciÃ³n</h3>
+            <h3 class="section-title">Introducción</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Este laboratorio es vulnerable a un ataque de inyecciÃ³n SQL tipo UNION en el filtro de categorÃ­as de productos. El objetivo principal es determinar el nÃºmero de columnas que devuelve la consulta original.</p>
+            <p class="parrafo">Este laboratorio es vulnerable a un ataque de inyección SQL tipo UNION en el filtro de
+                categorías de productos. El objetivo principal es determinar el número de columnas que devuelve la
+                consulta original.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p class='parrafo'>Para resolver el laboratorio, debemos descubrir el nÃºmero exacto de columnas devueltas construyendo una sentencia <code>UNION SELECT</code> que devuelva objetos NULL.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Identificamos el parÃ¡metro <code>category</code> vulnerable.</p><p class='parrafo'>2. Usamos el payload con incrementos de NULLs. Probamos: <code>'+UNION+SELECT+NULL--</code> (error).</p><p class='parrafo'>3. Continuamos agregando <code>NULL</code>: <code>'+UNION+SELECT+NULL,NULL,NULL--</code></p><p class='parrafo'>4. Cuando ya no devuelve error (sino una respuesta estructurada o adicional), ese serÃ¡ el nÃºmero de columnas (3 columnas).</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÃ³n</p><p class='parrafo'>El operador <code>UNION</code> necesita que ambas consultas tengan el mismo nÃºmero de columnas y tipos de datos compatibles. Al inyectar objetos <code>NULL</code> de manera iterativa, forzamos un error hasta que el conteo coincide exactamente con la consulta de productos de la aplicaciÃ³n.</p>
+            <p class='parrafo'>Para resolver el laboratorio, debemos descubrir el número exacto de columnas devueltas
+                construyendo una sentencia <code>UNION SELECT</code> que devuelva objetos NULL.</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p>
+            <p class='parrafo'>1. Identificamos el parámetro <code>category</code> vulnerable.</p>
+            <p class='parrafo'>2. Usamos el payload con incrementos de NULLs. Probamos:
+                <code>'+UNION+SELECT+NULL--</code> (error).</p>
+            <p class='parrafo'>3. Continuamos agregando <code>NULL</code>: <code>'+UNION+SELECT+NULL,NULL,NULL--</code>
+            </p>
+            <p class='parrafo'>4. Cuando ya no devuelve error (sino una respuesta estructurada o adicional), ese será el
+                número de columnas (3 columnas).</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p>
+            <p class='parrafo'>El operador <code>UNION</code> necesita que ambas consultas tengan el mismo número de
+                columnas y tipos de datos compatibles. Al inyectar objetos <code>NULL</code> de manera iterativa,
+                forzamos un error hasta que el conteo coincide exactamente con la consulta de productos de la
+                aplicación.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Contenido Multimedia</h3>
         </div>
         <div class="content-area" style="text-align: center;">
-            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
-            <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads
+                ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
+            <div
+                style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
                 [Espacio reservado para captura de pantalla del usuario]
             </div>
         </div>
@@ -158,13 +179,14 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">Referencias TÃ©cnicas</h3>
+            <h3 class="section-title">Referencias Técnicas</h3>
         </div>
         <div class="content-area">
-            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection UNION attack, determining the number of columns returned by the query</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
+            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection UNION attack, determining
+                    the number of columns returned by the query</i>. Web Security Academy. Recuperado de
+                https://portswigger.net/</p>
         </div>
     </div>
 </body>
 
 </html>
-

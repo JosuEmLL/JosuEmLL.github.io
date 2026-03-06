@@ -113,7 +113,10 @@
 
 <body>
     <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
-        <button onclick="parent.cargaPractica('html/sql_injection.html')" style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;" onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
+        <button onclick="parent.cargaPractica('html/sql_injection.html')"
+            style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;"
+            onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'"
+            onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
             &#8592; Regresar al Roadmap
         </button>
     </div>
@@ -127,25 +130,46 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">IntroducciÃ³n</h3>
+            <h3 class="section-title">Introducción</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Este laboratorio presenta una vulnerabilidad de inyecciÃ³n SQL ciega en una cookie de rastreo. La diferencia aquÃ­ radica en que la aplicaciÃ³n no varÃ­a su respuesta basada en booleanos lÃ³gicos, sino que en caso de provocar un error sintÃ¡ctico o matemÃ¡tico deliberado en SQL, la aplicaciÃ³n devolverÃ¡ un error HTTP (por ejemplo 500).</p>
+            <p class="parrafo">Este laboratorio presenta una vulnerabilidad de inyección SQL ciega en una cookie de
+                rastreo. La diferencia aquí radica en que la aplicación no varía su respuesta basada en booleanos
+                lógicos, sino que en caso de provocar un error sintáctico o matemático deliberado en SQL, la aplicación
+                devolverá un error HTTP (por ejemplo 500).</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p class='parrafo'>Para resolverlo, inyectaremos una condiciÃ³n que cause conscientemente un error en la base de datos (por ejemplo, una divisiÃ³n por cero) si y solo si el carÃ¡cter de la contraseÃ±a que adivinamos es correcto.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Verificamos que al inyectar un error intencional <code>TrackingId=x'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'</code> la web crashea.</p><p class='parrafo'>2. Inyectamos la condiciÃ³n dependiente de la contraseÃ±a: <code>TrackingId=x'||(SELECT CASE WHEN SUBSTR(password,1,1)='a' THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'</code>.</p><p class='parrafo'>3. Si arroja un Error 500, sabemos que la letra adivinada ('a') es correcta. Iteramos carÃ¡cter tras carÃ¡cter usando Intruder.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÃ³n</p><p class='parrafo'>La tÃ©cnica de Error Based Blind aprovecha las declaraciones condicionales <code>CASE WHEN</code> a nivel de base de datos para abortar la consulta solo si interceptamos la informaciÃ³n correcta, convirtiendo un error de backend en un canal lateral (side-channel) de filtrado de datos.</p>
+            <p class='parrafo'>Para resolverlo, inyectaremos una condición que cause conscientemente un error en la base
+                de datos (por ejemplo, una división por cero) si y solo si el carácter de la contraseña que adivinamos
+                es correcto.</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p>
+            <p class='parrafo'>1. Verificamos que al inyectar un error intencional
+                <code>TrackingId=x'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'</code> la web
+                crashea.</p>
+            <p class='parrafo'>2. Inyectamos la condición dependiente de la contraseña:
+                <code>TrackingId=x'||(SELECT CASE WHEN SUBSTR(password,1,1)='a' THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'</code>.
+            </p>
+            <p class='parrafo'>3. Si arroja un Error 500, sabemos que la letra adivinada ('a') es correcta. Iteramos
+                carácter tras carácter usando Intruder.</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p>
+            <p class='parrafo'>La técnica de Error Based Blind aprovecha las declaraciones condicionales
+                <code>CASE WHEN</code> a nivel de base de datos para abortar la consulta solo si interceptamos la
+                información correcta, convirtiendo un error de backend en un canal lateral (side-channel) de filtrado de
+                datos.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Contenido Multimedia</h3>
         </div>
         <div class="content-area" style="text-align: center;">
-            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
-            <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads
+                ejecutados exitosamente en la aplicación de prueba.</p>
+            <div
+                style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
                 [Espacio reservado para captura de pantalla del usuario]
             </div>
         </div>
@@ -158,13 +182,13 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">Referencias TÃ©cnicas</h3>
+            <h3 class="section-title">Referencias Técnicas</h3>
         </div>
         <div class="content-area">
-            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>Blind SQL injection with conditional errors</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
+            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>Blind SQL injection with conditional
+                    errors</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
         </div>
     </div>
 </body>
 
 </html>
-

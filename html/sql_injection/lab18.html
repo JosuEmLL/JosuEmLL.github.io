@@ -113,7 +113,10 @@
 
 <body>
     <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
-        <button onclick="parent.cargaPractica('html/sql_injection.html')" style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;" onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
+        <button onclick="parent.cargaPractica('html/sql_injection.html')"
+            style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;"
+            onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'"
+            onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
             &#8592; Regresar al Roadmap
         </button>
     </div>
@@ -121,31 +124,51 @@
         <div class="wrap">
             <div class="panel">
                 <h1>Laboratorio 18</h1>
-                <h2>SQLi - EvasiÃ³n de filtros con XML</h2>
+                <h2>SQLi - Evasión de filtros con XML</h2>
                 <p>PortSwigger Web Security Academy</p>
             </div>
         </div>
 
         <div class="section">
-            <h3 class="section-title">IntroducciÃ³n</h3>
+            <h3 class="section-title">Introducción</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Este laboratorio examina un salto de seguridad WAF (Web Application Firewall). La entrada de texto regular es detectada y bloqueada enÃ©rgicamente. Sin embargo, el sitio procesa informaciÃ³n con formato XML (XML Encoding).</p>
+            <p class="parrafo">Este laboratorio examina un salto de seguridad WAF (Web Application Firewall). La entrada
+                de texto regular es detectada y bloqueada enérgicamente. Sin embargo, el sitio procesa información con
+                formato XML (XML Encoding).</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p class='parrafo'>Para resolver este reto, debemos explotar el procesamiento XML que usa el backend para inyectar SQL sin disparar las firmas del Firewall, mediante el uso de codificaciÃ³n hexadecimal unificada de XML.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Identificamos que el payload clÃ¡sico es bloqueado con algo similar a 'Attack Detected'.</p><p class='parrafo'>2. Aprovechamos la caracterÃ­stica de entidades de XML: codificamos nuestro clÃ¡sico payload <code>1 UNION SELECT username || '~' || password FROM users</code> dentro de entidades XML (por ejemplo <code>1 &amp;#x55;&amp;#x4e;&amp;#x49;&amp;#x4f;&amp;#x4e; SELECT...</code> o de manera genÃ©rica usando extensiones de ofuscaciÃ³n).</p><p class='parrafo'>3. Evaluamos si el payload XML ofuscado fue ejecutado tras evadir los filtros.</p><p class='parrafo'>4. Exfiltramos las contraseÃ±as e ingresamos como administrator.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÃ³n</p><p class='parrafo'>Aunque el WAF analice con Regex las instrucciones sospechosas (SELECT, UNION), si el backend soporta parsing XML dinÃ¡mico, primero el WAF procesarÃ¡ inofensivamente secuencias numÃ©ricas, pero al llegar a la validaciÃ³n del servidor de base de datos el parseador decodificarÃ¡ las entidades XML, transpilÃ¡ndolas nuevamente en SQLi puro ejecutÃ¡ndolo exitosamente.</p>
+            <p class='parrafo'>Para resolver este reto, debemos explotar el procesamiento XML que usa el backend para
+                inyectar SQL sin disparar las firmas del Firewall, mediante el uso de codificación hexadecimal unificada
+                de XML.</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p>
+            <p class='parrafo'>1. Identificamos que el payload clásico es bloqueado con algo similar a 'Attack
+                Detected'.</p>
+            <p class='parrafo'>2. Aprovechamos la característica de entidades de XML: codificamos nuestro clásico
+                payload <code>1 UNION SELECT username || '~' || password FROM users</code> dentro de entidades XML (por
+                ejemplo <code>1 &amp;#x55;&amp;#x4e;&amp;#x49;&amp;#x4f;&amp;#x4e; SELECT...</code> o de manera genérica
+                usando extensiones de ofuscación).</p>
+            <p class='parrafo'>3. Evaluamos si el payload XML ofuscado fue ejecutado tras evadir los filtros.</p>
+            <p class='parrafo'>4. Exfiltramos las contraseñas e ingresamos como administrator.</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p>
+            <p class='parrafo'>Aunque el WAF analice con Regex las instrucciones sospechosas (SELECT, UNION), si el
+                backend soporta parsing XML dinámico, primero el WAF procesará inofensivamente secuencias numéricas,
+                pero al llegar a la validación del servidor de base de datos el parseador decodificará las entidades
+                XML, transpilándolas nuevamente en SQLi puro ejecutándolo exitosamente.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Contenido Multimedia</h3>
         </div>
         <div class="content-area" style="text-align: center;">
-            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
-            <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads
+                ejecutados exitosamente en la aplicación de prueba.</p>
+            <div
+                style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
                 [Espacio reservado para captura de pantalla del usuario]
             </div>
         </div>
@@ -158,13 +181,13 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">Referencias TÃ©cnicas</h3>
+            <h3 class="section-title">Referencias Técnicas</h3>
         </div>
         <div class="content-area">
-            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection with filter bypass via XML encoding</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
+            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection with filter bypass via XML
+                    encoding</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
         </div>
     </div>
 </body>
 
 </html>
-

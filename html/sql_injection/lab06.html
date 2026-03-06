@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Lab 06 - Ataque UNION - mÃºltiples valores</title>
+    <title>Lab 06 - Ataque UNION - múltiples valores</title>
     <style>
         html,
         body {
@@ -113,7 +113,10 @@
 
 <body>
     <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
-        <button onclick="parent.cargaPractica('html/sql_injection.html')" style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;" onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
+        <button onclick="parent.cargaPractica('html/sql_injection.html')"
+            style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;"
+            onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'"
+            onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
             &#8592; Regresar al Roadmap
         </button>
     </div>
@@ -121,31 +124,51 @@
         <div class="wrap">
             <div class="panel">
                 <h1>Laboratorio 06</h1>
-                <h2>Ataque UNION - mÃºltiples valores</h2>
+                <h2>Ataque UNION - múltiples valores</h2>
                 <p>PortSwigger Web Security Academy</p>
             </div>
         </div>
 
         <div class="section">
-            <h3 class="section-title">IntroducciÃ³n</h3>
+            <h3 class="section-title">Introducción</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Este laboratorio contiene una vulnerabilidad de inyecciÃ³n SQL UNION en el filtro de categorÃ­as de productos. El objetivo es obtener nombres de usuario y contraseÃ±as de la tabla <code>users</code>, pero la consulta original solo devuelve una columna que acepta texto.</p>
+            <p class="parrafo">Este laboratorio contiene una vulnerabilidad de inyección SQL UNION en el filtro de
+                categorías de productos. El objetivo es obtener nombres de usuario y contraseñas de la tabla
+                <code>users</code>, pero la consulta original solo devuelve una columna que acepta texto.
+            </p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p class='parrafo'>Para resolver el laboratorio, necesitamos recuperar el contenido tanto de la columna de usuario como la de contraseÃ±a y concatenarlas en la Ãºnica columna de texto disponible.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Identificamos que la consulta devuelve al menos dos columnas, pero solo una acepta texto.</p><p class='parrafo'>2. Concatenamos ambas cadenas en PostgreSQL (o el motor usado) usando <code>||</code>: <code>'+UNION+SELECT+NULL,+username||'~'||password+FROM+users--</code></p><p class='parrafo'>3. Observamos los resultados donde las credenciales aparecen unidas por una tilde: <code>administrator~s3cr3tpass</code>.</p><p class='parrafo'>4. Iniciamos sesiÃ³n como administrador.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÃ³n</p><p class='parrafo'>Cuando estamos limitados por el nÃºmero de columnas de texto compatibles, forzamos a la base de datos a combinar mÃºltiples valores en una sola cadena usando funciones de concatenaciÃ³n, haciendo que ambos datos requeridos encajen en el espacio disponible.</p>
+            <p class='parrafo'>Para resolver el laboratorio, necesitamos recuperar el contenido tanto de la columna de
+                usuario como la de contraseña y concatenarlas en la única columna de texto disponible.</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p>
+            <p class='parrafo'>1. Identificamos que la consulta devuelve al menos dos columnas, pero solo una acepta
+                texto.</p>
+            <p class='parrafo'>2. Concatenamos ambas cadenas en PostgreSQL (o el motor usado) usando <code>||</code>:
+                <code>'+UNION+SELECT+NULL,+username||'~'||password+FROM+users--</code>
+            </p>
+            <p class='parrafo'>3. Observamos los resultados donde las credenciales aparecen unidas por una tilde:
+                <code>administrator~s3cr3tpass</code>.
+            </p>
+            <p class='parrafo'>4. Iniciamos sesión como administrador.</p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p>
+            <p class='parrafo'>Cuando estamos limitados por el número de columnas de texto compatibles, forzamos a la
+                base de datos a combinar múltiples valores en una sola cadena usando funciones de concatenación,
+                haciendo que ambos datos requeridos encajen en el espacio disponible.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Contenido Multimedia</h3>
         </div>
         <div class="content-area" style="text-align: center;">
-            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
-            <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads
+                ejecutados exitosamente en la aplicación de prueba.</p>
+            <div
+                style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
                 [Espacio reservado para captura de pantalla del usuario]
             </div>
         </div>
@@ -158,13 +181,14 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">Referencias TÃ©cnicas</h3>
+            <h3 class="section-title">Referencias Técnicas</h3>
         </div>
         <div class="content-area">
-            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection UNION attack, retrieving multiple values in a single column</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
+            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection UNION attack, retrieving
+                    multiple values in a single column</i>. Web Security Academy. Recuperado de https://portswigger.net/
+            </p>
         </div>
     </div>
 </body>
 
 </html>
-
