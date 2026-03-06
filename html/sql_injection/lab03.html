@@ -139,38 +139,37 @@
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p style="font-size:21px; font-weight:bold;">TÃ©cnica Aplicada</p>
-            <p class="parrafo">Al enviar el payload <code>' OR 1=1--</code> en el parÃ¡metro de la URL, somos capaces de
-                interferir con la estructura de la consulta original, la cual generalmente tiene este aspecto:</p>
-            <pre
-                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '[input_usuario]' AND released = 1</pre>
-            <p class="parrafo">El payload altera la lÃ³gica resultando en:</p>
-            <pre
-                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '' OR 1=1--' AND released = 1</pre>
+            <p class='parrafo'>Para resolver el laboratorio, debemos descubrir el número exacto de columnas devueltas construyendo una sentencia <code>UNION SELECT</code> que devuelva objetos NULL.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Identificamos el parámetro <code>category</code> vulnerable.</p><p class='parrafo'>2. Usamos el payload con incrementos de NULLs. Probamos: <code>'+UNION+SELECT+NULL--</code> (error).</p><p class='parrafo'>3. Continuamos agregando <code>NULL</code>: <code>'+UNION+SELECT+NULL,NULL,NULL--</code></p><p class='parrafo'>4. Cuando ya no devuelve error (sino una respuesta estructurada o adicional), ese será el número de columnas (3 columnas).</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p><p class='parrafo'>El operador <code>UNION</code> necesita que ambas consultas tengan el mismo número de columnas y tipos de datos compatibles. Al inyectar objetos <code>NULL</code> de manera iterativa, forzamos un error hasta que el conteo coincide exactamente con la consulta de productos de la aplicación.</p>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">Contenido Multimedia</h3>
+        </div>
+        <div class="content-area" style="text-align: center;">
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicación de prueba.</p>
+            <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
+                [Espacio reservado para captura de pantalla del usuario]
+            </div>
         </div>
 
         <div class="section">
             <h3 class="section-title">Reflexiones del Alumno</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Al comprender cÃ³mo las bases de datos interpretan la sentencia lÃ³gica <code>OR 1=1</code>
-                como matemÃ¡ticamente verdadera, es fÃ¡cil deducir por quÃ© devuelven todos los registros almacenados
-                (incluso aquellos normalmente ocultos u obsoletos). Esta resoluciÃ³n evidencia la necesidad crÃ­tica de
-                parametrizar cualquier entrada controlada por el usuario.</p>
+            <p class="parrafo">[Espacio para las reflexiones del alumno]</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Referencias TÃ©cnicas</h3>
         </div>
         <div class="content-area">
-            <p class="citas" style="font-size: 16px;">PortSwigger. (n.d.). <i>SQL injection vulnerability in WHERE
-                    clause allowing retrieval of hidden data</i>. Web Security Academy. Recuperado de
-                https://portswigger.net/</p>
+            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection UNION attack, determining the number of columns returned by the query</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
         </div>
     </div>
 </body>
 
 </html>
+
 
 
 

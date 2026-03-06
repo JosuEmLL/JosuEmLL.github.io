@@ -139,38 +139,37 @@
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p style="font-size:21px; font-weight:bold;">TÃ©cnica Aplicada</p>
-            <p class="parrafo">Al enviar el payload <code>' OR 1=1--</code> en el parÃ¡metro de la URL, somos capaces de
-                interferir con la estructura de la consulta original, la cual generalmente tiene este aspecto:</p>
-            <pre
-                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '[input_usuario]' AND released = 1</pre>
-            <p class="parrafo">El payload altera la lÃ³gica resultando en:</p>
-            <pre
-                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '' OR 1=1--' AND released = 1</pre>
+            <p class='parrafo'>El objetivo primario es demostrar que existe la vulnerabilidad al causar un retardo de tiempo medible de unos 10 segundos en la respuesta de la red.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Analizamos el tipo de motor infiriendo sus instrucciones asíncronas de retardo (por ejemplo, PostgreSQL usa <code>pg_sleep</code>).</p><p class='parrafo'>2. Inyectamos la función bloqueadora enganchada mediante concatenación a la cookie original: <code>TrackingId=x'||pg_sleep(10)--</code>. (Se usará la sintaxis apropiada dependiendo si es PostgreSQL, MS SQL, etc).</p><p class='parrafo'>3. Evaluamos la respuesta de conexión, de manera que comprobamos si la aplicación tarda más de 10 segundos adicionales en cargar.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p><p class='parrafo'>Las inyecciones SQL ciegas basadas en tiempo son el último recurso cuando un servidor no reacciona ante errores ni a condiciones variables de vista. Ordenan a la base de datos detener toda ejecución a nivel de latencia de red de acuerdo al tiempo especificado en el payload.</p>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">Contenido Multimedia</h3>
+        </div>
+        <div class="content-area" style="text-align: center;">
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicación de prueba.</p>
+            <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
+                [Espacio reservado para captura de pantalla del usuario]
+            </div>
         </div>
 
         <div class="section">
             <h3 class="section-title">Reflexiones del Alumno</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Al comprender cÃ³mo las bases de datos interpretan la sentencia lÃ³gica <code>OR 1=1</code>
-                como matemÃ¡ticamente verdadera, es fÃ¡cil deducir por quÃ© devuelven todos los registros almacenados
-                (incluso aquellos normalmente ocultos u obsoletos). Esta resoluciÃ³n evidencia la necesidad crÃ­tica de
-                parametrizar cualquier entrada controlada por el usuario.</p>
+            <p class="parrafo">[Espacio para las reflexiones del alumno]</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Referencias TÃ©cnicas</h3>
         </div>
         <div class="content-area">
-            <p class="citas" style="font-size: 16px;">PortSwigger. (n.d.). <i>SQL injection vulnerability in WHERE
-                    clause allowing retrieval of hidden data</i>. Web Security Academy. Recuperado de
-                https://portswigger.net/</p>
+            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>Blind SQL injection with time delays</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
         </div>
     </div>
 </body>
 
 </html>
+
 
 
 

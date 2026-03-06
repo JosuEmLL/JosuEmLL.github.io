@@ -139,38 +139,37 @@
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p style="font-size:21px; font-weight:bold;">TÃ©cnica Aplicada</p>
-            <p class="parrafo">Al enviar el payload <code>' OR 1=1--</code> en el parÃ¡metro de la URL, somos capaces de
-                interferir con la estructura de la consulta original, la cual generalmente tiene este aspecto:</p>
-            <pre
-                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '[input_usuario]' AND released = 1</pre>
-            <p class="parrafo">El payload altera la lÃ³gica resultando en:</p>
-            <pre
-                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '' OR 1=1--' AND released = 1</pre>
+            <p class='parrafo'>En lugar de causar un retraso para confirmar la existencia de la falla, vinculamos el retraso a una comprobación lógica CASE WHEN sobre la contraseña de la base de datos.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Construimos una sentencia de condicional asíncrona dependiente del tamaño y de cada carácter: <code>TrackingId=x'%3BSELECT+CASE+WHEN+(username='administrator'+AND+SUBSTRING(password,1,1)='a')+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--</code>.</p><p class='parrafo'>2. Mandamos la solicitud. Si la respuesta toma 10 segundos, sabemos indudablemente que esa letra que probamos es correcta.</p><p class='parrafo'>3. Estandarizamos este proceso automatizándolo, asumiendo un riesgo considerable de tiempos de espera largos con scripts o usando macros asíncronas en herramientas como Burp Extender.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p><p class='parrafo'>Usando <code>pg_sleep()</code> condicionalmente logramos forzar a que el hilo ejecutor de la aplicación web retarde su carga única y enteramente cuando la afirmación adyacente es exitosa. Al analizar las métricas de respuesta HTTP extraemos bits de la base de datos.</p>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">Contenido Multimedia</h3>
+        </div>
+        <div class="content-area" style="text-align: center;">
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicación de prueba.</p>
+            <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
+                [Espacio reservado para captura de pantalla del usuario]
+            </div>
         </div>
 
         <div class="section">
             <h3 class="section-title">Reflexiones del Alumno</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Al comprender cÃ³mo las bases de datos interpretan la sentencia lÃ³gica <code>OR 1=1</code>
-                como matemÃ¡ticamente verdadera, es fÃ¡cil deducir por quÃ© devuelven todos los registros almacenados
-                (incluso aquellos normalmente ocultos u obsoletos). Esta resoluciÃ³n evidencia la necesidad crÃ­tica de
-                parametrizar cualquier entrada controlada por el usuario.</p>
+            <p class="parrafo">[Espacio para las reflexiones del alumno]</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Referencias TÃ©cnicas</h3>
         </div>
         <div class="content-area">
-            <p class="citas" style="font-size: 16px;">PortSwigger. (n.d.). <i>SQL injection vulnerability in WHERE
-                    clause allowing retrieval of hidden data</i>. Web Security Academy. Recuperado de
-                https://portswigger.net/</p>
+            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>Blind SQL injection with time delays and information retrieval</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
         </div>
     </div>
 </body>
 
 </html>
+
 
 
 

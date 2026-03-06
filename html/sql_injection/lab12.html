@@ -139,38 +139,37 @@
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p style="font-size:21px; font-weight:bold;">TÃ©cnica Aplicada</p>
-            <p class="parrafo">Al enviar el payload <code>' OR 1=1--</code> en el parÃ¡metro de la URL, somos capaces de
-                interferir con la estructura de la consulta original, la cual generalmente tiene este aspecto:</p>
-            <pre
-                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '[input_usuario]' AND released = 1</pre>
-            <p class="parrafo">El payload altera la lÃ³gica resultando en:</p>
-            <pre
-                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '' OR 1=1--' AND released = 1</pre>
+            <p class='parrafo'>Para resolverlo, inyectaremos una condición que cause conscientemente un error en la base de datos (por ejemplo, una división por cero) si y solo si el carácter de la contraseña que adivinamos es correcto.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Verificamos que al inyectar un error intencional <code>TrackingId=x'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'</code> la web crashea.</p><p class='parrafo'>2. Inyectamos la condición dependiente de la contraseña: <code>TrackingId=x'||(SELECT CASE WHEN SUBSTR(password,1,1)='a' THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'</code>.</p><p class='parrafo'>3. Si arroja un Error 500, sabemos que la letra adivinada ('a') es correcta. Iteramos carácter tras carácter usando Intruder.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p><p class='parrafo'>La técnica de Error Based Blind aprovecha las declaraciones condicionales <code>CASE WHEN</code> a nivel de base de datos para abortar la consulta solo si interceptamos la información correcta, convirtiendo un error de backend en un canal lateral (side-channel) de filtrado de datos.</p>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">Contenido Multimedia</h3>
+        </div>
+        <div class="content-area" style="text-align: center;">
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicación de prueba.</p>
+            <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
+                [Espacio reservado para captura de pantalla del usuario]
+            </div>
         </div>
 
         <div class="section">
             <h3 class="section-title">Reflexiones del Alumno</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Al comprender cÃ³mo las bases de datos interpretan la sentencia lÃ³gica <code>OR 1=1</code>
-                como matemÃ¡ticamente verdadera, es fÃ¡cil deducir por quÃ© devuelven todos los registros almacenados
-                (incluso aquellos normalmente ocultos u obsoletos). Esta resoluciÃ³n evidencia la necesidad crÃ­tica de
-                parametrizar cualquier entrada controlada por el usuario.</p>
+            <p class="parrafo">[Espacio para las reflexiones del alumno]</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Referencias TÃ©cnicas</h3>
         </div>
         <div class="content-area">
-            <p class="citas" style="font-size: 16px;">PortSwigger. (n.d.). <i>SQL injection vulnerability in WHERE
-                    clause allowing retrieval of hidden data</i>. Web Security Academy. Recuperado de
-                https://portswigger.net/</p>
+            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>Blind SQL injection with conditional errors</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
         </div>
     </div>
 </body>
 
 </html>
+
 
 
 

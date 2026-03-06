@@ -139,38 +139,37 @@
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p style="font-size:21px; font-weight:bold;">T√©cnica Aplicada</p>
-            <p class="parrafo">Al enviar el payload <code>' OR 1=1--</code> en el par√°metro de la URL, somos capaces de
-                interferir con la estructura de la consulta original, la cual generalmente tiene este aspecto:</p>
-            <pre
-                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '[input_usuario]' AND released = 1</pre>
-            <p class="parrafo">El payload altera la l√≥gica resultando en:</p>
-            <pre
-                style="background:#eee; padding:15px; border-radius:4px; font-size:16px;">SELECT * FROM products WHERE category = '' OR 1=1--' AND released = 1</pre>
+            <p class='parrafo'>Para resolver el laboratorio, debemos evadir la autenticaciÛn e iniciar sesiÛn en la cuenta del usuario <code>administrator</code>.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Navegamos al apartado de inicio de sesiÛn.</p><p class='parrafo'>2. En el nombre de usuario, ingresamos el payload: <code>administrator'--</code></p><p class='parrafo'>3. En la contraseÒa, ingresamos cualquier valor, por ejemplo: <code>1234</code>, y enviamos el formulario.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÛn</p><p class='parrafo'>La consulta de backend verifica las credenciales de la siguiente manera: <code>SELECT * FROM users WHERE username = '[input_user]' AND password = '[input_pass]'</code>. Al ingresar el payload, la consulta se vuelve: <code>... WHERE username = 'administrator'--' AND password = '...'</code>. El doble guion (<code>--</code>) comenta la verificaciÛn de la contraseÒa, permitiendo el ingreso solo con el nombre de usuario.</p>
+        </div>
+
+        <div class="section">
+            <h3 class="section-title">Contenido Multimedia</h3>
+        </div>
+        <div class="content-area" style="text-align: center;">
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaciÛn de prueba.</p>
+            <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
+                [Espacio reservado para captura de pantalla del usuario]
+            </div>
         </div>
 
         <div class="section">
             <h3 class="section-title">Reflexiones del Alumno</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Al comprender c√≥mo las bases de datos interpretan la sentencia l√≥gica <code>OR 1=1</code>
-                como matem√°ticamente verdadera, es f√°cil deducir por qu√© devuelven todos los registros almacenados
-                (incluso aquellos normalmente ocultos u obsoletos). Esta resoluci√≥n evidencia la necesidad cr√≠tica de
-                parametrizar cualquier entrada controlada por el usuario.</p>
+            <p class="parrafo">[Espacio para las reflexiones del alumno]</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Referencias T√©cnicas</h3>
         </div>
         <div class="content-area">
-            <p class="citas" style="font-size: 16px;">PortSwigger. (n.d.). <i>SQL injection vulnerability in WHERE
-                    clause allowing retrieval of hidden data</i>. Web Security Academy. Recuperado de
-                https://portswigger.net/</p>
+            <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection vulnerability allowing login bypass</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
         </div>
     </div>
 </body>
 
 </html>
+
 
 
 
