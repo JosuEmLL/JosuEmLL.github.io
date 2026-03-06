@@ -155,6 +155,22 @@
             </p>
             <p class='parrafo'>3. Iteramos automatizada o manualmente todas las posiciones (1, 2, 3...) probando todos
                 caracteres alfanuméricos posibles.</p>
+            <p class='parrafo'>Para iterar de forma automatizada, usamos:
+                <code>TrackingId=x' AND (SELECT SUBSTRING(password,1,1) FROM users WHERE username='administrator')='a'--.</code>
+                Y mandamos el payload hacia la herramienta de Burp Suite llamada intruder. Donde agregaremos una marca
+                de payload a la sección que específica el caracter a probar para la posición de la contraseña.
+            </p>
+            <p class='parrafo'>Para configurar el payload es necesario acceder a las configuraciones del payload una vez
+                insertado y
+                asegurarse de que el tipo de payload sea del tipo "Simple List", una vez confirmado esto nos dirigimos a
+                la sección de la herramienta intruder y en las configuraciones del payload agregamos la lista de
+                caracteres alfanuméricos posibles (a-z y 0-9).</p>
+            <p class='parrafo'>Adicionalmente, debemos añadir un campo de respuesta del tipo bandera que responda a la
+                condición verdadera. En este caso, la bandera es la respuesta de la página web es "Welcome back!".</p>
+            <p class='parrafo'>Una vez configurado el payload, iniciamos la herramienta intruder y esperamos a que
+                termine la iteración de todos los caracteres posibles.</p>
+            <p class='parrafo'>Este proceso se itera hasta alcanzar la longitud maxima de la contraseña previamente
+                decifrada para obtener la contraseña del usuario administrator.</p>
             <p class='parrafo'>4. Una vez recopilada por completo, iniciamos sesión.</p>
             <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p>
             <p class='parrafo'>En Blind SQLi no vemos datos extraídos en pantalla, dependemos de inferir cada dígito
@@ -170,7 +186,26 @@
                 ejecutados exitosamente en la aplicación de prueba.</p>
             <div
                 style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
-                [Espacio reservado para captura de pantalla del usuario]
+                <p class="parrafo">Request Interceptado</p>
+                <img src="labs_img/lab11_01.png" alt="Request Interceptado"
+                    style="width:100%;max-width:600px;margin:16px 0;">
+                <p class="parrafo">Respuesta de bandera esperada</p>
+                <img src="labs_img/lab11_02.png" alt="Respuesta de bandera esperada"
+                    style="width:100%;max-width:600px;margin:16px 0;">
+                <p class="parrafo">Payload</p>
+                <img src="labs_img/lab11_03.png" alt="Payload" style="width:100%;max-width:600px;margin:16px 0;">
+                <p class="parrafo">Configuración Intruder</p>
+                <img src="labs_img/lab11_04.png" alt="Configuración Intruder"
+                    style="width:100%;max-width:600px;margin:16px 0;">
+                <p class="parrafo">Configuración Respuesta de bandera</p>
+                <img src="labs_img/lab11_05.png" alt="Configuración Payload"
+                    style="width:100%;max-width:600px;margin:16px 0;">
+                <p class="parrafo">Inicio de sesión exitoso</p>
+                <img src="labs_img/lab11_06.png" alt="Inicio de sesión exitoso"
+                    style="width:100%;max-width:600px;margin:16px 0;">
+                <p class="parrafo">Evidencia Laboratorio completado</p>
+                <img src="labs_img/lab11_07.png" alt="Evidencia Laboratorio completado"
+                    style="width:100%;max-width:600px;margin:16px 0;">
             </div>
         </div>
 
