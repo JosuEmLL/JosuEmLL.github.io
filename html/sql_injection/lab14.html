@@ -1,10 +1,10 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Lab 01 - Vulnerabilidad SQLi en cláusula WHERE</title>
+    <title>Lab 14 - Blind SQLi - tiempo de retardo</title>
     <style>
         html,
         body {
@@ -112,7 +112,7 @@
 </head>
 
 <body>
-        <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
+    <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
         <button onclick="parent.cargaPractica('html/sql_injection.html')" style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;" onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
             &#8592; Regresar al Roadmap
         </button>
@@ -121,32 +121,30 @@
         <div class="wrap">
             <div class="panel">
                 <h1>Laboratorio 14</h1>
-                <h2>Vulnerabilidad SQLi en cláusula WHERE</h2>
+                <h2>Blind SQLi - tiempo de retardo</h2>
                 <p>PortSwigger Web Security Academy</p>
             </div>
         </div>
 
         <div class="section">
-            <h3 class="section-title">Introducción</h3>
+            <h3 class="section-title">IntroducciÃ³n</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Este laboratorio de PortSwigger se enfoca en explotar una vulnerabilidad clásica de
-                inyección SQL (SQLi) ubicada en la cláusula <code>WHERE</code> de una consulta utilizada para filtrar
-                productos comerciales por categoría.</p>
+            <p class="parrafo">En este laboratorio ocurre una inyecciÃ³n ciega extrema en la cookie de seguimiento. La aplicaciÃ³n gestiona y suprime todos los errores, y su interfaz no cambia independientemente de si las consultas son lÃ³gicas verdaderas o falsas. Es un entorno completamente ciego.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p class='parrafo'>El objetivo primario es demostrar que existe la vulnerabilidad al causar un retardo de tiempo medible de unos 10 segundos en la respuesta de la red.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Analizamos el tipo de motor infiriendo sus instrucciones as�ncronas de retardo (por ejemplo, PostgreSQL usa <code>pg_sleep</code>).</p><p class='parrafo'>2. Inyectamos la funci�n bloqueadora enganchada mediante concatenaci�n a la cookie original: <code>TrackingId=x'||pg_sleep(10)--</code>. (Se usar� la sintaxis apropiada dependiendo si es PostgreSQL, MS SQL, etc).</p><p class='parrafo'>3. Evaluamos la respuesta de conexi�n, de manera que comprobamos si la aplicaci�n tarda m�s de 10 segundos adicionales en cargar.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicaci�n</p><p class='parrafo'>Las inyecciones SQL ciegas basadas en tiempo son el �ltimo recurso cuando un servidor no reacciona ante errores ni a condiciones variables de vista. Ordenan a la base de datos detener toda ejecuci�n a nivel de latencia de red de acuerdo al tiempo especificado en el payload.</p>
+            <p class='parrafo'>El objetivo primario es demostrar que existe la vulnerabilidad al causar un retardo de tiempo medible de unos 10 segundos en la respuesta de la red.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Analizamos el tipo de motor infiriendo sus instrucciones asÃ­ncronas de retardo (por ejemplo, PostgreSQL usa <code>pg_sleep</code>).</p><p class='parrafo'>2. Inyectamos la funciÃ³n bloqueadora enganchada mediante concatenaciÃ³n a la cookie original: <code>TrackingId=x'||pg_sleep(10)--</code>. (Se usarÃ¡ la sintaxis apropiada dependiendo si es PostgreSQL, MS SQL, etc).</p><p class='parrafo'>3. Evaluamos la respuesta de conexiÃ³n, de manera que comprobamos si la aplicaciÃ³n tarda mÃ¡s de 10 segundos adicionales en cargar.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÃ³n</p><p class='parrafo'>Las inyecciones SQL ciegas basadas en tiempo son el Ãºltimo recurso cuando un servidor no reacciona ante errores ni a condiciones variables de vista. Ordenan a la base de datos detener toda ejecuciÃ³n a nivel de latencia de red de acuerdo al tiempo especificado en el payload.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Contenido Multimedia</h3>
         </div>
         <div class="content-area" style="text-align: center;">
-            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaci�n de prueba.</p>
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
             <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
                 [Espacio reservado para captura de pantalla del usuario]
             </div>
@@ -160,7 +158,7 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">Referencias Técnicas</h3>
+            <h3 class="section-title">Referencias TÃ©cnicas</h3>
         </div>
         <div class="content-area">
             <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>Blind SQL injection with time delays</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
@@ -169,8 +167,3 @@
 </body>
 
 </html>
-
-
-
-
-

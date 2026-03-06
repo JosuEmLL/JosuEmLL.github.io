@@ -1,10 +1,10 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Lab 01 - Vulnerabilidad SQLi en cláusula WHERE</title>
+    <title>Lab 15 - Blind SQLi - tiempo de retardo y extracciÃ³n</title>
     <style>
         html,
         body {
@@ -112,7 +112,7 @@
 </head>
 
 <body>
-        <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
+    <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
         <button onclick="parent.cargaPractica('html/sql_injection.html')" style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;" onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
             &#8592; Regresar al Roadmap
         </button>
@@ -121,32 +121,30 @@
         <div class="wrap">
             <div class="panel">
                 <h1>Laboratorio 15</h1>
-                <h2>Vulnerabilidad SQLi en cláusula WHERE</h2>
+                <h2>Blind SQLi - tiempo de retardo y extracciÃ³n</h2>
                 <p>PortSwigger Web Security Academy</p>
             </div>
         </div>
 
         <div class="section">
-            <h3 class="section-title">Introducción</h3>
+            <h3 class="section-title">IntroducciÃ³n</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Este laboratorio de PortSwigger se enfoca en explotar una vulnerabilidad clásica de
-                inyección SQL (SQLi) ubicada en la cláusula <code>WHERE</code> de una consulta utilizada para filtrar
-                productos comerciales por categoría.</p>
+            <p class="parrafo">Este laboratorio combina el concepto ciego anterior. Carece totalmente de retroalimentaciÃ³n visual, no devuelve errores y procesa cualquier cosa igual, por ende, dependemos por completo de retardos de tiempo para extraer la contraseÃ±a del administrador.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p class='parrafo'>En lugar de causar un retraso para confirmar la existencia de la falla, vinculamos el retraso a una comprobaci�n l�gica CASE WHEN sobre la contrase�a de la base de datos.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Construimos una sentencia de condicional as�ncrona dependiente del tama�o y de cada car�cter: <code>TrackingId=x'%3BSELECT+CASE+WHEN+(username='administrator'+AND+SUBSTRING(password,1,1)='a')+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--</code>.</p><p class='parrafo'>2. Mandamos la solicitud. Si la respuesta toma 10 segundos, sabemos indudablemente que esa letra que probamos es correcta.</p><p class='parrafo'>3. Estandarizamos este proceso automatiz�ndolo, asumiendo un riesgo considerable de tiempos de espera largos con scripts o usando macros as�ncronas en herramientas como Burp Extender.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicaci�n</p><p class='parrafo'>Usando <code>pg_sleep()</code> condicionalmente logramos forzar a que el hilo ejecutor de la aplicaci�n web retarde su carga �nica y enteramente cuando la afirmaci�n adyacente es exitosa. Al analizar las m�tricas de respuesta HTTP extraemos bits de la base de datos.</p>
+            <p class='parrafo'>En lugar de causar un retraso para confirmar la existencia de la falla, vinculamos el retraso a una comprobaciÃ³n lÃ³gica CASE WHEN sobre la contraseÃ±a de la base de datos.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Construimos una sentencia de condicional asÃ­ncrona dependiente del tamaÃ±o y de cada carÃ¡cter: <code>TrackingId=x'%3BSELECT+CASE+WHEN+(username='administrator'+AND+SUBSTRING(password,1,1)='a')+THEN+pg_sleep(10)+ELSE+pg_sleep(0)+END+FROM+users--</code>.</p><p class='parrafo'>2. Mandamos la solicitud. Si la respuesta toma 10 segundos, sabemos indudablemente que esa letra que probamos es correcta.</p><p class='parrafo'>3. Estandarizamos este proceso automatizÃ¡ndolo, asumiendo un riesgo considerable de tiempos de espera largos con scripts o usando macros asÃ­ncronas en herramientas como Burp Extender.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÃ³n</p><p class='parrafo'>Usando <code>pg_sleep()</code> condicionalmente logramos forzar a que el hilo ejecutor de la aplicaciÃ³n web retarde su carga Ãºnica y enteramente cuando la afirmaciÃ³n adyacente es exitosa. Al analizar las mÃ©tricas de respuesta HTTP extraemos bits de la base de datos.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Contenido Multimedia</h3>
         </div>
         <div class="content-area" style="text-align: center;">
-            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaci�n de prueba.</p>
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
             <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
                 [Espacio reservado para captura de pantalla del usuario]
             </div>
@@ -160,7 +158,7 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">Referencias Técnicas</h3>
+            <h3 class="section-title">Referencias TÃ©cnicas</h3>
         </div>
         <div class="content-area">
             <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>Blind SQL injection with time delays and information retrieval</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
@@ -169,8 +167,3 @@
 </body>
 
 </html>
-
-
-
-
-

