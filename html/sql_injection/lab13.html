@@ -142,22 +142,21 @@
             <h3 class="section-title">Desarrollo</h3>
         </div>
         <div class="content-area">
-            <p class='parrafo'>El propÃ³sito es diseÃ±ar una consulta que fuerce un error de tipado o conversiÃ³n de
-                datos en la base y que encapsule en el mensaje de error el secreto que deseamos exfiltrar.</p>
+            <p class='parrafo'>El propósito es diseñar una consulta que fuerce un error de tipado o conversión de datos
+                en la base y que encapsule en el mensaje de error el secreto que deseamos exfiltrar.</p>
             <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Pasos, Pruebas y Payloads</p>
-            <p class='parrafo'>1. Identificamos el parÃ¡metro inyectable en la cookie TrackingId probando un payload de
-                concatenaciÃ³n invÃ¡lido: <code>TrackingId=x' AND CAST((SELECT 1) AS int)--</code>.</p>
-            <p class='parrafo'>2. Generamos el error encapsulando la contraseÃ±a que intentamos leer y convirtiÃ©ndola
-                forzadamente a un tipo INTEGER ilÃ­cito:
+            <p class='parrafo'>1. Identificamos el parámetro inyectable en la cookie TrackingId probando un payload de
+                concatenación inválido: <code>TrackingId=x' AND CAST((SELECT 1) AS int)--</code>.</p>
+            <p class='parrafo'>2. Generamos el error encapsulando la contraseña que intentamos leer y convirtiéndola
+                forzadamente a un tipo INTEGER ilícito:
                 <code>TrackingId=x' AND CAST((SELECT password FROM users WHERE username='administrator') AS int)--</code>.
             </p>
-            <p class='parrafo'>3. Ya que una contraseÃ±a como 's3cr3t' no es un INTEGER vÃ¡lido, la aplicaciÃ³n
-                colapsarÃ¡ entregando un mensaje como: <i>Unterminated string constant... error converting value
-                    's3cr3t'</i>. </p>
-            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>ExplicaciÃ³n</p>
-            <p class='parrafo'>Este es uno de los ataques mÃ¡s directos: forzamos a la base de datos a intentar
-                convertir texto en nÃºmeros enteros, por lo que arrojarÃ¡ una excepciÃ³n que incluirÃ¡ exactamente el
-                string infractor, revelando de inmediato los valores ocultos.</p>
+            <p class='parrafo'>3. Ya que una contraseña como 's3cr3t' no es un INTEGER válido, la aplicación colapsará
+                entregando un mensaje como: <i>Unterminated string constant... error converting value 's3cr3t'</i>. </p>
+            <p style='font-size:21px; font-weight:bold; margin-top:20px;'>Explicación</p>
+            <p class='parrafo'>Este es uno de los ataques más directos: forzamos a la base de datos a intentar convertir
+                texto en números enteros, por lo que arrojará una excepción que incluirá exactamente el string
+                infractor, revelando de inmediato los valores ocultos.</p>
         </div>
 
         <div class="section">
@@ -165,7 +164,7 @@
         </div>
         <div class="content-area" style="text-align: center;">
             <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Capturas de evidencia de los payloads
-                ejecutados exitosamente en la aplicaciÃ³n de prueba.</p>
+                ejecutados exitosamente en la aplicación de prueba.</p>
             <div
                 style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
                 [Espacio reservado para captura de pantalla del usuario]
@@ -180,7 +179,7 @@
         </div>
 
         <div class="section">
-            <h3 class="section-title">Referencias TÃ©cnicas</h3>
+            <h3 class="section-title">Referencias Técnicas</h3>
         </div>
         <div class="content-area">
             <p class="citas" style="font-size: 16px;">PortSwigger. (s.f.). <i>Visible error-based SQL injection</i>. Web
