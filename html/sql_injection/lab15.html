@@ -167,17 +167,25 @@
                 ejecutados exitosamente en la aplicación de prueba.</p>
             <div
                 style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
-                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Request interceptado en Burp Suite</p>
-                <img src="labs_img/lab15_01.png" alt="Request interceptado en Burp Suite"
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Comprobación de respuesta tardía por
+                    parte de la base de datos</p>
+                <img src="labs_img/lab15_01.png" alt="Comprobación de respuesta tardía por parte de la base de datos"
                     style="width:100%;max-width:600px;margin:16px 0;">
-                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Payload utilizado</p>
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Payload utilizado para descifrar la
+                    contraseña del administrador basado en delays de respuesta</p>
                 <img src="labs_img/lab15_02.png" alt="Payload utilizado"
                     style="width:100%;max-width:600px;margin:16px 0;">
-                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Respuesta del servidor</p>
-                <img src="labs_img/lab15_03.png" alt="Respuesta del servidor"
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Automatización del proceso de
+                    descifrado de la contraseña del administrador mediante el uso de la herramienta Intruder de Burp
+                    Suite</p>
+                <img src="labs_img/lab15_03.png"
+                    alt="Automatización del proceso de descifrado de la contraseña del administrador mediante el uso de la herramienta Intruder de Burp Suite"
+                    style="width:100%;max-width:600px;margin:16px 0;">
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Inicio de sesión exitoso</p>
+                <img src="labs_img/lab15_04.png" alt="Inicio de sesión exitoso"
                     style="width:100%;max-width:600px;margin:16px 0;">
                 <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Evidencia laboratorio completado</p>
-                <img src="labs_img/lab15_04.png" alt="Evidencia laboratorio completado"
+                <img src="labs_img/lab15_05.png" alt="Evidencia laboratorio completado"
                     style="width:100%;max-width:600px;margin:16px 0;">
             </div>
         </div>
@@ -186,8 +194,8 @@
             <h3 class="section-title">Reflexiones del Alumno</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Este laboratorio me permitió entender la vulnerabilidad de inyección SQL en la cláusula
-                WHERE de una consulta SQL.</p>
+            <p class="parrafo">Este laboratorio me permitio comprender como inyecciones SQL que provoquen retardo en la
+                respuesta de la red pueden ser utilizadas para extraer información de la base de datos.</p>
             <p class="parrafo">Además, aprendí a identificar y explotar vulnerabilidades de inyección SQL mediante la
                 inyección de payloads en parámetros de entrada.</p>
             <p class="parrafo">También me ayudó a comprender la importancia de validar y sanitizar entradas de usuario

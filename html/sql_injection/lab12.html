@@ -172,17 +172,23 @@
                 ejecutados exitosamente en la aplicación de prueba.</p>
             <div
                 style="background: #eaeaea; border: 2px dashed #b0b0b0; padding: 40px; border-radius: 8px; color: #555; font-style: italic;">
-                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Request interceptado en Burp Suite</p>
-                <img src="labs_img/lab12_01.png" alt="Request interceptado en Burp Suite"
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Respuesta del servidor con error 500
+                    (bandera para identificar la contraseña)</p>
+                <img src="labs_img/lab12_01.png" alt="Respuesta del servidor con error 500"
                     style="width:100%;max-width:600px;margin:16px 0;">
-                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Payload utilizado</p>
-                <img src="labs_img/lab12_02.png" alt="Payload utilizado"
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Payload usado para identificar la
+                    contraseña</p>
+                <img src="labs_img/lab12_02.png" alt="Payload usado para identificar la contraseña"
                     style="width:100%;max-width:600px;margin:16px 0;">
-                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Respuesta del servidor</p>
-                <img src="labs_img/lab12_03.png" alt="Respuesta del servidor"
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Uso de Intruder para iterar sobre la
+                    contraseña</p>
+                <img src="labs_img/lab12_03.png" alt="Uso de Intruder para iterar sobre la contraseña"
+                    style="width:100%;max-width:600px;margin:16px 0;">
+                <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Inicio de sesión exitoso</p>
+                <img src="labs_img/lab12_04.png" alt="Inicio de sesión exitoso"
                     style="width:100%;max-width:600px;margin:16px 0;">
                 <p class="parrafo" style="margin-bottom: 20px; text-align: left;">Evidencia laboratorio completado</p>
-                <img src="labs_img/lab12_04.png" alt="Evidencia laboratorio completado"
+                <img src="labs_img/lab12_05.png" alt="Evidencia laboratorio completado"
                     style="width:100%;max-width:600px;margin:16px 0;">
             </div>
         </div>
@@ -191,12 +197,11 @@
             <h3 class="section-title">Reflexiones del Alumno</h3>
         </div>
         <div class="content-area">
-            <p class="parrafo">Este laboratorio me permitió entender la vulnerabilidad de inyección SQL en la cláusula
-                WHERE de una consulta SQL.</p>
-            <p class="parrafo">Además, aprendí a identificar y explotar vulnerabilidades de inyección SQL mediante la
-                inyección de payloads en parámetros de entrada.</p>
-            <p class="parrafo">También me ayudó a comprender la importancia de validar y sanitizar entradas de usuario
-                para prevenir ataques de inyección SQL.</p>
+            <p class="parrafo">Este laboratorio fue especialmente interesante para mí debido a como se puede explotar
+                una vulnerabilidad de inyección SQL ciega en una cookie de rastreo. La diferencia aquí radica en que la
+                aplicación no varía su respuesta basada en booleanos lógicos, sino que en caso de provocar un error
+                sintáctico o matemático deliberado en SQL, la aplicación devolverá un error HTTP (por ejemplo 500).
+            </p>
         </div>
 
         <div class="section">
