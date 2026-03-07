@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PR02 - El eslabón más débil: Diseño ético de una campaña de ingeniería social</title>
+    <style>
+        :root {
+            --primary-yellow: #ffcc00;
+            --dark-bg: #1a1a1a;
+            --text-color: #333;
+            --light-gray: #f4f4f4;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            background-color: var(--light-gray);
+        }
+
+        header {
+            background-color: var(--dark-bg);
+            border-bottom: 5px solid var(--primary-yellow);
+            padding: 2rem 1rem;
+            text-align: left;
+        }
+
+        header h1 {
+            color: var(--primary-yellow);
+            margin: 0;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+        }
+
+        header p {
+            color: var(--white);
+            margin: 0.5rem 0 0;
+            font-weight: 300;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: var(--white);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            border-left: 5px solid var(--primary-yellow);
+            padding-left: 15px;
+            color: var(--dark-bg);
+            margin-top: 2rem;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            text-align: justify;
+        }
+
+        .summary-box {
+            background: #fff9e6;
+            padding: 1.5rem;
+            border-radius: 5px;
+            border: 1px solid var(--primary-yellow);
+            margin-bottom: 2rem;
+        }
+
+        .summary-box ul {
+            padding-left: 20px;
+        }
+
+        /* Estilo de la Tabla Técnica */
+        .table-container {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 800px;
+        }
+
+        th {
+            background-color: var(--dark-bg);
+            color: var(--primary-yellow);
+            padding: 12px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.85rem;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #fff4cc;
+        }
+
+        /* Referencias format Sesión 1 */
+        .references {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+            font-size: 0.85rem;
+        }
+
+        .references h3 {
+            font-size: 1.1rem;
+            color: #666;
+        }
+
+        .ref-item {
+            margin-bottom: 0.5rem;
+        }
+
+        .ref-item a {
+            color: #0066cc;
+            text-decoration: none;
+        }
+
+        .ref-item a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div style="max-width: 1000px; margin: auto;">
+            <h1>PR02: Gestión del Riesgo Humano</h1>
+            <p>Análisis Comparativo de Plataformas de Simulación de Phishing y Ética Digital</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <section id="resumen">
+            <h2>Resumen Ejecutivo de la Investigación</h2>
+            <div class="summary-box">
+                <p>La investigación analiza la evolución de la ciberseguridad hacia la <strong>Gestión del Riesgo Humano
+                        (HRM)</strong>, un paradigma que sustituye la capacitación estática por intervenciones dinámicas
+                    basadas en el comportamiento real del usuario.</p>
+                <ul>
+                    <li><strong>Cambio de Enfoque:</strong> Las plataformas modernas ya no solo buscan "cumplir un
+                        requisito", sino generar una respuesta defensiva automática (reflejo de reporte) ante
+                        amenazas.[1, 2]</li>
+                    <li><strong>Capacidades Técnicas:</strong> Se identificaron ocho líderes del mercado que utilizan IA
+                        generativa para personalizar simulaciones hiper-realistas que se adaptan al flujo de trabajo del
+                        empleado.[3, 4]</li>
+                    <li><strong>Métricas de Resiliencia:</strong> El éxito se mide mediante la Tasa de Reporte y la
+                        Velocidad de Detección, dejando atrás la simple Tasa de Clics como métrica principal.[1, 5]</li>
+                    <li><strong>Diseño Ético:</strong> Es fundamental evitar el uso de señuelos que exploten crisis
+                        personales o miedo extremo (ej. despidos o salud), priorizando el refuerzo positivo sobre la
+                        sanción.[6, 7]</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="tabla-comparativa">
+            <h2>Matriz Técnica Comparativa</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Plataforma</th>
+                            <th>Enfoque Pedagógico</th>
+                            <th>IA y Automatización</th>
+                            <th>Métricas Clave</th>
+                            <th>Fortaleza Distintiva</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>KnowBe4</strong></td>
+                            <td>Contenido masivo y cumplimiento [3]</td>
+                            <td>Agentes AIDA de personalización [8]</td>
+                            <td>Phish-prone % y tasas de finalización [3]</td>
+                            <td>Biblioteca de contenido más extensa del mercado [9]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Hoxhunt</strong></td>
+                            <td>Gamificación conductual automatizada [1]</td>
+                            <td>Adaptatividad individual total [10]</td>
+                            <td>Tasa de Reporte y Resiliencia [5]</td>
+                            <td>Mínima carga administrativa para equipos de TI [11]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Proofpoint</strong></td>
+                            <td>Inteligencia de amenazas real [12]</td>
+                            <td>Agente Satori con recomendaciones [13]</td>
+                            <td>User Risk Score (PRE) [14]</td>
+                            <td>Integración profunda con el stack de seguridad [15]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Cofense</strong></td>
+                            <td>Respuesta SOC y detección humana [16]</td>
+                            <td>IA para validación de reportes [17]</td>
+                            <td>Tiempo de remediación operativa [16]</td>
+                            <td>Eficiencia en la eliminación de amenazas reales [2]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Phished</strong></td>
+                            <td>IA Predictiva / Zero Incident [18]</td>
+                            <td>Generador de campañas autónomo [19]</td>
+                            <td>Behavioral Risk Score™ (BRS) [20]</td>
+                            <td>Entorno seguro de aprendizaje (ZIM) [21]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NINJIO</strong></td>
+                            <td>Storytelling psicológico [22]</td>
+                            <td>Algoritmo de riesgo emocional [23]</td>
+                            <td>Perfil de Susceptibilidad Emocional [24]</td>
+                            <td>Alta retención por narrativa cinematográfica [23]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Mimecast</strong></td>
+                            <td>Ecosistema nativo integrado [25]</td>
+                            <td>Sincronización con Gateway (SEG) [26]</td>
+                            <td>Puntaje de riesgo por usuario [25]</td>
+                            <td>Despliegue rápido para clientes del ecosistema [2]</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Infosec IQ</strong></td>
+                            <td>Alineación NIST e interactividad [27]</td>
+                            <td>Nudges basados en alertas de red [27]</td>
+                            <td>Cumplimiento normativo y clics [27]</td>
+                            <td>Versatilidad de recursos modulares [28]</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="conclusiones">
+            <h2>Conclusiones del Proyecto</h2>
+            <p>El diseño de una simulación ética debe equilibrar el realismo técnico con el respeto al bienestar del
+                empleado. Al integrar un sistema de puntuación individual y global, las organizaciones pueden
+                identificar brechas específicas sin estigmatizar al usuario. La transición hacia el HRM permite que el
+                "eslabón más débil" se convierta en el sensor más valioso de la infraestructura de ciberseguridad.[29,
+                9]</p>
+        </section>
+
+        <div class="references">
+            <h3>Referencias Bibliográficas</h3>
+            <div class="ref-item">[29] Infosec Institute, "Human Risk Management Framework,"
+                https://www.infosecinstitute.com/iq/human-risk-management/</div>
+            <div class="ref-item">[30] Hoxhunt, "Phishing Simulation Best Practices,"
+                https://hoxhunt.com/blog/phishing-simulation-best-practices</div>
+            <div class="ref-item">[21] Phished.io, "Behavioral Risk Score™ Methodology,"
+                https://phished.io/phished-academy</div>
+            <div class="ref-item">[18] KnowBe4, "Strategic Framework for Human Risk Management,"
+                https://www.knowbe4.com/hubfs/Strategic%20Framework%20for%20Human%20Risk%20Management-1.pdf</div>
+            <div class="ref-item">[9] NINJIO, "Emotional Susceptibility Profile,"
+                https://ninjio.com/emotional-susceptibility-profile/</div>
+            <div class="ref-item">[26] Proofpoint, "ZenGuide and Human Risk Management,"
+                https://www.proofpoint.com/us/blog/security-awareness-training/how-zenguide-elevates-human-risk-management
+            </div>
+            <div class="ref-item">[1] Cofense, "PhishMe Security Awareness Training,"
+                https://cofense.com/phishme-security-awareness-training-(sat)-platform</div>
+        </div>
+    </div>
+
+</body>
+
+</html>
