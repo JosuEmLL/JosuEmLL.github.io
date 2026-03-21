@@ -292,7 +292,7 @@
     </div>
 
     <!-- Pantalla de Inicio -->
-    <div id="welcome-screen" class="section active">
+    <div id="welcome-screen" class="section active" style="display: block;">
         <h2 style="text-align: center;">Bienvenido al entrenamiento anti-phishing</h2>
         <p style="text-align: center;">En este quiz te presentaremos 10 correos electrónicos reales o simulados. Tu objetivo es decidir cuáles son intentos de phishing y cuáles son legítimos. Presta mucha atención a los detalles (remitente, enlaces, tono).</p>
         <p style="text-align: center; color: #dc2626; font-weight: bold;">Pista: En este simulador, puedes pasar el ratón (hover) sobre los enlaces azules para inspeccionar la URL real sin hacer clic.</p>
@@ -306,7 +306,7 @@
     </div>
 
     <!-- Contenedor del Quiz -->
-    <div id="quiz-container" class="section">
+    <div id="quiz-container" class="section" style="display: none;">
         <div class="case-counter">Caso <span id="current-case">1</span> de 10</div>
         
         <div class="email-mockup">
@@ -340,7 +340,7 @@
     </div>
 
     <!-- Pantalla de Resultados -->
-    <div id="results-screen" class="section">
+    <div id="results-screen" class="section" style="display: none;">
         <h2 style="text-align: center;">Resultados Finales</h2>
         <p style="text-align: center; font-size: 20px;">Participante: <strong id="result-name"></strong></p>
         <p style="text-align: center; font-size: 24px;">Puntuación: <strong id="result-score">0</strong> / 10</p>
@@ -502,7 +502,9 @@
                 return;
             }
             userName = nameInput;
+            document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('welcome-screen').classList.remove('active');
+            document.getElementById('quiz-container').style.display = 'block';
             document.getElementById('quiz-container').classList.add('active');
             loadCase(currentCaseIdx);
         }
@@ -562,8 +564,10 @@
         }
 
         function showResults() {
+            document.getElementById('quiz-container').style.display = 'none';
             document.getElementById('quiz-container').classList.remove('active');
             document.getElementById('feedback-overlay').classList.remove('show');
+            document.getElementById('results-screen').style.display = 'block';
             document.getElementById('results-screen').classList.add('active');
             
             document.getElementById('result-name').innerText = userName;
@@ -588,7 +592,9 @@
             score = 0;
             userName = '';
             document.getElementById('user-name').value = '';
+            document.getElementById('results-screen').style.display = 'none';
             document.getElementById('results-screen').classList.remove('active');
+            document.getElementById('welcome-screen').style.display = 'block';
             document.getElementById('welcome-screen').classList.add('active');
         }
     </script>
