@@ -56,15 +56,15 @@
             transition: all 0.3s ease;
         }
 
-        .welcome-screen,
-        .quiz-container,
-        .results-screen {
+        #welcome-screen,
+        #quiz-container,
+        #results-screen {
             display: none;
             animation: fadeIn 0.5s ease-in-out;
         }
 
         .active {
-            display: block;
+            display: block !important;
         }
 
         @keyframes fadeIn {
@@ -346,7 +346,7 @@
         <p style="text-align: center; font-size: 24px;">Puntuación: <strong id="result-score">0</strong> / 10</p>
         <p id="result-message" style="text-align: center; margin-top: 20px; font-weight: bold;"></p>
         <div style="text-align: center; margin-top: 30px;">
-            <button class="btn" onclick="location.reload()">Volver a intentar</button>
+            <button class="btn" onclick="resetQuiz()">Volver a intentar</button>
         </div>
     </div>
 
@@ -581,6 +581,15 @@
             }
 
             document.getElementById('result-message').innerText = msg;
+        }
+
+        function resetQuiz() {
+            currentCaseIdx = 0;
+            score = 0;
+            userName = '';
+            document.getElementById('user-name').value = '';
+            document.getElementById('results-screen').classList.remove('active');
+            document.getElementById('welcome-screen').classList.add('active');
         }
     </script>
 </body>
