@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PR02 - Quiz de Detección de Phishing</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #ffffff;
+        }
+
+        .wrap {
+            min-height: 10vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 12px 20px;
+            box-sizing: border-box;
+        }
+
+        .panel {
+            width: 90%;
+            max-width: 1000px;
+            background: #1a0713;
+            color: #fff;
+            padding: 36px;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(17, 3, 17, 0.12);
+            text-align: center;
+        }
+
+        .panel h1 {
+            margin: 0;
+            font-size: 28px;
+            letter-spacing: 1px;
+        }
+
+        .panel p {
+            margin: 8px 0 0;
+            font-size: 18px;
+        }
+
+        .section {
+            width: 90%;
+            max-width: 1000px;
+            margin: 24px auto;
+            padding: 20px;
+            background: #f4f6f8;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .welcome-screen,
+        .quiz-container,
+        .results-screen {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .input-group {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .input-group input {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 80%;
+            max-width: 300px;
+        }
+
+        .btn {
+            background-color: #2563eb;
+            color: white;
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #1e40af;
+        }
+
+        .btn-phishing {
+            background-color: #dc2626;
+        }
+
+        .btn-phishing:hover {
+            background-color: #b91c1c;
+        }
+
+        .btn-legit {
+            background-color: #16a34a;
+        }
+
+        .btn-legit:hover {
+            background-color: #15803d;
+        }
+
+        .email-mockup {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            overflow: hidden;
+            text-align: left;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .email-header {
+            padding: 16px;
+            border-bottom: 1px solid #e5e7eb;
+            background: #f9fafb;
+        }
+
+        .email-sender {
+            font-weight: bold;
+            font-size: 16px;
+            color: #111827;
+        }
+
+        .email-address {
+            color: #6b7280;
+            font-size: 14px;
+            margin-left: 8px;
+        }
+
+        .email-details {
+            display: none;
+            margin-top: 10px;
+            font-size: 13px;
+            color: #4b5563;
+        }
+
+        .show-details {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .toggle-details {
+            font-size: 12px;
+            color: #2563eb;
+            cursor: pointer;
+            margin-top: 4px;
+            display: inline-block;
+        }
+
+        .toggle-details:hover {
+            text-decoration: underline;
+        }
+
+        .email-subject {
+            font-size: 20px;
+            font-weight: 600;
+            padding: 16px 16px 0;
+        }
+
+        .email-body {
+            padding: 16px;
+            color: #374151;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        .email-body a {
+            color: #2563eb;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .email-body a:hover::after {
+            content: attr(data-real-url);
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            background: #1f2937;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            white-space: nowrap;
+            z-index: 10;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .email-attachment {
+            margin-top: 20px;
+            display: inline-block;
+            padding: 10px 16px;
+            border: 1px solid #e5e7eb;
+            border-radius: 4px;
+            background: #f9fafb;
+            color: #374151;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .email-attachment::before {
+            content: "📎 ";
+        }
+
+        .feedback-overlay {
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+            padding: 24px;
+            box-sizing: border-box;
+            transition: bottom 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .feedback-overlay.show {
+            bottom: 0;
+        }
+
+        .feedback-title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .feedback-correct {
+            color: #16a34a;
+        }
+
+        .feedback-incorrect {
+            color: #dc2626;
+        }
+
+        .feedback-desc {
+            font-size: 16px;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            color: #374151;
+            line-height: 1.5;
+        }
+
+        .case-counter {
+            text-align: center;
+            color: #6b7280;
+            font-weight: bold;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="panel">
+            <h1>PR02 - ¿Puedes detectar el Phishing?</h1>
+            <p>Descubre qué tan hábil eres identificando correos fraudulentos.</p>
+        </div>
+    </div>
+
+    <!-- Pantalla de Inicio -->
+    <div id="welcome-screen" class="section active">
+        <h2 style="text-align: center;">Bienvenido al entrenamiento anti-phishing</h2>
+        <p style="text-align: center;">En este quiz te presentaremos 10 correos electrónicos reales o simulados. Tu objetivo es decidir cuáles son intentos de phishing y cuáles son legítimos. Presta mucha atención a los detalles (remitente, enlaces, tono).</p>
+        <p style="text-align: center; color: #dc2626; font-weight: bold;">Pista: En este simulador, puedes pasar el ratón (hover) sobre los enlaces azules para inspeccionar la URL real sin hacer clic.</p>
+        
+        <div class="input-group">
+            <input type="text" id="user-name" placeholder="Ingresa tu nombre para comenzar">
+        </div>
+        <div style="text-align: center;">
+            <button class="btn" onclick="startQuiz()">Comenzar Quiz</button>
+        </div>
+    </div>
+
+    <!-- Contenedor del Quiz -->
+    <div id="quiz-container" class="section">
+        <div class="case-counter">Caso <span id="current-case">1</span> de 10</div>
+        
+        <div class="email-mockup">
+            <div class="email-header">
+                <div>
+                    <span class="email-sender" id="e-sender-name">Google Docs</span>
+                    <span class="email-address" id="e-sender-email">&lt;invites@googledocs.com&gt;</span>
+                </div>
+                <div class="toggle-details" onclick="toggleEmailDetails()">Mostrar detalles</div>
+                <div class="email-details" id="e-details">
+                    <div><strong>Para:</strong> <span id="e-to">usuario@empresa.com</span></div>
+                    <div><strong>Fecha:</strong> Hoy, 10:43 AM</div>
+                    <div><strong>Responder a:</strong> <span id="e-reply">invites@googledocs.com</span></div>
+                </div>
+            </div>
+            <div class="email-subject" id="e-subject">Documento compartido contigo: "Reporte Financiero Q3"</div>
+            <div class="email-body" id="e-body">
+                <p>Hola,</p>
+                <p>Alguien te ha invitado a ver el siguiente documento:</p>
+                <div style="margin: 20px 0; text-align: center;">
+                    <a href="#" data-real-url="http://drive-google.com/doc/id=123" style="display: inline-block; padding: 10px 20px; background: #2563eb; color: white; border-radius: 4px; text-decoration: none;">Abrir documento</a>
+                </div>
+                <p>Google Docs: Crea y edita documentos en línea de forma gratuita.</p>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-phishing" onclick="submitAnswer('phishing')">Es Phishing</button>
+            <button class="btn btn-legit" onclick="submitAnswer('legit')">Es Legítimo</button>
+        </div>
+    </div>
+
+    <!-- Pantalla de Resultados -->
+    <div id="results-screen" class="section">
+        <h2 style="text-align: center;">Resultados Finales</h2>
+        <p style="text-align: center; font-size: 20px;">Participante: <strong id="result-name"></strong></p>
+        <p style="text-align: center; font-size: 24px;">Puntuación: <strong id="result-score">0</strong> / 10</p>
+        <p id="result-message" style="text-align: center; margin-top: 20px; font-weight: bold;"></p>
+        <div style="text-align: center; margin-top: 30px;">
+            <button class="btn" onclick="location.reload()">Volver a intentar</button>
+        </div>
+    </div>
+
+    <!-- Overlay de Feedback -->
+    <div id="feedback-overlay" class="feedback-overlay">
+        <div class="feedback-title" id="f-title">¡Correcto!</div>
+        <div class="feedback-desc" id="f-desc">El dominio en el enlace no corresponde a Google. Utilizan "drive-google.com" en lugar de "google.com".</div>
+        <button class="btn" onclick="nextCase()">Siguiente correo</button>
+    </div>
+
+    <script>
+        const cases = [
+            {
+                type: 'phishing',
+                senderName: 'Google Docs',
+                senderEmail: '&lt;drive-shares-noreply@g00gle.com&gt;',
+                to: 'usuario@empresa.com',
+                replyTo: 'drive-shares-noreply@g00gle.com',
+                subject: 'Documento urgente compartido contigo',
+                body: `<p>Hola,</p>
+                       <p>Tu administrador ha compartido un documento importante contigo que requiere tu atención inmediata.</p>
+                       <div style="margin: 20px 0;">
+                           <a href="#" data-real-url="http://docs.g00gle.com/secure-login?id=8472" style="display: inline-block; padding: 10px 20px; background: #2563eb; color: white; border-radius: 4px; text-decoration: none;">Ver Documento</a>
+                       </div>`,
+                explanation: 'Esto es phishing. Observa la dirección del remitente y la URL del enlace: utilizan "g00gle.com" (con ceros) en lugar de "google.com". Esto es un ataque clásico de suplantación visual (Typosquatting).'
+            },
+            {
+                type: 'legit',
+                senderName: 'Dropbox',
+                senderEmail: '&lt;no-reply@dropbox.com&gt;',
+                to: 'usuario@empresa.com',
+                replyTo: 'no-reply@dropbox.com',
+                subject: 'Restablecimiento de contraseña de Dropbox',
+                body: `<p>Hola,</p>
+                       <p>Recientemente solicitaste restablecer tu contraseña para tu cuenta de Dropbox. Haz clic en el siguiente enlace para elegir una nueva contraseña:</p>
+                       <p><a href="#" data-real-url="https://www.dropbox.com/account/reset/9a8b7c6d">Restablecer contraseña</a></p>
+                       <p>Si no realizaste esta solicitud, puedes ignorar este correo de forma segura.</p>`,
+                explanation: 'Esto es legítimo. El dominio del remitente (dropbox.com) es correcto, y más importante aún, el enlace dirige a una conexión segura (https) en el dominio oficial "www.dropbox.com".'
+            },
+            {
+                type: 'phishing',
+                senderName: 'Departamento de Recursos Humanos',
+                senderEmail: '&lt;hr@empresa.com.actualizaciones.net&gt;',
+                to: 'empleados@empresa.com',
+                replyTo: 'hr@empresa.com.actualizaciones.net',
+                subject: 'ACCIÓN REQUERIDA: Actualización de Política de Vacaciones 2026',
+                body: `<p>Estimado empleado,</p>
+                       <p>A partir del 1 de abril, las nuevas políticas de vacaciones entrarán en vigor. Todos los empleados deben iniciar sesión en el portal de RRHH para aceptar los nuevos términos, de lo contrario sus días acumulados expirarán.</p>
+                       <p><a href="#" data-real-url="http://portal-rrhh.actualizaciones.net/login">Portal de RRHH - Iniciar Sesión aquí</a></p>
+                       <p>Atentamente,<br>Departamento de Recursos Humanos</p>`,
+                explanation: 'Esto es phishing. Crean urgencia (amenazando con que los días expirarán). El dominio es engañoso: "empresa.com.actualizaciones.net" en realidad pertenece a "actualizaciones.net", no a tu empresa.'
+            },
+            {
+                type: 'phishing',
+                senderName: 'Soporte Técnico Microsoft',
+                senderEmail: '&lt;admin@it-support-desk.net&gt;',
+                to: 'usuario@empresa.com',
+                replyTo: 'admin@it-support-desk.net',
+                subject: 'Alerta de Seguridad: Actividad de inicio de sesión inusual',
+                body: `<p>Hemos detectado intentos repetidos de inicio de sesión desde una dirección IP no reconocida (Rusia).</p>
+                       <p>Para proteger tu cuenta, hemos restringido temporalmente tus accesos.</p>
+                       <p>Por favor, descarga y revisa el informe de actividad adjunto y responde a este correo con tu contraseña actual para verificar que eres el titular legítimo.</p>
+                       <div class="email-attachment">Reporte_Seguridad_Marzo.pdf.exe</div>`,
+                explanation: 'Esto es phishing. Ningún equipo de soporte legítimo te pedirá que respondas con tu contraseña. Además, el archivo adjunto tiene doble extensión (.pdf.exe), lo que indica que es un ejecutable malicioso, no un documento PDF.'
+            },
+            {
+                type: 'legit',
+                senderName: 'Alertas de Seguridad de Google',
+                senderEmail: '&lt;no-reply@accounts.google.com&gt;',
+                to: 'usuario@empresa.com',
+                replyTo: 'no-reply@accounts.google.com',
+                subject: 'Nuevo inicio de sesión en Mac',
+                body: `<p>Tu cuenta de Google acaba de utilizarse para iniciar sesión en un dispositivo nuevo (Mac OS).</p>
+                       <p>Si fuiste tú, no tienes que hacer nada. Si no fuiste tú, te ayudaremos a proteger tu cuenta.</p>
+                       <p><a href="#" data-real-url="https://myaccount.google.com/security-checkup">Comprobar actividad</a></p>`,
+                explanation: 'Esto es legítimo. Es una alerta genuina. El remitente es "accounts.google.com" (el dominio oficial) y el enlace apunta al subdominio legítimo "myaccount.google.com".'
+            },
+            {
+                type: 'phishing',
+                senderName: 'PayPal',
+                senderEmail: '&lt;service@paypaI.com&gt;',
+                to: 'usuario@correo.com',
+                replyTo: 'service@paypaI.com',
+                subject: 'Tu cuenta ha sido limitada',
+                body: `<p>Estimado cliente,</p>
+                       <p>Nos hemos percatado de algunas actividades inusuales en tu cuenta bancaria asociada. Por su seguridad, hemos limitado el acceso a su cuenta de PayPal.</p>
+                       <p>Por favor, actualice su información de facturación inmediatamente para restaurar su cuenta.</p>
+                       <p><a href="#" data-real-url="http://www.paypaI.com/update-billing">Actualizar Detalles Aquí</a></p>`,
+                explanation: 'Esto es phishing. A simple vista parece PayPal, pero fíjate bien en la I mayúscula en "paypaI". Además, el enlace no usa HTTPS, lo cual los bancos reales siempre utilizan.'
+            },
+            {
+                type: 'phishing',
+                senderName: 'Director General (CEO)',
+                senderEmail: '&lt;ceo.buzon12@gmail.com&gt;',
+                to: 'usuario@empresa.com',
+                replyTo: 'ceo.buzon12@gmail.com',
+                subject: 'Favor urgente',
+                body: `<p>Hola,</p>
+                       <p>Estoy en una reunión con clientes todo el día y no puedo usar el teléfono. Necesito un favor urgente.</p>
+                       <p>¿Puedes comprar 5 tarjetas de regalo de Apple de $100 cada una y enviarme los códigos por aquí? Te reembolsaré el dinero al final del día. Es para incentivar a los clientes hoy.</p>
+                       <p>Cuento contigo.</p>`,
+                explanation: 'Esto es phishing (tipo CEO Fraud / BEC). Piden métodos de pago imposibles de rastrear (tarjetas de regalo), invocan sentido de urgencia y el correo proveniene de un correo gratuito de Gmail, no del corporativo.'
+            },
+            {
+                type: 'legit',
+                senderName: 'GitHub',
+                senderEmail: '&lt;noreply@github.com&gt;',
+                to: 'usuario@empresa.com',
+                replyTo: 'noreply@github.com',
+                subject: '[GitHub] Please verify your device',
+                body: `<p>Hey there,</p>
+                       <p>A sign in attempt requires further verification because we did not recognize your device. To complete the sign in, enter the verification code on the unrecognized device.</p>
+                       <p>Device: Chrome on Windows<br>Verification code: <strong>492817</strong></p>
+                       <p>If you did not attempt to sign in to your account, your password may be compromised. <a href="#" data-real-url="https://github.com/settings/security">Visit GitHub to change your password.</a></p>`,
+                explanation: 'Esto es legítimo. El correo proviene del dominio real de github.com, te proveen el código directamente en el correo en lugar de un enlace para obtenerlo, y el enlace de seguridad dirige a "https://github.com".'
+            },
+            {
+                type: 'phishing',
+                senderName: 'Agencia de Envíos Express',
+                senderEmail: '&lt;notificaciones@envios-express.com&gt;',
+                to: 'usuario@empresa.com',
+                replyTo: 'notificaciones@envios-express.com',
+                subject: 'Tu paquete no pudo ser entregado (Intento 2/3)',
+                body: `<p>Estimado cliente,</p>
+                       <p>Nuestro repartidor intentó entregar su paquete hoy pero no había nadie que pudiese firmar de recibido. Por favor, programe una nueva fecha de entrega pagando la tarifa de re-envío aduanal (1.50 USD).</p>
+                       <p><a href="#" data-real-url="http://pagos-aduanales.tarjetas-verificacion.net/trackID=9482">Pagar tarifa y reprogramar</a></p>
+                       <p>Si no recibimos confirmación en 24 horas, el paquete será devuelto al país de origen.</p>`,
+                explanation: 'Esto es phishing. Juegan con el interés genérico de recibir un paquete. Piden una cantidad pequeña (1.50$) no por el dinero, sino para capturar los datos de tu tarjeta de crédito que introducirás en el enlace falso.'
+            },
+            {
+                type: 'legit',
+                senderName: 'Slack',
+                senderEmail: '&lt;feedback@slack.com&gt;',
+                to: 'usuario@empresa.com',
+                replyTo: 'feedback@slack.com',
+                subject: '¿Cómo fue tu reciente contacto con Soporte de Slack?',
+                body: `<p>Hola,</p>
+                       <p>Esperamos que tu problema se haya resuelto satisfactoriamente. Nos encantaría saber de tu experiencia para seguir mejorando.</p>
+                       <p>¿Podrías dedicar 1 minuto a responder esta encuesta?</p>
+                       <p><a href="#" data-real-url="https://slack.com/survey/dsf983nf">Tomar encuesta</a></p>`,
+                explanation: 'Esto es legítimo. El dominio es el original slack.com, todo coincide y no solicitan datos confidenciales, ni provocan urgencia o miedo perjudicial, sólo piden retroalimentación en un enlace oficial.'
+            }
+        ];
+
+        let currentCaseIdx = 0;
+        let score = 0;
+        let userName = '';
+
+        function startQuiz() {
+            const nameInput = document.getElementById('user-name').value.trim();
+            if(!nameInput) {
+                alert('Por favor ingresa tu nombre');
+                return;
+            }
+            userName = nameInput;
+            document.getElementById('welcome-screen').classList.remove('active');
+            document.getElementById('quiz-container').classList.add('active');
+            loadCase(currentCaseIdx);
+        }
+
+        function loadCase(idx) {
+            const c = cases[idx];
+            document.getElementById('current-case').innerText = idx + 1;
+            document.getElementById('e-sender-name').innerText = c.senderName;
+            document.getElementById('e-sender-email').innerHTML = c.senderEmail;
+            document.getElementById('e-to').innerText = c.to;
+            document.getElementById('e-reply').innerText = c.replyTo;
+            document.getElementById('e-subject').innerText = c.subject;
+            document.getElementById('e-body').innerHTML = c.body;
+
+            // hide feedback
+            document.getElementById('feedback-overlay').classList.remove('show');
+            document.getElementById('e-details').classList.remove('show-details');
+        }
+
+        function toggleEmailDetails() {
+            const details = document.getElementById('e-details');
+            details.classList.toggle('show-details');
+        }
+
+        function submitAnswer(guessedType) {
+            const c = cases[currentCaseIdx];
+            const isCorrect = (guessedType === c.type);
+            
+            if (isCorrect) score++;
+
+            showFeedback(isCorrect, c);
+        }
+
+        function showFeedback(isCorrect, c) {
+            const titleEl = document.getElementById('f-title');
+            const descEl = document.getElementById('f-desc');
+
+            if (isCorrect) {
+                titleEl.textContent = '¡Correcto!';
+                titleEl.className = 'feedback-title feedback-correct';
+            } else {
+                titleEl.textContent = '¡Incorrecto!';
+                titleEl.className = 'feedback-title feedback-incorrect';
+            }
+
+            descEl.textContent = c.explanation;
+            document.getElementById('feedback-overlay').classList.add('show');
+        }
+
+        function nextCase() {
+            currentCaseIdx++;
+            if (currentCaseIdx < cases.length) {
+                loadCase(currentCaseIdx);
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            document.getElementById('quiz-container').classList.remove('active');
+            document.getElementById('feedback-overlay').classList.remove('show');
+            document.getElementById('results-screen').classList.add('active');
+            
+            document.getElementById('result-name').innerText = userName;
+            document.getElementById('result-score').innerText = score;
+
+            let msg = '';
+            if (score === 10) {
+                msg = '¡Increíble! Eres un experto en ciberseguridad. Ningún ataque te tomará por sorpresa.';
+            } else if (score >= 7) {
+                msg = '¡Buen trabajo! Tienes buen ojo para detectar amenazas, pero mantente siempre alerta.';
+            } else if (score >= 4) {
+                msg = 'Te falta práctica. Estás en riesgo de caer en trampas de ingeniería social. Recuerda revisar URLs y remitentes.';
+            } else {
+                msg = 'Cuidado. Eres altamente vulnerable al phishing. Evita abrir enlaces de correos antes de verificar su legitimidad.';
+            }
+
+            document.getElementById('result-message').innerText = msg;
+        }
+    </script>
+</body>
+
+</html>
