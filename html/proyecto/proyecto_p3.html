@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PR03 - Scoreboard de Phishing</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #ffffff;
+            color: #333;
+        }
+
+        .wrap {
+            min-height: 15vh;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .header-panel {
+            width: 90%;
+            max-width: 1000px;
+            background: #1a0713;
+            color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 6px 18px rgba(17, 3, 17, 0.12);
+            text-align: center;
+        }
+
+        .header-panel h1 {
+            margin: 0;
+            font-size: 32px;
+            letter-spacing: 1px;
+        }
+
+        .header-panel p {
+            margin: 10px 0 0;
+            font-size: 18px;
+            color: #e5e7eb;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* Stats Section */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: #f4f6f8;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.2s;
+            border-top: 4px solid #2563eb;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .stat-card h3 {
+            margin: 0 0 10px;
+            font-size: 16px;
+            color: #4b5563;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .stat-subtext {
+            font-size: 14px;
+            color: #6b7280;
+            margin-top: 8px;
+        }
+
+        /* Scoreboard Table */
+        .table-container {
+            background: #f4f6f8;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .table-container h2 {
+            margin: 0 0 20px 0;
+            font-size: 24px;
+            color: #1f2937;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        thead {
+            background-color: #e5e7eb;
+        }
+
+        th,
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #d1d5db;
+        }
+
+        th {
+            font-weight: bold;
+            color: #374151;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        tbody tr:hover {
+            background-color: #f9fafb;
+        }
+
+        .rank-1 td {
+            background-color: #fef08a !important;
+            font-weight: bold;
+        }
+
+        .rank-2 td {
+            background-color: #e5e7eb !important;
+            font-weight: bold;
+        }
+
+        .rank-3 td {
+            background-color: #fed7aa !important;
+            font-weight: bold;
+        }
+
+        /* Loading / Error state */
+        .message-box {
+            text-align: center;
+            padding: 40px;
+            font-size: 18px;
+            color: #4b5563;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #2563eb;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 16px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .badge {
+            background: #111827;
+            color: #fff;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="header-panel">
+            <h1>PR03 - Scoreboard Anti-Phishing</h1>
+            <p>Estadísticas y puntuaciones obtenidas del simulador de phishing</p>
+        </div>
+    </div>
+
+    <div class="container" id="main-content">
+        <div class="message-box" id="loading-state">
+            <div class="spinner"></div>
+            Cargando estadísticas...
+        </div>
+    </div>
+
+    <script>
+        // ----- CONFIGURACIÓN DE LA API (Debe ser la misma que en PR02) -----
+        const API_KEY = '$2a$10$J8VeuLAELoGk97msN9Ua6OZN.r5hnXWYVs0GoDGBZmtKzbHgd7WO6'; // Reemplaza con tu X-Access-Key
+        const BIN_ID = '69c2c217b7ec241ddc9c00d5';   // Reemplaza con tu Bin ID
+        // -------------------------------------------------------------------
+
+        document.addEventListener('DOMContentLoaded', fetchScores);
+
+        async function fetchScores() {
+            const container = document.getElementById('main-content');
+
+            if (!API_KEY || !BIN_ID || API_KEY.includes('TU_API')) {
+                container.innerHTML = `
+                    <div class="message-box" style="color:#dc2626;">
+                        <strong>⚠️ Configuración incompleta</strong><br>
+                        Debes configurar tu API_KEY y BIN_ID de JSONBin.io en el código fuente de este archivo para poder leer los datos.
+                    </div>`;
+                return;
+            }
+
+            try {
+                const response = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                    headers: { 'X-Access-Key': API_KEY }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error en la solicitud: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const records = Array.isArray(data.record) ? data.record : [];
+
+                if (records.length === 0) {
+                    container.innerHTML = `
+                        <div class="message-box">
+                            No hay registros todavía. Ve al simulador (PR02) y registra una puntuación.
+                        </div>`;
+                    return;
+                }
+
+                renderDashboard(records);
+
+            } catch (error) {
+                console.error("Error al obtener datos:", error);
+                container.innerHTML = `
+                    <div class="message-box" style="color:#dc2626;">
+                        <strong>Error de conexión</strong><br>
+                        No se pudieron cargar los datos de la API. Verifica el BIN_ID y la API_KEY.
+                    </div>`;
+            }
+        }
+
+        function renderDashboard(records) {
+            // 1. Calcular Estadísticas Globales
+            let totalScores = 0;
+            let totalTimeAllPlayers = 0;
+            const casesTimesSum = Array(10).fill(0);
+            const casesCount = Array(10).fill(0);
+
+            records.forEach(r => {
+                totalScores += parseInt(r.score) || 0;
+                totalTimeAllPlayers += parseFloat(r.totalTime) || 0;
+
+                if (Array.isArray(r.questionTimes)) {
+                    r.questionTimes.forEach((time, index) => {
+                        casesTimesSum[index] += parseFloat(time) || 0;
+                        casesCount[index]++;
+                    });
+                }
+            });
+
+            const numPlayers = records.length;
+            const avgScore = (totalScores / numPlayers).toFixed(1);
+            const avgTime = (totalTimeAllPlayers / numPlayers).toFixed(1);
+
+            // Calcular el problema que demoró más
+            let maxAvgTime = 0;
+            let hardestCaseIdx = -1;
+            casesTimesSum.forEach((totalTime, idx) => {
+                if (casesCount[idx] > 0) {
+                    const avgCaseTime = totalTime / casesCount[idx];
+                    if (avgCaseTime > maxAvgTime) {
+                        maxAvgTime = avgCaseTime;
+                        hardestCaseIdx = idx;
+                    }
+                }
+            });
+
+            // 2. Ordenar records (Mayor Puntuación, y en caso de empate, Menor Tiempo)
+            records.sort((a, b) => {
+                const scoreDiff = b.score - a.score;
+                if (scoreDiff !== 0) return scoreDiff;
+
+                const timeA = parseFloat(a.totalTime) || Infinity;
+                const timeB = parseFloat(b.totalTime) || Infinity;
+                return timeA - timeB;
+            });
+
+            // 3. Renderizar Contenedor Principal
+            const container = document.getElementById('main-content');
+            container.innerHTML = `
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card" style="border-color: #10b981;">
+                        <h3>Promedio Calificaciones</h3>
+                        <div class="stat-value">${avgScore} / 10</div>
+                        <div class="stat-subtext">De ${numPlayers} jugador(es)</div>
+                    </div>
+                    <div class="stat-card" style="border-color: #3b82f6;">
+                        <h3>Tiempo Medio General</h3>
+                        <div class="stat-value">${avgTime}s</div>
+                        <div class="stat-subtext">Tiempo promedio para terminar</div>
+                    </div>
+                    <div class="stat-card" style="border-color: #ef4444;">
+                        <h3>Dilema Más Complejo</h3>
+                        <div class="stat-value">Caso #${hardestCaseIdx + 1}</div>
+                        <div class="stat-subtext">Con un promedio de ${maxAvgTime.toFixed(1)}s por jugador</div>
+                    </div>
+                </div>
+
+                <!-- Tabla de Clasificación -->
+                <div class="table-container">
+                    <h2>Tabla de Clasificación General</h2>
+                    <table id="scoreboard-table">
+                        <thead>
+                            <tr>
+                                <th>Top</th>
+                                <th>Nombre de Jugador</th>
+                                <th>Puntuación</th>
+                                <th>Tiempo Total</th>
+                                <th>Fecha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${records.map((r, index) => {
+                let rowClass = "";
+                let badge = index + 1;
+                if (index === 0) { rowClass = "rank-1"; badge = "🥇 1"; }
+                else if (index === 1) { rowClass = "rank-2"; badge = "🥈 2"; }
+                else if (index === 2) { rowClass = "rank-3"; badge = "🥉 3"; }
+
+                const fecha = r.date ? new Date(r.date).toLocaleDateString() : 'N/A';
+                const scoreColor = r.score >= 7 ? '#10b981' : (r.score >= 4 ? '#f59e0b' : '#ef4444');
+
+                return `
+                                    <tr class="${rowClass}">
+                                        <td><span class="badge" style="background: ${index > 2 ? '#6b7280' : 'transparent'}; color: ${index > 2 ? '#fff' : '#111827'};">${badge}</span></td>
+                                        <td><strong>${escapeHTML(r.name)}</strong></td>
+                                        <td><span style="color:${scoreColor}; font-weight:bold;">${r.score} / 10</span></td>
+                                        <td>${parseFloat(r.totalTime || 0).toFixed(1)} seg</td>
+                                        <td style="color:#6b7280; font-size:14px;">${fecha}</td>
+                                    </tr>
+                                `;
+            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        // Utilidad para evitar XSS
+        function escapeHTML(str) {
+            return String(str)
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+
+</html>

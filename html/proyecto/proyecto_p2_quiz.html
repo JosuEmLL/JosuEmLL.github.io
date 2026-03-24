@@ -207,7 +207,7 @@
             font-size: 12px;
             white-space: nowrap;
             z-index: 10;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         .email-attachment {
@@ -294,9 +294,12 @@
     <!-- Pantalla de Inicio -->
     <div id="welcome-screen" class="section active" style="display: block;">
         <h2 style="text-align: center;">Bienvenido al entrenamiento anti-phishing</h2>
-        <p style="text-align: center;">En este quiz te presentaremos 10 correos electrónicos reales o simulados. Tu objetivo es decidir cuáles son intentos de phishing y cuáles son legítimos. Presta mucha atención a los detalles (remitente, enlaces, tono).</p>
-        <p style="text-align: center; color: #dc2626; font-weight: bold;">Pista: En este simulador, puedes pasar el ratón (hover) sobre los enlaces azules para inspeccionar la URL real sin hacer clic.</p>
-        
+        <p style="text-align: center;">En este quiz te presentaremos 10 correos electrónicos reales o simulados. Tu
+            objetivo es decidir cuáles son intentos de phishing y cuáles son legítimos. Presta mucha atención a los
+            detalles (remitente, enlaces, tono).</p>
+        <p style="text-align: center; color: #dc2626; font-weight: bold;">Pista: En este simulador, puedes pasar el
+            ratón (hover) sobre los enlaces azules para inspeccionar la URL real sin hacer clic.</p>
+
         <div class="input-group">
             <input type="text" id="user-name" placeholder="Ingresa tu nombre para comenzar">
         </div>
@@ -308,7 +311,7 @@
     <!-- Contenedor del Quiz -->
     <div id="quiz-container" class="section" style="display: none;">
         <div class="case-counter">Caso <span id="current-case">1</span> de 10</div>
-        
+
         <div class="email-mockup">
             <div class="email-header">
                 <div>
@@ -327,7 +330,9 @@
                 <p>Hola,</p>
                 <p>Alguien te ha invitado a ver el siguiente documento:</p>
                 <div style="margin: 20px 0; text-align: center;">
-                    <a href="#" data-real-url="http://drive-google.com/doc/id=123" style="display: inline-block; padding: 10px 20px; background: #2563eb; color: white; border-radius: 4px; text-decoration: none;">Abrir documento</a>
+                    <a href="#" data-real-url="http://drive-google.com/doc/id=123"
+                        style="display: inline-block; padding: 10px 20px; background: #2563eb; color: white; border-radius: 4px; text-decoration: none;">Abrir
+                        documento</a>
                 </div>
                 <p>Google Docs: Crea y edita documentos en línea de forma gratuita.</p>
             </div>
@@ -353,7 +358,8 @@
     <!-- Overlay de Feedback -->
     <div id="feedback-overlay" class="feedback-overlay">
         <div class="feedback-title" id="f-title">¡Correcto!</div>
-        <div class="feedback-desc" id="f-desc">El dominio en el enlace no corresponde a Google. Utilizan "drive-google.com" en lugar de "google.com".</div>
+        <div class="feedback-desc" id="f-desc">El dominio en el enlace no corresponde a Google. Utilizan
+            "drive-google.com" en lugar de "google.com".</div>
         <button class="btn" onclick="nextCase()">Siguiente correo</button>
     </div>
 
@@ -494,10 +500,20 @@
         let currentCaseIdx = 0;
         let score = 0;
         let userName = '';
+        let quizStartTime;
+        let currentCaseStartTime;
+        let questionTimes = [];
+
+        // ----- CONFIGURACIÓN DE LA API E BASE DE DATOS -----
+        // Para que los datos se guarden y el Scoreboard funcione, debes crear un "Bin" en jsonbin.io
+        // y colocar tus llaves aquí.
+        const API_KEY = '$2a$10$J8VeuLAELoGk97msN9Ua6OZN.r5hnXWYVs0GoDGBZmtKzbHgd7WO6'; // Reemplaza con tu X-Access-Key
+        const BIN_ID = '69c2c217b7ec241ddc9c00d5';   // Reemplaza con tu Bin ID
+        // ---------------------------------------------------
 
         function startQuiz() {
             const nameInput = document.getElementById('user-name').value.trim();
-            if(!nameInput) {
+            if (!nameInput) {
                 alert('Por favor ingresa tu nombre');
                 return;
             }
@@ -506,6 +522,11 @@
             document.getElementById('welcome-screen').classList.remove('active');
             document.getElementById('quiz-container').style.display = 'block';
             document.getElementById('quiz-container').classList.add('active');
+
+            quizStartTime = Date.now();
+            currentCaseStartTime = Date.now();
+            questionTimes = [];
+
             loadCase(currentCaseIdx);
         }
 
@@ -530,10 +551,17 @@
         }
 
         function submitAnswer(guessedType) {
+            const timeTaken = (Date.now() - currentCaseStartTime) / 1000;
+            questionTimes[currentCaseIdx] = timeTaken; // Guardar el tiempo que le tomó esta pregunta
+
             const c = cases[currentCaseIdx];
             const isCorrect = (guessedType === c.type);
-            
+
             if (isCorrect) score++;
+
+            // Deshabilitar botones para que no sumen tiempos/puntos de más
+            const btns = document.querySelectorAll('.controls .btn');
+            btns.forEach(btn => btn.disabled = true);
 
             showFeedback(isCorrect, c);
         }
@@ -555,8 +583,13 @@
         }
 
         function nextCase() {
+            // Rehabilitar botones
+            const btns = document.querySelectorAll('.controls .btn');
+            btns.forEach(btn => btn.disabled = false);
+
             currentCaseIdx++;
             if (currentCaseIdx < cases.length) {
+                currentCaseStartTime = Date.now(); // Iniciar contador para la nueva pregunta
                 loadCase(currentCaseIdx);
             } else {
                 showResults();
@@ -569,7 +602,7 @@
             document.getElementById('feedback-overlay').classList.remove('show');
             document.getElementById('results-screen').style.display = 'block';
             document.getElementById('results-screen').classList.add('active');
-            
+
             document.getElementById('result-name').innerText = userName;
             document.getElementById('result-score').innerText = score;
 
@@ -585,6 +618,67 @@
             }
 
             document.getElementById('result-message').innerText = msg;
+
+            // Guardar en la API
+            const totalTime = (Date.now() - quizStartTime) / 1000;
+            saveScore(userName, score, totalTime, questionTimes);
+        }
+
+        async function saveScore(userName, score, totalTime, questionTimes) {
+            if (!API_KEY || !BIN_ID || API_KEY.includes('TU_API')) {
+                console.warn("Falta configurar la API_KEY y BIN_ID de JSONBin para que los resultados aparezcan en el Scoreboard.");
+                return;
+            }
+
+            try {
+                // Notificar al usuario que estamos guardando
+                const msgEl = document.getElementById('result-message');
+                msgEl.innerText += "\n[Guardando puntuación...]";
+
+                // 1. Obtener datos actuales
+                const getRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}/latest`, {
+                    headers: { 'X-Access-Key': API_KEY }
+                });
+                if (!getRes.ok) throw new Error("Asegúrate de que estás usando el BIN_ID correcto.");
+                let data = await getRes.json();
+
+                // Asegurarse de que el récord es un arreglo.
+                // Si el Bin acaba de ser creado, tal vez esté vacío o su estructura de archivo sea distinta.
+                let records = [];
+                if (Array.isArray(data.record)) {
+                    records = data.record;
+                }
+
+                // 2. Agregar nuevo registro
+                records.push({
+                    name: userName,
+                    score: score,
+                    totalTime: totalTime,
+                    questionTimes: questionTimes,
+                    date: new Date().toISOString()
+                });
+
+                // 3. Modificar/Escribir el Bin Modificado
+                const putRes = await fetch(`https://api.jsonbin.io/v3/b/${BIN_ID}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Access-Key': API_KEY
+                    },
+                    body: JSON.stringify(records)
+                });
+
+                if (putRes.ok) {
+                    msgEl.innerText = msgEl.innerText.replace("[Guardando puntuación...]", "\n✅ Puntuación guardada en el tablero general.");
+                } else {
+                    throw new Error("No se pudo escribir en el Bin. Verifica tu X-Access-Key.");
+                }
+
+            } catch (error) {
+                console.error("Error al guardar puntaje:", error);
+                const msgEl = document.getElementById('result-message');
+                msgEl.innerText = msgEl.innerText.replace("[Guardando puntuación...]", `\n⚠️ Error al guardar: ${error.message}`);
+            }
         }
 
         function resetQuiz() {
