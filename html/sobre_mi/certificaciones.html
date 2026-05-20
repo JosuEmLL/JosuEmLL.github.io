@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Certificaciones del ámbito de ciberseguridad</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            background-color: transparent;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #334155;
+        }
+
+        .dashboard-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .dashboard-header {
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .dashboard-title {
+            color: #1e3a8a;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin: 0 0 10px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .dashboard-subtitle {
+            font-size: 1.1rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .info-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            border-top: 5px solid #3b82f6;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            color: #1e3a8a;
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0 0 20px 0;
+            min-height: 3.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .reflection-bubble {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            position: relative;
+            margin-bottom: 25px;
+            border-left: 4px solid #3b82f6;
+            font-style: italic;
+            color: #475569;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .reflection-bubble::after {
+            content: '';
+            position: absolute;
+            left: 20px;
+            bottom: -10px;
+            border-width: 10px 10px 0 0;
+            border-style: solid;
+            border-color: #f8fafc transparent transparent transparent;
+        }
+
+        .assets-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .badge-img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+            transition: transform 0.3s ease;
+        }
+
+        .badge-img:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .pdf-link {
+            display: inline-flex;
+            align-items: center;
+            background: #1e3a8a;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.3s ease;
+        }
+
+        .pdf-link:hover {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .pdf-icon {
+            margin-right: 8px;
+            width: 18px;
+            height: 18px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dashboard-container">
+        <header class="dashboard-header">
+            <h1 class="dashboard-title">Certificaciones del ámbito de ciberseguridad</h1>
+            <p class="dashboard-subtitle">Logros y formación especializada en seguridad digital</p>
+        </header>
+
+        <div class="cards-grid">
+
+            <!-- 1. Introducción a la ciberseguridad -->
+            <section class="info-card">
+                <h2 class="card-title">1. Introducción a la ciberseguridad</h2>
+                <div class="reflection-bubble">
+                    <p>Escribe aquí tu reflexión sobre este curso y lo que aprendiste en él...</p>
+                </div>
+                <div class="assets-container">
+                    <a href="#" class="pdf-link">
+                        <svg class="pdf-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
+                        Ver Certificado (PDF)
+                    </a>
+                    <img src="https://images.credly.com/images/af822fd1-8973-455a-939e-d306b9760777/Introduction_to_Cybersecurity.png" alt="Badge Introducción" class="badge-img">
+                </div>
+            </section>
+
+            <!-- 2. Conceptos básicos de Redes -->
+            <section class="info-card">
+                <h2 class="card-title">2. Conceptos básicos de Redes</h2>
+                <div class="reflection-bubble">
+                    <p>Escribe aquí tu reflexión sobre este curso y lo que aprendiste en él...</p>
+                </div>
+                <div class="assets-container">
+                    <a href="#" class="pdf-link">
+                        <svg class="pdf-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
+                        Ver Certificado (PDF)
+                    </a>
+                    <img src="https://images.credly.com/images/735c05c0-f81d-48a0-8350-936ba19d3ee5/Networking_Basics.png" alt="Badge Redes" class="badge-img">
+                </div>
+            </section>
+
+            <!-- 3. Dispositivos de red y configuración inicial -->
+            <section class="info-card">
+                <h2 class="card-title">3. Dispositivos de red y configuración inicial</h2>
+                <div class="reflection-bubble">
+                    <p>Escribe aquí tu reflexión sobre este curso y lo que aprendiste en él...</p>
+                </div>
+                <div class="assets-container">
+                    <a href="#" class="pdf-link">
+                        <svg class="pdf-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
+                        Ver Certificado (PDF)
+                    </a>
+                    <img src="https://images.credly.com/images/7936a281-2292-491c-99d7-83216895ce49/Networking_Devices_and_Initial_Configuration.png" alt="Badge Dispositivos" class="badge-img">
+                </div>
+            </section>
+
+            <!-- 4. Seguridad en terminales -->
+            <section class="info-card">
+                <h2 class="card-title">4. Seguridad en terminales</h2>
+                <div class="reflection-bubble">
+                    <p>Escribe aquí tu reflexión sobre este curso y lo que aprendiste en él...</p>
+                </div>
+                <div class="assets-container">
+                    <a href="#" class="pdf-link">
+                        <svg class="pdf-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
+                        Ver Certificado (PDF)
+                    </a>
+                    <img src="https://images.credly.com/images/f32a76f2-8973-455a-939e-d306b9760777/Endpoint_Security.png" alt="Badge Terminales" class="badge-img">
+                </div>
+            </section>
+
+            <!-- 5. Administración de amenazas cibernéticas -->
+            <section class="info-card">
+                <h2 class="card-title">5. Administración de amenazas cibernéticas</h2>
+                <div class="reflection-bubble">
+                    <p>Escribe aquí tu reflexión sobre este curso y lo que aprendiste en él...</p>
+                </div>
+                <div class="assets-container">
+                    <a href="#" class="pdf-link">
+                        <svg class="pdf-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
+                        Ver Certificado (PDF)
+                    </a>
+                    <img src="https://images.credly.com/images/735c05c0-f81d-48a0-8350-936ba19d3ee5/Cyber_Threat_Management.png" alt="Badge Amenazas" class="badge-img">
+                </div>
+            </section>
+
+            <!-- 6. Carrera profesional de Analista Junior en Ciberseguridad -->
+            <section class="info-card">
+                <h2 class="card-title">6. Carrera profesional de Analista Junior en Ciberseguridad</h2>
+                <div class="reflection-bubble">
+                    <p>Escribe aquí tu reflexión sobre este curso y lo que aprendiste en él...</p>
+                </div>
+                <div class="assets-container">
+                    <a href="#" class="pdf-link">
+                        <svg class="pdf-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
+                        Ver Certificado (PDF)
+                    </a>
+                    <img src="https://images.credly.com/images/af822fd1-8973-455a-939e-d306b9760777/Cybersecurity_Junior_Analyst_Career_Path.png" alt="Badge Carrera" class="badge-img">
+                </div>
+            </section>
+
+            <!-- 7. Hacker ético -->
+            <section class="info-card">
+                <h2 class="card-title">7. Hacker ético</h2>
+                <div class="reflection-bubble">
+                    <p>Escribe aquí tu reflexión sobre este curso y lo que aprendiste en él...</p>
+                </div>
+                <div class="assets-container">
+                    <a href="#" class="pdf-link">
+                        <svg class="pdf-icon" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5z"/></svg>
+                        Ver Certificado (PDF)
+                    </a>
+                    <img src="https://images.credly.com/images/f32a76f2-8973-455a-939e-d306b9760777/Ethical_Hacker.png" alt="Badge Hacker" class="badge-img">
+                </div>
+            </section>
+
+        </div>
+    </div>
+</body>
+
+</html>
