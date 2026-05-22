@@ -8,11 +8,14 @@
     <link
         href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Share+Tech+Mono&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --bg-primary: #0a0f1d;
             --bg-secondary: #111827;
             --bg-tertiary: #1f2937;
+            --bg-surface: #161925;
+            --bg-surface-accent: #1f2336;
             --accent-cyan: #00f0ff;
             --accent-blue: #0088cc;
             --accent-purple: #bd00ff;
@@ -34,7 +37,7 @@
         }
 
         body {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'JetBrains+Mono', monospace;
             background-color: var(--bg-primary);
             color: var(--text-main);
             line-height: 1.6;
@@ -69,7 +72,7 @@
 
         .header-title {
             font-family: 'Share Tech Mono', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2.3rem;
             color: var(--accent-cyan);
             text-transform: uppercase;
             letter-spacing: 2px;
@@ -90,6 +93,10 @@
             padding: 15px;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .meta-item strong {
+            color: var(--text-muted);
         }
 
         .meta-item span {
@@ -114,7 +121,7 @@
             padding: 12px 20px;
             cursor: pointer;
             font-family: 'Share Tech Mono', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             border-radius: 6px;
             transition: all 0.3s ease;
             white-space: nowrap;
@@ -143,7 +150,7 @@
             display: block;
         }
 
-        /* Layout Units */
+        /* Layout Cards */
         .card {
             background-color: var(--bg-secondary);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -154,7 +161,7 @@
 
         .card-title {
             font-family: 'Share Tech Mono', sans-serif;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: var(--accent-cyan);
             margin-bottom: 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
@@ -167,7 +174,7 @@
         }
 
         .clause-badge {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             background-color: var(--bg-tertiary);
             color: var(--text-main);
             padding: 4px 10px;
@@ -176,7 +183,7 @@
         }
 
         .gdpr-badge {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             background-color: rgba(16, 185, 129, 0.15);
             color: var(--accent-green);
             padding: 4px 10px;
@@ -188,11 +195,15 @@
             color: var(--accent-blue);
             margin: 20px 0 10px 0;
             font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         p {
             margin-bottom: 15px;
             text-align: justify;
+            color: var(--text-main);
         }
 
         ul,
@@ -207,53 +218,185 @@
 
         .highlight {
             color: var(--accent-cyan);
+            font-weight: 500;
         }
 
         .highlight-gdpr {
             color: var(--accent-green);
+            font-weight: 500;
         }
 
-        /* Matrix Elements */
-        .controls-panel {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            background: var(--bg-secondary);
-            padding: 15px;
+        /* Interactive 5x5 Matrix Grid Styles */
+        .iso-matrix-container {
+            background: var(--bg-surface);
+            padding: 20px;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            align-items: center;
+            margin-bottom: 25px;
         }
 
-        .filter-btn {
+        .iso-matrix-controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .iso-filter-btn {
             background-color: var(--bg-tertiary);
             color: var(--text-main);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 8px 15px;
+            padding: 8px 16px;
             border-radius: 4px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-family: 'Share Tech Mono', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 8px;
             transition: all 0.2s ease;
         }
 
-        .filter-btn:hover {
-            border-color: var(--accent-blue);
-        }
-
-        .filter-btn.active {
+        .iso-filter-btn.active {
             background-color: var(--accent-blue);
-            border-color: var(--accent-blue);
-            color: white;
-            box-shadow: 0 0 10px rgba(0, 136, 204, 0.4);
+            border-color: var(--accent-cyan);
+            color: #fff;
+            box-shadow: 0 0 10px rgba(0, 136, 204, 0.3);
         }
 
-        .matrix-container {
+        .indicator-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .bg-red {
+            background-color: var(--risk-extremo);
+        }
+
+        .bg-amber {
+            background-color: var(--risk-muy-alto);
+        }
+
+        .bg-blue {
+            background-color: var(--risk-medio);
+        }
+
+        .iso-matrix-grid-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 auto;
+            max-width: 700px;
+        }
+
+        .iso-matrix-y-axis {
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+            text-align: center;
+            color: var(--text-muted);
+            font-family: 'Share Tech Mono', sans-serif;
+            font-size: 0.9rem;
+            padding-right: 10px;
+        }
+
+        .iso-matrix-layout-flex {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+        }
+
+        .iso-matrix-grid {
+            display: grid;
+            grid-template-columns: 130px repeat(5, 1fr);
+            gap: 6px;
+            width: 100%;
+        }
+
+        .iso-cell {
+            padding: 12px;
+            text-align: center;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .iso-cell:hover:not(.label-cell):not(.corner-cell):not(.head-cell) {
+            transform: scale(1.08);
+            box-shadow: 0 0 12px rgba(255, 255, 255, 0.25);
+            z-index: 10;
+        }
+
+        .risk-verylow {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .risk-low {
+            background-color: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .risk-medium {
+            background-color: rgba(234, 179, 8, 0.1);
+            color: #eab308;
+            border: 1px solid rgba(234, 179, 8, 0.3);
+        }
+
+        .risk-high {
+            background-color: rgba(249, 115, 22, 0.15);
+            color: #f97316;
+            border: 1px solid rgba(249, 115, 22, 0.4);
+        }
+
+        .risk-veryhigh {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: #f43f5e;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+
+        .risk-extreme {
+            background-color: rgba(220, 38, 38, 0.25);
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+
+        .label-cell,
+        .head-cell {
+            background-color: var(--bg-surface-accent);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            cursor: default;
+        }
+
+        .corner-cell {
+            background: transparent;
+            cursor: default;
+        }
+
+        .iso-matrix-x-axis-title {
+            text-align: center;
+            color: var(--text-muted);
+            font-family: 'Share Tech Mono', sans-serif;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            margin-left: 130px;
+        }
+
+        /* Tables Architecture */
+        .iso-table-responsive {
             overflow-x: auto;
             border-radius: 8px;
             border: 1px solid rgba(255, 255, 255, 0.05);
-            background-color: var(--bg-secondary);
+            margin-top: 20px;
         }
 
         table {
@@ -276,92 +419,209 @@
             padding: 12px 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             vertical-align: top;
+            line-height: 1.4;
         }
 
         tr:hover {
-            background-color: rgba(255, 255, 255, 0.02);
+            background-color: rgba(255, 255, 255, 0.01);
         }
 
         .badge {
             display: inline-block;
-            padding: 2px 6px;
+            padding: 3px 8px;
             border-radius: 4px;
             font-size: 0.75rem;
             font-weight: bold;
             text-transform: uppercase;
-        }
-
-        .badge-int {
-            background-color: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            border: 1px solid #3b82f6;
-        }
-
-        .badge-ext {
-            background-color: rgba(168, 85, 247, 0.2);
-            color: #c084fc;
-            border: 1px solid #a855f7;
-        }
-
-        .risk-val {
-            font-weight: bold;
-            padding: 4px 8px;
-            border-radius: 4px;
             text-align: center;
-            display: block;
+            width: 90px;
         }
 
-        .r-extremo {
-            background-color: rgba(239, 68, 68, 0.2);
+        .badge-red {
+            background-color: rgba(239, 68, 68, 0.15);
             color: #f87171;
             border: 1px solid var(--risk-extremo);
         }
 
-        .r-muy-alto {
-            background-color: rgba(249, 115, 22, 0.2);
+        .badge-amber {
+            background-color: rgba(249, 115, 22, 0.15);
             color: #fb923c;
             border: 1px solid var(--risk-muy-alto);
         }
 
-        .r-alto {
-            background-color: rgba(234, 179, 8, 0.2);
-            color: #fde047;
-            border: 1px solid var(--risk-alto);
-        }
-
-        .r-medio {
-            background-color: rgba(59, 130, 246, 0.2);
+        .badge-blue {
+            background-color: rgba(59, 130, 246, 0.15);
             color: #60a5fa;
             border: 1px solid var(--risk-medio);
         }
 
-        .btn-export {
-            display: block;
-            width: 100%;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
-            color: var(--bg-primary);
-            font-family: 'Share Tech Mono', sans-serif;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-align: center;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
-            transition: transform 0.2s, opacity 0.2s;
+        .tag-iso {
+            background-color: rgba(0, 240, 255, 0.1);
+            color: var(--accent-cyan);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            white-space: nowrap;
         }
 
-        .btn-export:hover {
-            transform: translateY(-2px);
-            opacity: 0.95;
+        .tag-gdpr {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--accent-green);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.75rem;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            white-space: nowrap;
+        }
+
+        /* KPIs and Progress Bars */
+        .iso-two-column-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 20px;
+        }
+
+        .iso-progress-container {
+            margin-bottom: 15px;
+        }
+
+        .iso-progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+
+        .iso-progress-bar {
+            background-color: var(--bg-tertiary);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .iso-progress-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        .bg-neon {
+            background-color: var(--accent-cyan);
+            box-shadow: 0 0 8px var(--accent-cyan);
+        }
+
+        .iso-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .iso-kpi-card {
+            background: var(--bg-surface);
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .iso-kpi-title {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .iso-kpi-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            font-family: 'Share Tech Mono', sans-serif;
+            margin: 5px 0;
+        }
+
+        .iso-kpi-status {
+            font-size: 0.75rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            display: inline-block;
+            width: fit-content;
+        }
+
+        .status-ok {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-green);
+        }
+
+        .status-warn {
+            background: rgba(234, 179, 8, 0.15);
+            color: var(--accent-alto);
+        }
+
+        .iso-callout-box {
+            background: rgba(249, 115, 22, 0.05);
+            border-left: 4px solid var(--risk-muy-alto);
+            padding: 15px;
+            border-radius: 0 6px;
+            margin-top: 15px;
+        }
+
+        .iso-callout-box h5 {
+            color: var(--risk-muy-alto);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .iso-timeline-item {
+            border-left: 2px solid var(--accent-cyan);
+            padding-left: 15px;
+            position: relative;
+            margin-top: 15px;
+        }
+
+        .iso-timeline-item::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent-cyan);
+            position: absolute;
+            left: -5px;
+            top: 6px;
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--accent-cyan);
+        }
+
+        .iso-root-cause {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            margin: 10px 0;
+            font-size: 0.85rem;
+        }
+
+        .iso-btn-pdf {
+            background: var(--accent-blue);
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-family: 'Share Tech Mono', sans-serif;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-left: auto;
+            transition: opacity 0.2s;
+        }
+
+        .iso-btn-pdf:hover {
+            opacity: 0.9;
         }
 
         @keyframes fadeIn {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(8px);
             }
 
             to {
@@ -370,105 +630,53 @@
             }
         }
 
-        /* Print Architecture Stylesheet */
         @media print {
-            body {
-                background-color: white !important;
-                color: black !important;
-                padding: 0;
-                font-family: Arial, sans-serif;
-                font-size: 10pt;
-            }
 
             .tabs-nav,
-            .controls-panel,
-            .btn-export,
-            header::before {
+            .iso-matrix-controls,
+            .iso-btn-pdf {
                 display: none !important;
             }
 
             .tab-content {
                 display: block !important;
                 opacity: 1 !important;
-                transform: none !important;
                 page-break-after: always;
             }
 
+            body {
+                background: white;
+                color: black;
+                padding: 0;
+            }
+
             .card {
-                background: white !important;
-                border: 1px solid #ccc !important;
-                color: black !important;
-                padding: 15px;
-                margin-bottom: 20px;
-                box-shadow: none !important;
+                background: white;
+                border: 1px solid #ccc;
+                color: black;
+                box-shadow: none;
                 page-break-inside: avoid;
             }
 
-            header {
-                background: white !important;
-                color: black !important;
-                border: 2px solid black !important;
-                box-shadow: none !important;
-                padding: 20px;
-            }
-
-            .header-title {
-                color: black !important;
-                font-size: 22pt;
-            }
-
-            .card-title {
-                color: black !important;
-                border-bottom: 2px solid black !important;
-                font-size: 14pt;
-            }
-
-            h3 {
-                color: #333 !important;
-            }
-
-            .highlight {
-                color: black !important;
-                font-weight: bold;
-            }
-
-            .highlight-gdpr {
-                color: black !important;
-                font-style: italic;
-            }
-
-            table {
-                font-size: 8pt;
-                width: 100%;
-                border: 1px solid black !important;
-            }
-
             th {
-                background-color: #f0f0f0 !important;
-                color: black !important;
-                border-bottom: 1px solid black !important;
+                background: #f0f0f0;
+                color: #000;
+                border-bottom: 2px solid #000;
             }
 
             td {
-                border-bottom: 1px solid #ddd !important;
-                color: black !important;
+                color: #000;
+                border-bottom: 1px solid #ccc;
             }
 
             .badge,
-            .risk-val {
+            .tag-iso,
+            .tag-gdpr {
                 background: transparent !important;
                 color: black !important;
-                border: none !important;
-                padding: 0 !important;
+                border: 1px solid black !important;
+                padding: 1px 3px;
                 font-weight: bold;
-            }
-
-            .risk-val::before {
-                content: "[";
-            }
-
-            .risk-val::after {
-                content: "]";
             }
         }
     </style>
@@ -482,10 +690,11 @@
             <div class="header-subtitle">Marco de Ciberseguridad Híbrido: SGSI (ISO/IEC 27001:2022) e Integración de
                 Privacidad Corporativa (GDPR)</div>
             <div class="meta-grid">
-                <div class="meta-item">Evaluación: <span>Tercer Parcial + Enfoque Legal</span></div>
-                <div class="meta-item">Asignatura: <span>Seguridad Informática</span></div>
-                <div class="meta-item">Docente: <span>Mtro. Servando</span></div>
-                <div class="meta-item">Marcos de Control: <span>ISO 27001 & GDPR (Reglamento UE)</span></div>
+                <div class="meta-item"><strong>Evaluación:</strong> <span>Tercer Parcial + Enfoque Legal</span></div>
+                <div class="meta-item"><strong>Asignatura:</strong> <span>Seguridad Informática</span></div>
+                <div class="meta-item"><strong>Docente:</strong> <span>Mtro. Servando</span></div>
+                <div class="meta-item"><strong>Marcos de Control:</strong> <span>ISO 27001 & GDPR (Reglamento UE)</span>
+                </div>
             </div>
         </header>
 
@@ -494,7 +703,7 @@
                 1-3)</button>
             <button class="tab-btn" onclick="switchTab('tab-liderazgo')">2. Roles, DPO y Soporte (Cl. 4-7)</button>
             <button class="tab-btn" onclick="switchTab('tab-matriz')">3. Matriz Unificada (21 Activos -
-                ISO/GDPR)</button>
+                COMPLETA)</button>
             <button class="tab-btn" onclick="switchTab('tab-mejora')">4. Cumplimiento Legal y Resiliencia (Cl.
                 9-10)</button>
         </nav>
@@ -516,57 +725,33 @@
                 <p>Este sistema opera bajo un enfoque transfronterizo de protección de datos personales y corporativos,
                     aislando los flujos de información en los siguientes subsectores operativos:</p>
                 <ul>
-                    <li><strong>Infraestructura Core Decentralizada:</strong> Reducción de riesgos regulatorios mediante
-                        la distribución geométrica de clústeres de servidores en jurisdicciones independientes, aislando
-                        de forma física y lógica los datos pertenecientes a ciudadanos de la Unión Europea bajo
-                        criterios del Art. 45 del GDPR.</li>
+                    <li><strong>Infraestructura Core Descentralizada:</strong> Distribución geométrica de clústeres de
+                        servidores en jurisdicciones independientes, aislando de forma física y lógica los datos de
+                        ciudadanos europeos bajo criterios del Art. 45 del GDPR.</li>
                     <li><strong>Mecanismos de Privacidad desde el Diseño (Art. 25 GDPR):</strong> Integración
                         obligatoria en el ciclo de vida del desarrollo de software (SDLC) de salvaguardas que limiten la
                         recolección masiva de metadatos de mensajería (principio de minimización de datos).</li>
-                    <li><strong>Capa Móvil y API Multiplataforma:</strong> Blindaje de los canales lógicos y extremos de
-                        conexión que interactúan directamente con los repositorios centrales de almacenamiento en la
-                        nube de Telegram.</li>
                 </ul>
             </div>
 
             <div class="card">
                 <div class="card-title">
-                    Cláusula 2: Referencias Normativas Coincidentes
-                    <span class="clause-badge">ISO 27001:2022 - Cl. 2</span>
-                </div>
-                <p>Los siguientes marcos y directrices legales constituyen la base regulatoria obligatoria e ineludible
-                    para el despliegue técnico del sistema híbrido:</p>
-                <ul>
-                    <li><strong>ISO/IEC 27001:2022 / ISO/IEC 27701:2019:</strong> Requisitos y extensiones técnicas para
-                        la Gestión de la Privacidad de la Información (PIMS).</li>
-                    <li><strong>Reglamento (UE) 2016/679 (GDPR):</strong> Marco normativo de la Unión Europea relativo a
-                        la protección de las personas físicas en lo que respecta al tratamiento de sus datos personales
-                        y a la libre circulación de estos datos.</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="card-title">
-                    Cláusula 3: Términos, Definiciones y Roles Legales
-                    <span class="clause-badge">ISO 27001:2022 - Cl. 3</span>
+                    Cláusula 2 & 3: Referencias Normativas y Roles Legales
+                    <span class="clause-badge">ISO 27001:2022 - Cl. 2, 3</span>
                     <span class="gdpr-badge">GDPR Art. 4</span>
                 </div>
-                <p>Para efectos de auditoría ante las Autoridades de Control de Protección de Datos y el marco
-                    institucional de Telegram, se determinan las siguientes definiciones operativas:</p>
+                <p>Se determinan las siguientes figuras y responsabilidades legales dentro de la infraestructura
+                    técnica:</p>
                 <ol>
                     <li><strong>Responsable del Tratamiento (Data Controller):</strong> Entidad jurídica que determina
                         los fines y medios del tratamiento de datos personales. En este perímetro, corresponde a
-                        Telegram Messenger Inc.</li>
+                        Telegram Messenger FZ-LLC.</li>
                     <li><strong>Sujeto de Datos (Data Subject):</strong> Toda persona física identificada o
                         identificable cuyo número de teléfono, identificador único de API, libreta de contactos o
                         mensajes en la nube sean procesados por la plataforma.</li>
                     <li><strong>Seudonimización:</strong> El tratamiento de datos personales de manera tal que ya no
                         puedan atribuirse a un sujeto de datos sin recurrir a información adicional, la cual debe
-                        figurar por separado y estar sujeta a medidas técnicas de cifrado (clave en la gestión de
-                        metadatos de Telegram).</li>
-                    <li><strong>Derecho a la Portabilidad (Art. 20 GDPR):</strong> Facultad del usuario para obtener sus
-                        datos personales en un formato estructurado, de uso común y lectura mecánica, permitiendo su
-                        transferencia directa a otra plataforma de mensajería.</li>
+                        figurar por separado y estar sujeta a medidas técnicas de cifrado distribuidas.</li>
                 </ol>
             </div>
         </div>
@@ -574,19 +759,18 @@
         <div id="tab-liderazgo" class="tab-content">
             <div class="card">
                 <div class="card-title">
-                    Cláusula 5: Gobernanza, Liderazgo y Estructura del DPO
-                    <span class="clause-badge">ISO 27001:2022 - Cl. 5</span>
+                    Cláusula 5 & 6: Gobernanza, Liderazgo y Estructura del DPO
+                    <span class="clause-badge">ISO 27001 - Cl. 5, 6</span>
                     <span class="gdpr-badge">GDPR Art. 37 - 39</span>
                 </div>
-                <p>La Alta Dirección consolida la seguridad operativa entrelazando el liderazgo directivo tradicional
-                    con los requisitos de fiscalización jurídica externa e interna.</p>
-                <h3>Gobernanza Corporativa y Estructura Organizacional (Cl. 5.3)</h3>
+                <p>La Alta Dirección de Telegram consolida la seguridad operativa entrelazando el liderazgo directivo
+                    tradicional con los requisitos de fiscalización jurídica externa e interna.</p>
+                <h3>Gobernanza Corporativa y Estructura Organizacional</h3>
                 <ul>
                     <li><strong>Delegado de Protección de Datos (DPO / Data Protection Officer):</strong> Designado de
                         forma obligatoria conforme a los requerimientos del GDPR. Posee independencia funcional
                         absoluta, reporta directamente al Comité Ejecutivo y actúa como el nexo oficial ante las
-                        agencias regulatorias de privacidad. Supervisa las Evaluaciones de Impacto en la Protección de
-                        Datos (EIPD).</li>
+                        agencias regulatorias de privacidad europeas.</li>
                     <li><strong>Director de Seguridad (CISO):</strong> Responsable del despliegue de los controles
                         criptográficos del Anexo A necesarios para respaldar las directrices de confidencialidad e
                         integridad dictadas por el DPO.</li>
@@ -595,391 +779,470 @@
 
             <div class="card">
                 <div class="card-title">
-                    Cláusula 7: Soporte Avanzado y Habilitación de Procesos Criptográficos
+                    Cláusula 7: Soporte Avanzado y Habilitación del Núcleo de Ingeniería
                     <span class="clause-badge">ISO 27001:2022 - Cl. 7</span>
                     <span class="gdpr-badge">GDPR Art. 32</span>
                 </div>
-
-                <h3>7.1 Capacidades Operativas e Infraestructura Concurrente</h3>
-                <p>Telegram garantiza financiamiento irrestricto para el aprovisionamiento de infraestructura de
-                    hardware criptográfico capaz de procesar de forma masiva los algoritmos de anonimización y borrado
-                    seguro distribuidos en la red.</p>
-
-                <h3>7.2 Competencias del Núcleo Crítico de Ingeniería (30 Senior Engineers)</h3>
-                <p>El núcleo élite técnico de <span class="highlight">30 Ingenieros Senior de Infraestructura
-                        Global</span> debe acreditar el cumplimiento obligatorio de las siguientes competencias
-                    profesionales especializadas:</p>
+                <h3>Competencias del Núcleo Crítico de Ingeniería (~30 Senior Engineers)</h3>
+                <p>El núcleo élite técnico de <strong>30 Ingenieros Senior de Infraestructura Global</strong> de
+                    Telegram debe acreditar el cumplimiento obligatorio de las siguientes competencias profesionales
+                    especializadas:</p>
                 <ul>
                     <li><strong>Ingeniería de Privacidad Avanzada:</strong> Capacitación certificada en principios de
                         arquitectura de software orientada a la privacidad (*Privacy Engineering*), minimización de
                         almacenamiento de datos temporales en servidores proxy e inmutabilidad de logs operacionales.
                     </li>
                     <li><strong>Criptografía Aplicada y Mitigación Forense:</strong> Dominio de metodologías DevSecOps
-                        con enfoque en blindaje criptográfico de bases de datos persistentes y técnicas avanzadas de
-                        purga lógica de memoria RAM volátil.</li>
-                </ul>
-
-                <h3>7.3 Concientización y Cultura Organizacional (Cl. 7.3)</h3>
-                <p>Todo el personal interno y moderadores regionales son sometidos obligatoriamente a programas
-                    continuos de capacitación en la gestión de solicitudes de usuarios:</p>
-                <ul>
-                    <li><strong>Identificación de Vectores de Exfiltración:</strong> Adiestramiento intensivo trimestral
-                        para detectar ataques de suplantación de identidad corporativa enfocados en engañar al soporte
-                        técnico para extraer ilegalmente historiales de chats de usuarios.</li>
-                </ul>
-
-                <h3>7.4 Execution Técnica del Derecho al Olvido y Portabilidad (Art. 17 y 20 GDPR)</h3>
-                <p>El soporte del SGSI automatiza las solicitudes de los derechos ARCO+ mediante procesos de software de
-                    bajo nivel integrados en la aplicación:</p>
-                <ul>
-                    <li><strong>Módulo Automatizado de Portabilidad:</strong> Herramienta nativa integrada en la API que
-                        permite a cualquier usuario descargar en tempo real un archivo `.json` o `.html` cifrado que
-                        contiene la totalidad de sus conversaciones en la nube, imágenes asociadas, metadatos de
-                        geolocalización de inicio de sesión y lista de contactos indexada.</li>
-                    <li><strong>Purga Criptográfica (Derecho de Supresión / Olvido):</strong> Cuando un usuario decide
-                        eliminar su cuenta o activa el temporizador de autodestrucción por inactividad, el sistema
-                        inicia un borrado asíncrono que sobrescribe con ceros lógicos los bloques de datos indexados en
-                        los centros de datos distribuidos y revoca de forma definitiva las llaves maestras asociadas en
-                        los HSM corporativos en un plazo máximo de 72 horas.</li>
-                </ul>
-
-                <h3>7.5 Control de la Información Documentada del SGSI e Informes EIPD (Cl. 7.5)</h3>
-                <p>Los registros técnicos del SGSI y los reportes de auditoría de privacidad se manejan bajo un esquema
-                    de máxima restricción:</p>
-                <ul>
-                    <li><strong>Cifrado Homomórfico y Trazabilidad:</strong> Los reportes emitidos por el DPO y los
-                        análisis forenses se resguardan en un clúster cerrado bajo firma digital múltiple, limitando los
-                        privilegios de lectura mediante políticas estrictas basadas en roles de alta jerarquía.</li>
+                        con enfoque en blindaje criptográfico de bases de datos de sesión persistentes y técnicas
+                        avanzadas de purga lógica de memoria RAM volátil.</li>
                 </ul>
             </div>
         </div>
 
         <div id="tab-matriz" class="tab-content">
-            <div class="controls-panel">
-                <span
-                    style="font-weight: bold; display: flex; align-items: center; font-family: 'Share Tech Mono', sans-serif; color: var(--accent-cyan); margin-right: 10px;">FILTRAR
-                    POR NATURALEZA DEL ACTIVO:</span>
-                <button class="filter-btn active" onclick="filterMatrix('todos', this)">Todos los Activos (21)</button>
-                <button class="filter-btn" onclick="filterMatrix('interno', this)">Internos Core (11)</button>
-                <button class="filter-btn" onclick="filterMatrix('externo', this)">Externos / Terceras Partes
-                    (10)</button>
+            <div class="card">
+                <div class="card-title">
+                    2. Centro de Control de Riesgos Matemático & Matriz Interactiva 5x5
+                    <span class="clause-badge">ISO 27001 - Cl. 6.1.2</span>
+                    <span class="gdpr-badge">GDPR Art. 32 / EIPD</span>
+                </div>
+                <p>Interactúa con la matriz tridimensional o utiliza los filtros rápidos para auditar el estado de los
+                    activos e infraestructura crítica de Telegram. Cada riesgo calcula automáticamente su criticidad
+                    mediante la fórmula: <span class="highlight">R = Probabilidad (P) &times; Impacto (I)</span>.</p>
+
+                <div class="iso-matrix-container">
+                    <div class="iso-matrix-controls">
+                        <button class="iso-filter-btn active" onclick="filterRisk('all')"><i class="fas fa-list"></i>
+                            Todos los Activos (21)</button>
+                        <button class="iso-filter-btn" onclick="filterRisk('extreme')"><span
+                                class="indicator-dot bg-red"></span> Extremo (16-25)</button>
+                        <button class="iso-filter-btn" onclick="filterRisk('high')"><span
+                                class="indicator-dot bg-amber"></span> Muy Alto / Alto (10-15)</button>
+                        <button class="iso-filter-btn" onclick="filterRisk('medium')"><span
+                                class="indicator-dot bg-blue"></span> Medio / Bajo (01-09)</button>
+                        <button class="iso-btn-pdf" onclick="window.print()"><i class="fas fa-file-pdf"></i> Exportar
+                            Reporte PDF</button>
+                    </div>
+
+                    <div class="iso-matrix-grid-wrapper">
+                        <div class="iso-matrix-layout-flex">
+                            <div class="iso-matrix-y-axis">Impacto (I) &rarr;</div>
+                            <div class="iso-matrix-grid">
+                                <div class="iso-cell label-cell">Severo (5)</div>
+                                <div class="iso-cell risk-medium" onclick="filterByCoords(1,5)"
+                                    title="P:1, I:5 (Medio)">5</div>
+                                <div class="iso-cell risk-high" onclick="filterByCoords(2,5)" title="P:2, I:5 (Alto)">10
+                                </div>
+                                <div class="iso-cell risk-veryhigh" onclick="filterByCoords(3,5)"
+                                    title="P:3, I:5 (Muy Alto)">15</div>
+                                <div class="iso-cell risk-extreme" onclick="filterByCoords(4,5)"
+                                    title="P:4, I:5 (Extremo)">20</div>
+                                <div class="iso-cell risk-extreme" onclick="filterByCoords(5,5)"
+                                    title="P:5, I:5 (Extremo)">25</div>
+
+                                <div class="iso-cell label-cell">Mayor (4)</div>
+                                <div class="iso-cell risk-medium" onclick="filterByCoords(1,4)"
+                                    title="P:1, I:4 (Medio)">4</div>
+                                <div class="iso-cell risk-medium" onclick="filterByCoords(2,4)"
+                                    title="P:2, I:4 (Medio)">8</div>
+                                <div class="iso-cell risk-high" onclick="filterByCoords(3,4)" title="P:3, I:4 (Alto)">12
+                                </div>
+                                <div class="iso-cell risk-veryhigh" onclick="filterByCoords(4,4)"
+                                    title="P:4, I:4 (Muy Alto)">16</div>
+                                <div class="iso-cell risk-extreme" onclick="filterByCoords(5,4)"
+                                    title="P:5, I:4 (Extremo)">20</div>
+
+                                <div class="iso-cell label-cell">Significativo (3)</div>
+                                <div class="iso-cell risk-low" onclick="filterByCoords(1,3)" title="P:1, I:3 (Bajo)">3
+                                </div>
+                                <div class="iso-cell risk-medium" onclick="filterByCoords(2,3)"
+                                    title="P:2, I:3 (Medio)">6</div>
+                                <div class="iso-cell risk-medium" onclick="filterByCoords(3,3)"
+                                    title="P:3, I:3 (Medio)">9</div>
+                                <div class="iso-cell risk-high" onclick="filterByCoords(4,3)" title="P:4, I:3 (Alto)">12
+                                </div>
+                                <div class="iso-cell risk-veryhigh" onclick="filterByCoords(5,3)"
+                                    title="P:5, I:3 (Muy Alto)">15</div>
+
+                                <div class="iso-cell label-cell">Menor (2)</div>
+                                <div class="iso-cell risk-verylow" onclick="filterByCoords(1,2)"
+                                    title="P:1, I:2 (Muy Bajo)">2</div>
+                                <div class="iso-cell risk-low" onclick="filterByCoords(2,2)" title="P:2, I:2 (Bajo)">4
+                                </div>
+                                <div class="iso-cell risk-medium" onclick="filterByCoords(3,2)"
+                                    title="P:3, I:2 (Medio)">6</div>
+                                <div class="iso-cell risk-medium" onclick="filterByCoords(4,2)"
+                                    title="P:4, I:2 (Medio)">8</div>
+                                <div class="iso-cell risk-high" onclick="filterByCoords(5,2)" title="P:5, I:2 (Alto)">10
+                                </div>
+
+                                <div class="iso-cell label-cell">Insignificante (1)</div>
+                                <div class="iso-cell risk-verylow" onclick="filterByCoords(1,1)"
+                                    title="P:1, I:1 (Muy Bajo)">1</div>
+                                <div class="iso-cell risk-verylow" onclick="filterByCoords(2,1)"
+                                    title="P:2, I:1 (Muy Bajo)">2</div>
+                                <div class="iso-cell risk-low" onclick="filterByCoords(3,1)" title="P:3, I:1 (Bajo)">3
+                                </div>
+                                <div class="iso-cell risk-medium" onclick="filterByCoords(4,1)"
+                                    title="P:4, I:1 (Medio)">4</div>
+                                <div class="iso-cell risk-medium" onclick="filterByCoords(5,1)"
+                                    title="P:5, I:1 (Medio)">5</div>
+
+                                <div class="iso-cell corner-cell"></div>
+                                <div class="iso-cell head-cell">Raro (1)</div>
+                                <div class="iso-cell head-cell">Poco Prob. (2)</div>
+                                <div class="iso-cell head-cell">Mod. (3)</div>
+                                <div class="iso-cell head-cell">Prob. (4)</div>
+                                <div class="iso-cell head-cell">Casi Seguro (5)</div>
+                            </div>
+                        </div>
+                        <div class="iso-matrix-x-axis-title">Probabilidad (P) &rarr;</div>
+                    </div>
+                </div>
+
+                <div class="iso-table-responsive">
+                    <table id="riskTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Activo / Proceso Crítico</th>
+                                <th>Riesgo Identificado</th>
+                                <th>Cálculo (P &times; I)</th>
+                                <th>Clasificación</th>
+                                <th>Política Funcional Mitigadora / Salvaguarda Híbrida</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="risk-row" data-level="extreme" data-p="5" data-i="5">
+                                <td>R1</td>
+                                <td><strong>Mitigación DDoS (Infraestructura)</strong></td>
+                                <td>Caída sistémica de la plataforma por ataque volumétrico masivo coordinado.</td>
+                                <td>5 &times; 5 = <strong>25</strong></td>
+                                <td><span class="badge badge-red">Extremo</span></td>
+                                <td>Enrutamiento Anycast redundante y filtrado automatizado estricto en Capa 4 de red.
+                                    <span class="tag-iso">A.8.14</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="extreme" data-p="4" data-i="5">
+                                <td>R2</td>
+                                <td><strong>Claves Criptográficas Maestras</strong></td>
+                                <td>Pérdida de confidencialidad o exfiltración estatal de llaves de cifrado en la nube.
+                                </td>
+                                <td>4 &times; 5 = <strong>20</strong></td>
+                                <td><span class="badge badge-red">Extremo</span></td>
+                                <td><strong>Fragmentación Jurisdiccional:</strong> Claves divididas en partes
+                                    geográficas dentro de módulos HSM dedicados. <span class="tag-iso">A.8.24</span>
+                                    <span class="tag-gdpr">Art. 32</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="extreme" data-p="4" data-i="5">
+                                <td>R3</td>
+                                <td><strong>Nodos de Servidores Cloud</strong></td>
+                                <td>Acceso físico/lógico gubernamental no autorizado a repositorios de Cloud Chats.</td>
+                                <td>4 &times; 5 = <strong>20</strong></td>
+                                <td><span class="badge badge-red">Extremo</span></td>
+                                <td>Servidores Bare Metal sin hipervisores comerciales. Cifrado de disco total de
+                                    hardware (SED). <span class="tag-iso">A.8.22</span> <span class="tag-gdpr">Art.
+                                        32</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="extreme" data-p="4" data-i="5">
+                                <td>R4</td>
+                                <td><strong>Redes de Administración Interna</strong></td>
+                                <td>Movimiento lateral de atacantes o ingenieros coaccionados hacia el backend central.
+                                </td>
+                                <td>4 &times; 5 = <strong>20</strong></td>
+                                <td><span class="badge badge-red">Extremo</span></td>
+                                <td>Arquitectura estricta Zero Trust integrada con autenticación multifactor por tokens
+                                    físicos (FIDO2). <span class="tag-iso">A.8.22</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="extreme" data-p="4" data-i="4">
+                                <td>R5</td>
+                                <td><strong>Talento Humano (Núcleo Core)</strong></td>
+                                <td>Fuga de conocimiento, coacción física de ingenieros clave ("Bus Factor").</td>
+                                <td>4 &times; 4 = <strong>16</strong></td>
+                                <td><span class="badge badge-red">Extremo</span></td>
+                                <td>Dispersión geográfica global absoluta de ingenieros y segmentación estricta de
+                                    privilegios de código fuente. <span class="tag-iso">Cláusula 6</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="extreme" data-p="4" data-i="4">
+                                <td>R6</td>
+                                <td><strong>BBDD de Registro de Usuarios</strong></td>
+                                <td>Exfiltración masiva de tablas de metadatos correlacionando IDs con números
+                                    telefónicos.</td>
+                                <td>4 &times; 4 = <strong>16</strong></td>
+                                <td><span class="badge badge-red">Extremo</span></td>
+                                <td>Seudonimización automática inmediata mediante hashing salteado y aislamiento
+                                    estricto de tablas de enlace. <span class="tag-iso">A.8.11</span> <span
+                                        class="tag-gdpr">Art. 25</span></td>
+                            </tr>
+
+                            <tr class="risk-row" data-level="high" data-p="5" data-i="3">
+                                <td>R7</td>
+                                <td><strong>Pasarelas de SMS (OTP)</strong></td>
+                                <td>Interceptación de códigos de verificación en tránsito mediante ataques a redes
+                                    SS7/Sim Swapping.</td>
+                                <td>5 &times; 3 = <strong>15</strong></td>
+                                <td><span class="badge badge-amber">Muy Alto</span></td>
+                                <td>Migración obligatoria preferente a códigos internos entre dispositivos activos ya
+                                    autenticados. <span class="tag-iso">A.8.24</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="high" data-p="3" data-i="5">
+                                <td>R8</td>
+                                <td><strong>Proveedores de DNS Oficiales</strong></td>
+                                <td>Secuestro de dominios institucionales de Telegram (DNS Hijacking) mediante
+                                    ingeniería social.</td>
+                                <td>3 &times; 5 = <strong>15</strong></td>
+                                <td><span class="badge badge-amber">Muy Alto</span></td>
+                                <td>Despliegue mandatorio de firmas DNSSEC extendidas y bloqueo estricto a nivel de
+                                    registro externo (Registry Lock). <span class="tag-iso">A.8.22</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="high" data-p="3" data-i="5">
+                                <td>R9</td>
+                                <td><strong>Entornos de Integración CI/CD</strong></td>
+                                <td>Inyección maliciosa de dependencias o troyanos en las compilaciones oficiales de la
+                                    app.</td>
+                                <td>3 &times; 5 = <strong>15</strong></td>
+                                <td><span class="badge badge-amber">Muy Alto</span></td>
+                                <td>Servidores de compilación efímeros en entornos aislados y firmas criptográficas
+                                    multietapa inmutables. <span class="tag-iso">A.8.25</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="high" data-p="4" data-i="3">
+                                <td>R10</td>
+                                <td><strong>Sesiones de Usuario Activas</strong></td>
+                                <td>Robo de tokens de sesión mediante malware en dispositivos del cliente finales.</td>
+                                <td>4 &times; 3 = <strong>12</strong></td>
+                                <td><span class="badge badge-amber">Alto</span></td>
+                                <td>Revocación automática por inactividad prolongada y análisis heurístico de cambios
+                                    bruscos de IP/país. <span class="tag-iso">A.5.15</span> <span class="tag-gdpr">Art.
+                                        32</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="high" data-p="5" data-i="2">
+                                <td>R11</td>
+                                <td><strong>Canales y Grupos Públicos</strong></td>
+                                <td>Uso de la infraestructura para inyección masiva de spam o campañas de desinformación
+                                    controladas.</td>
+                                <td>5 &times; 2 = <strong>10</strong></td>
+                                <td><span class="badge badge-amber">Alto</span></td>
+                                <td>Monitoreo automatizado con redes neuronales locales limitando el flood rate sin
+                                    descifrar el contenido. <span class="tag-iso">A.8.12</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="high" data-p="3" data-i="4">
+                                <td>R12</td>
+                                <td><strong>Sistemas de Respaldos</strong></td>
+                                <td>Exfiltración o borrado accidental de copias de seguridad de las configuraciones core
+                                    de la red.</td>
+                                <td>3 &times; 4 = <strong>12</strong></td>
+                                <td><span class="badge badge-amber">Alto</span></td>
+                                <td>Cifrado AES-256 simétrico en backups inmutables distribuidos fuera de línea
+                                    (*Air-Gapped*). <span class="tag-iso">A.8.13</span> <span class="tag-gdpr">Art.
+                                        32</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="high" data-p="3" data-i="4">
+                                <td>R13</td>
+                                <td><strong>Pasarelas de Pago e Infraestructura Premium</strong></td>
+                                <td>Compromiso de datos financieros de usuarios al procesar transacciones de suscripción
+                                    premium.</td>
+                                <td>3 &times; 4 = <strong>12</strong></td>
+                                <td><span class="badge badge-amber">Alto</span></td>
+                                <td>Aislamiento total del entorno de pago. Telegram no almacena tarjetas; delega en
+                                    procesadores externos bajo PCI-DSS. <span class="tag-iso">A.8.22</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="high" data-p="4" data-i="3">
+                                <td>R14</td>
+                                <td><strong>API de Bots y Webhooks</strong></td>
+                                <td>Abuso de endpoints lógicos para exfiltrar de manera encubierta datos corporativos o
+                                    de canales.</td>
+                                <td>4 &times; 3 = <strong>12</strong></td>
+                                <td><span class="badge badge-amber">Alto</span></td>
+                                <td>Límites estrictos de llamadas (*Rate Limiting*) y validación de tokens de origen
+                                    forzada por sandboxing. <span class="tag-iso">A.8.27</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="high" data-p="3" data-i="4">
+                                <td>R15</td>
+                                <td><strong>Servidores de Llamadas VoIP</strong></td>
+                                <td>Interceptación o ataques Man-in-the-Middle en canales de comunicación por voz o
+                                    video en vivo.</td>
+                                <td>3 &times; 4 = <strong>12</strong></td>
+                                <td><span class="badge badge-amber">Alto</span></td>
+                                <td>Establecimiento forzado de protocolos cifrados extremo a extremo (E2EE) validados
+                                    visualmente con emojis de paridad. <span class="tag-iso">A.8.24</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="high" data-p="4" data-i="3">
+                                <td>R16</td>
+                                <td><strong>Notificaciones Push externas</strong></td>
+                                <td>Fuga colateral de metadatos confidenciales hacia servidores de Apple (APNs) o Google
+                                    (FCM).</td>
+                                <td>4 &times; 3 = <strong>12</strong></td>
+                                <td><span class="badge badge-amber">Alto</span></td>
+                                <td>Cargas útiles de notificación seudonimizadas que no contienen texto ni remitente
+                                    explícito en tránsito. <span class="tag-iso">A.5.21</span> <span
+                                        class="tag-gdpr">Art. 25</span></td>
+                            </tr>
+
+                            <tr class="risk-row" data-level="medium" data-p="4" data-i="2">
+                                <td>R17</td>
+                                <td><strong>Código de Apps Cliente</strong></td>
+                                <td>Ingeniería inversa de binarios para compilar versiones apócrifas maliciosas en
+                                    tiendas no oficiales.</td>
+                                <td>4 &times; 2 = <strong>8</strong></td>
+                                <td><span class="badge badge-blue">Medio</span></td>
+                                <td>Liberación transparente de *Reproducible Builds* públicas para verificación
+                                    bit-a-bit de integridad de tiendas. <span class="tag-iso">A.8.28</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="medium" data-p="3" data-i="3">
+                                <td>R18</td>
+                                <td><strong>Registros de Auditoría (Logs)</strong></td>
+                                <td>Alteración fraudulenta de trazas de accesos por parte de intrusos para borrar
+                                    evidencias.</td>
+                                <td>3 &times; 3 = <strong>9</strong></td>
+                                <td><span class="badge badge-blue">Medio</span></td>
+                                <td>Centralización de registros syslog bajo configuraciones de hardware de lectura única
+                                    inmutable (WORM). <span class="tag-iso">A.8.14</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="medium" data-p="4" data-i="2">
+                                <td>R19</td>
+                                <td><strong>Caché Local en Dispositivos</strong></td>
+                                <td>Extracción física forense de bases de datos SQLite locales de la app de terminales
+                                    perdidos/robados.</td>
+                                <td>4 &times; 2 = <strong>8</strong></td>
+                                <td><span class="badge badge-blue">Medio</span></td>
+                                <td>Implementación obligatoria de bases de datos SQLCipher con llaves derivadas del
+                                    código de acceso local. <span class="tag-iso">A.8.1</span> <span
+                                        class="tag-gdpr">Art. 32</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="medium" data-p="4" data-i="2">
+                                <td>R20</td>
+                                <td><strong>Servidores Proxy Públicos MTProto</strong></td>
+                                <td>Abuso de proxies voluntarios para interceptar tráfico cifrado u ofuscar ataques de
+                                    botnets.</td>
+                                <td>4 &times; 2 = <strong>8</strong></td>
+                                <td><span class="badge badge-blue">Medio</span></td>
+                                <td>Diseño del protocolo con secretos ofuscados criptográficamente para impedir
+                                    descifrado pasivo intermedio. <span class="tag-iso">A.8.20</span></td>
+                            </tr>
+                            <tr class="risk-row" data-level="medium" data-p="3" data-i="3">
+                                <td>R21</td>
+                                <td><strong>Mesa de Soporte / Moderación</strong></td>
+                                <td>Filtraciones internas o ingeniería social dirigida contra agentes de revisión de
+                                    abuso globales.</td>
+                                <td>3 &times; 3 = <strong>9</strong></td>
+                                <td><span class="badge badge-blue">Medio</span></td>
+                                <td>Acceso a datos de denuncias compartimentado y enmascarado. Logs detallados bajo
+                                    auditoría semanal. <span class="tag-iso">A.5.16</span> <span class="tag-gdpr">Art.
+                                        32</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
-            <div class="matrix-container">
-                <table id="matrix-table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Activo Crítico</th>
-                            <th>Origen</th>
-                            <th>Prob (1-5)</th>
-                            <th>Imp (1-5)</th>
-                            <th>Riesgo</th>
-                            <th>Criticidad</th>
-                            <th>Controles Híbridos de Mitigación (ISO/IEC 27001:2022 + GDPR)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr data-origen="interno">
-                            <td>R1</td>
-                            <td><strong>Código fuente de MTProto</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>3</td>
-                            <td>5</td>
-                            <td class="risk-cell">15</td>
-                            <td><span class="risk-val r-muy-alto">Muy Alto</span></td>
-                            <td><strong>A.8.28, A.8.30 / Art. 32 GDPR:</strong> Auditoría criptográfica externa anual.
-                                El blindaje del código garantiza que no existan backdoors que comprometan la privacidad
-                                por defecto de los chats.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R2</td>
-                            <td><strong>Claves criptográficas de servidores</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td class="risk-cell">20</td>
-                            <td><span class="risk-val r-extremo">Extremo</span></td>
-                            <td><strong>A.8.24 / Art. 32 GDPR:</strong> Uso obligatorio de Módulos de Seguridad de
-                                Hardware (HSM) distribuidos geográficamente. Evita brechas masivas sujetas a multas del
-                                4% del volumen de negocio.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R3</td>
-                            <td><strong>Bases de datos de metadatos</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>4</td>
-                            <td>4</td>
-                            <td class="risk-cell">16</td>
-                            <td><span class="risk-val r-extremo">Extremo</span></td>
-                            <td><strong>A.8.23 / Art. 5 GDPR:</strong> Seudonimización inmediata y fragmentación de
-                                metadatos de usuario (ID - número telefónico) en múltiples bases distribuidas para
-                                impedir correlaciones directas de identidad.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R4</td>
-                            <td><strong>Servidores e Infraestructura Core</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td class="risk-cell">20</td>
-                            <td><span class="risk-val r-extremo">Extremo</span></td>
-                            <td><strong>A.8.14, A.8.22 / Art. 32:</strong> Infraestructura como Código (IaC) endurecida.
-                                Respaldos redundantes en caliente para cumplir con el principio de disponibilidad
-                                permanente de los datos.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R5</td>
-                            <td><strong>Código de Aplicaciones Cliente</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>4</td>
-                            <td>2</td>
-                            <td class="risk-cell">8</td>
-                            <td><span class="risk-val r-medio">Medio</span></td>
-                            <td><strong>A.8.25 / Art. 25 GDPR:</strong> Ofuscación agresiva pre-compilación. Publicación
-                                transparente del código de clientes para auditorías públicas en favor de la privacidad
-                                por diseño.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R6</td>
-                            <td><strong>Talento Humano (30 Ingenieros)</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>4</td>
-                            <td>4</td>
-                            <td class="risk-cell">16</td>
-                            <td><span class="risk-val r-extremo">Extremo</span></td>
-                            <td><strong>A.6.2, A.6.6 / Art. 29 GDPR:</strong> Acuerdos de confidencialidad draconianos
-                                internacionales. Privilegios de acceso técnico supervisados y firmados bajo estricto
-                                control de necesidad de conocer.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R7</td>
-                            <td><strong>Documentación de arquitectura</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>2</td>
-                            <td>5</td>
-                            <td class="risk-cell">10</td>
-                            <td><span class="risk-val r-alto">Alto</span></td>
-                            <td><strong>A.5.33, A.7.14:</strong> Cifrado de diagramas técnicos con llaves administradas
-                                por el CISO. Restricción absoluta para evitar vectores dirigidos a la exfiltración de
-                                planos de red.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R8</td>
-                            <td><strong>Logs de auditoría interna</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>3</td>
-                            <td>3</td>
-                            <td class="risk-cell">9</td>
-                            <td><span class="risk-val r-alto">Alto</span></td>
-                            <td><strong>A.8.15 / Art. 30 GDPR:</strong> Registro inmutable (WORM) de operaciones de
-                                acceso a datos de usuarios. Actúa como el inventario verificable ante auditorías de las
-                                Autoridades de Control de la UE.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R9</td>
-                            <td><strong>Entornos de desarrollo y pipelines</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>3</td>
-                            <td>5</td>
-                            <td class="risk-cell">15</td>
-                            <td><span class="risk-val r-muy-alto">Muy Alto</span></td>
-                            <td><strong>A.8.27, A.8.32:</strong> Prohibición absoluta del uso de datos reales de
-                                usuarios en fases de testing de software. Uso mandatorio de bases sintéticas y dummy
-                                anonimizadas.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R10</td>
-                            <td><strong>Redes de administración interna</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td class="risk-cell">20</td>
-                            <td><span class="risk-val r-extremo">Extremo</span></td>
-                            <td><strong>A.8.11 / Art. 32 GDPR:</strong> Autenticación multifactor biométrica y física
-                                por hardware (llaves FIDO2). Arquitectura Zero-Trust aplicada al control de consolas de
-                                servidores.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R11</td>
-                            <td><strong>Ecosistema TON Blockchain</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td class="risk-cell">12</td>
-                            <td><span class="risk-val r-muy-alto">Muy Alto</span></td>
-                            <td><strong>A.8.19 / Art. 25 GDPR:</strong> Monitoreo algorítmico automatizado sobre smart
-                                contracts de anuncios premium y usernames comerciales para blindar transacciones
-                                monetarias integradas.</td>
-                        </tr>
-
-                        <tr data-origen="externo">
-                            <td>R12</td>
-                            <td><strong>Data Centers de terceros (Co-location)</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>2</td>
-                            <td>4</td>
-                            <td class="risk-cell">8</td>
-                            <td><span class="risk-val r-medio">Medio</span></td>
-                            <td><strong>A.7.2, A.7.5 / Art. 46 GDPR:</strong> Contratos vinculados bajo Cláusulas
-                                Contractuales Tipo (SCCs) de la UE. Destrucción física controlada e in situ de unidades
-                                de almacenamiento de datos en desuso.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R13</td>
-                            <td><strong>Tiendas de aplicaciones (App Stores)</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td class="risk-cell">12</td>
-                            <td><span class="risk-val r-muy-alto">Muy Alto</span></td>
-                            <td><strong>A.5.19, A.5.20:</strong> Firmas digitales criptográficas robustas en binarios y
-                                aprovisionamiento de un canal alterno directo en la web oficial para eludir censuras
-                                corporativas de tiendas comerciales.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R14</td>
-                            <td><strong>Dispositivos finales de los usuarios</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>5</td>
-                            <td>1</td>
-                            <td class="risk-cell">5</td>
-                            <td><span class="risk-val r-medio">Medio</span></td>
-                            <td><strong>A.8.9 / Art. 17 GDPR:</strong> Mecanismos interactivos locales de
-                                autodestrucción inmediata de mensajes, base de datos local cifrada con SQLCipher y
-                                bloqueos de pantalla con PIN numérico.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R15</td>
-                            <td><strong>Proveedores de pasarelas de SMS</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>5</td>
-                            <td>3</td>
-                            <td class="risk-cell">15</td>
-                            <td><span class="risk-val r-muy-alto">Muy Alto</span></td>
-                            <td><strong>A.5.21 / Art. 32 GDPR:</strong> Autenticación Obligatoria por Contraseña (2FA)
-                                local para anular de raíz la intercepción de códigos OTP mediante técnicas de secuestro
-                                de SIM (SIM-Swapping).</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R16</td>
-                            <td><strong>Redes de ISP globales</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>4</td>
-                            <td>3</td>
-                            <td class="risk-cell">12</td>
-                            <td><span class="risk-val r-muy-alto">Muy Alto</span></td>
-                            <td><strong>A.8.20:</strong> Encriptación de tráfico de punta a punta mediante el protocolo
-                                MTProto para mitigar vectores Man-In-The-Middle (MITM) a nivel de nodos de enrutamiento
-                                transoceánico.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R17</td>
-                            <td><strong>Pasarelas de pago de Bots API</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td class="risk-cell">6</td>
-                            <td><span class="risk-val r-medio">Medio</span></td>
-                            <td><strong>A.5.22 / Art. 28 GDPR:</strong> Separación total de datos. Telegram actúa como
-                                transporte agnóstico y pasarela de comunicación cifrada, delegando el almacenamiento
-                                financiero en procesadores PCI-DSS.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R18</td>
-                            <td><strong>Infraestructura de Mitigación DDoS</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>5</td>
-                            <td>5</td>
-                            <td class="risk-cell">25</td>
-                            <td><span class="risk-val r-extremo">Extremo</span></td>
-                            <td><strong>A.8.12, A.8.21:</strong> Contratación de redes perimetrales Anycast con
-                                capacidad de absorción mayor a 5 Tbps para asegurar la continuidad del servicio bajo
-                                ataques informáticos concurrentes.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R19</td>
-                            <td><strong>Servicios DNS globales</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>3</td>
-                            <td>5</td>
-                            <td class="risk-cell">15</td>
-                            <td><span class="risk-val r-muy-alto">Muy Alto</span></td>
-                            <td><strong>A.8.4:</strong> Implementación mandatoria de extensiones DNSSEC en los dominios
-                                raíces corporativos de Telegram para impedir el secuestro y redirección maliciosa hacia
-                                clones.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R20</td>
-                            <td><strong>Red de Voluntarios de Soporte (TSF)</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>3</td>
-                            <td>3</td>
-                            <td class="risk-cell">9</td>
-                            <td><span class="risk-val r-alto">Alto</span></td>
-                            <td><strong>A.6.3 / Art. 29 GDPR:</strong> Acceso denegado a números telefónicos reales
-                                dentro de los paneles de asistencia. Monitoreo por algoritmos de IA para revocar
-                                inmediatamente accesos ante anomalías.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R21</td>
-                            <td><strong>Redes CDNs de almacenamiento estático</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td class="risk-cell">6</td>
-                            <td><span class="risk-val r-medio">Medio</span></td>
-                            <td><strong>A.8.1, A.8.2 / Art. 32 GDPR:</strong> Todos los archivos multimedia (videos,
-                                imágenes) distribuidos en caches externas se almacenan cifrados con llaves simétricas
-                                que solo posee el cliente final.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <button class="btn-export" onclick="window.print()">Exportar Informe Técnico del Sistema de Seguridad y
-                Privacidad a PDF</button>
         </div>
 
         <div id="tab-mejora" class="tab-content">
-            <div class="card">
-                <div class="card-title">
-                    Cláusula 9: Evaluación de Desempeño y Auditorías Conjuntas
-                    <span class="clause-badge">ISO 27001:2022 - Cl. 9</span>
-                    <span class="gdpr-badge">GDPR Art. 32</span>
+            <div class="iso-two-column-layout">
+                <div class="card">
+                    <div class="card-title">
+                        3. Diagnóstico de Cumplimiento Técnico
+                        <span class="clause-badge">ISO 27001 - Cl. 9</span>
+                    </div>
+                    <p>Estado de auditoría e indicadores de madurez estratégica del SGSI híbrido:</p>
+
+                    <div class="iso-progress-container">
+                        <div class="iso-progress-header">
+                            <span>9.1 Seguimiento, Medición y Análisis</span>
+                            <span class="highlight">75%</span>
+                        </div>
+                        <div class="iso-progress-bar">
+                            <div class="iso-progress-fill bg-neon" style="width: 75%"></div>
+                        </div>
+                    </div>
+
+                    <div class="iso-progress-container">
+                        <div class="iso-progress-header">
+                            <span>9.2 Auditoría Interna del Sistema</span>
+                            <span style="color:var(--risk-alto)">60%</span>
+                        </div>
+                        <div class="iso-progress-bar">
+                            <div class="iso-progress-fill" style="width: 60%; background-color: var(--risk-alto)"></div>
+                        </div>
+                    </div>
+
+                    <div class="iso-progress-container">
+                        <div class="iso-progress-header">
+                            <span>9.3 Revisión por la Alta Dirección</span>
+                            <span style="color:var(--risk-alto)">66%</span>
+                        </div>
+                        <div class="iso-progress-bar">
+                            <div class="iso-progress-fill" style="width: 66%; background-color: var(--risk-alto)"></div>
+                        </div>
+                    </div>
+
+                    <div class="iso-callout-box">
+                        <h5><i class="fas fa-exclamation-triangle"></i> Hallazgos de Auditoría (No Conformidades)</h5>
+                        <ul>
+                            <li><strong>Métrica 9.1.5:</strong> Falta formalizar un rol nominal único para evaluación
+                                ejecutiva semanal.</li>
+                            <li><strong>Control 9.2.2:</strong> Evidencias en logs de auditoría interna requieren
+                                protección criptográfica robustecida.</li>
+                        </ul>
+                    </div>
                 </div>
-                <p>Telegram ejecuta revisiones semestrales programadas de la efectividad técnica del SGSI y de los
-                    niveles de cumplimiento regulatorio internacional mediante auditorías combinadas lideradas en
-                    conjunto por el CISO y el DPO.</p>
-                <h3>Monitoreo y Alertas de Brechas de Seguridad (Art. 33 GDPR)</h3>
-                <ul>
-                    <li><strong>Garantía de Notificación de Incidentes:</strong> En estricto apego al GDPR, el sistema
-                        cuenta con flujos automatizados de respuesta técnica para que, ante la detección de cualquier
-                        brecha de seguridad confirmada que comprometa datos personales, el DPO pueda notificar
-                        formalmente a las Autoridades de Control competentes en un plazo máximo de <span
-                            class="highlight-gdpr">72 horas</span>, adjuntando la evaluación forense inicial y las
-                        contenciones operativas implementadas.</li>
-                    <li><strong>Indicadores Clave (KRIs):</strong> Trazabilidad del tiempo de respuesta ante alertas
-                        tempranas de intrusión física en data centers y tasas de éxito en parches automáticos sobre
-                        vulnerabilidades críticas descubiertas.</li>
-                </ul>
+
+                <div class="card">
+                    <div class="card-title">
+                        4. Monitoreo Operativo en Tiempo Real (KPIs)
+                        <span class="clause-badge">ISO 27001 - Cl. 9.1</span>
+                    </div>
+                    <div class="iso-kpi-grid">
+                        <div class="iso-kpi-card">
+                            <span class="iso-kpi-title">Disponibilidad de Red</span>
+                            <span class="iso-kpi-value" style="color: var(--accent-green)">&ge; 99.99%</span>
+                            <span class="iso-kpi-status status-ok">Conforme</span>
+                        </div>
+                        <div class="iso-kpi-card">
+                            <span class="iso-kpi-title">Brechas en CI/CD</span>
+                            <span class="iso-kpi-value" style="color: var(--accent-green)">0 Críticas</span>
+                            <span class="iso-kpi-status status-ok">Bloqueado</span>
+                        </div>
+                        <div class="iso-kpi-card">
+                            <span class="iso-kpi-title">Claves en HSM</span>
+                            <span class="iso-kpi-value" style="color: var(--risk-alto)">Fragmentadas</span>
+                            <span class="iso-kpi-status status-warn">Auditoría OK</span>
+                        </div>
+                        <div class="iso-kpi-card">
+                            <span class="iso-kpi-title">Firmas NDA (Ingenieros)</span>
+                            <span class="iso-kpi-value" style="color: var(--risk-alto)">100% Core</span>
+                            <span class="iso-kpi-status status-ok">TLG-SEC-2026</span>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="card">
                 <div class="card-title">
-                    Cláusula 10: Mejora Continua y Mitigación de Impacto en Privacidad
-                    <span class="clause-badge">ISO 27001:2022 - Cl. 10</span>
-                    <span class="gdpr-badge">GDPR Art. 35</span>
+                    5. Ciclo de Mejora Continua: Caso de Incidente Práctico
+                    <span class="clause-badge">ISO 27001 - Cl. 10</span>
+                    <span class="gdpr-badge">GDPR Art. 33</span>
                 </div>
-                <p>Ante fallos procedimentales, cambios de código o la adición de nuevas funcionalidades operativas en
-                    Telegram (como integraciones financieras de criptomonedas o bots avanzados), el sistema activa
-                    auditorías reactivas inmediatas de causa raíz.</p>
-                <h3>Evaluaciones de Impacto en la Protección de Datos (EIPD / DPIA)</h3>
-                <p>Como mecanismo permanente de mejora continua, se estipula la ejecución obligatoria de una EIPD antes
-                    del despliegue de cualquier cambio tecnológico que involucre tecnologías emergentes o el tratamiento
-                    automatizado de perfiles lógicos de usuarios. Esto asegura la actualización sistemática de la matriz
-                    general de riesgos, alineando de forma constante la madurez de la infraestructura tecnológica con el
-                    estricto marco normativo internacional.</p>
+                <div class="iso-timeline-item">
+                    <h4><span class="badge badge-red" style="width: auto; padding: 2px 6px;">Incidente Detectado</span>
+                        Desviación de Control Técnico en Pipeline MTProto 2.0</h4>
+                    <p style="margin-top: 10px;"><strong>Suceso:</strong> Se detectó una vulnerabilidad menor mediante
+                        el programa Bug Bounty. La investigación reveló que el pipeline automatizado de compilación fue
+                        modificado manualmente omitiendo los scripts automáticos de escaneo criptográfico mandatorios.
+                    </p>
+                    <div class="iso-root-cause">
+                        <strong>Análisis de Causa Raíz (5 Porqués):</strong> La regla técnica que bloqueaba el
+                        despliegue a producción sin firmas criptográficas fue desactivada temporalmente durante una
+                        ventana de mantenimiento técnico y no se restableció por la falta de un script de control
+                        recurrente de sanidad.
+                    </div>
+                    <h5>Acciones Correctivas Tomadas (Mitigación de Resiliencia):</h5>
+                    <ol style="margin-top: 10px; margin-left: 20px;">
+                        <li><strong>Inmutabilidad Rigurosa de Ramas:</strong> Bloqueo automatizado absoluto de fusiones
+                            directas a ramas estables sin autorización criptográfica dual firmada por hardware.</li>
+                        <li><strong>Demonio de Escaneo Recurrente:</strong> Despliegue de un bot supervisor que audita
+                            la configuración de seguridad de GitHub cada 60 minutos, revocando cambios no autorizados de
+                            inmediato.</li>
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
@@ -998,18 +1261,20 @@
             if (currentButton) currentButton.classList.add('active');
         }
 
-        function filterMatrix(type, element) {
-            const filterBtns = document.querySelectorAll('.filter-btn');
+        function filterRisk(level) {
+            const filterBtns = document.querySelectorAll('.iso-filter-btn');
             filterBtns.forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
 
-            const rows = document.querySelectorAll('#matrix-table tbody tr');
+            const currentBtn = Array.from(filterBtns).find(btn => btn.getAttribute('onclick').includes(`'${level}'`));
+            if (currentBtn) currentBtn.classList.add('active');
+
+            const rows = document.querySelectorAll('#riskTable tbody tr');
             rows.forEach(row => {
-                if (type === 'todos') {
+                if (level === 'all') {
                     row.style.display = 'table-row';
                 } else {
-                    const rowOrigen = row.getAttribute('data-origen');
-                    if (rowOrigen === type) {
+                    const rowLevel = row.getAttribute('data-level');
+                    if (rowLevel === level) {
                         row.style.display = 'table-row';
                     } else {
                         row.style.display = 'none';
@@ -1018,25 +1283,31 @@
             });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const riskCells = document.querySelectorAll('.risk-cell');
-            riskCells.forEach(cell => {
-                const val = parseInt(cell.textContent.trim(), 10);
-                if (val >= 16) {
-                    cell.style.color = '#f87171';
-                    cell.style.fontWeight = 'bold';
-                } else if (val >= 12) {
-                    cell.style.color = '#fb923c';
-                    cell.style.fontWeight = 'bold';
-                } else if (val >= 9) {
-                    cell.style.color = '#fde047';
+        function filterByCoords(p, i) {
+            document.querySelectorAll('.iso-filter-btn').forEach(btn => btn.classList.remove('active'));
+
+            const rows = document.querySelectorAll('#riskTable tbody tr');
+            let hallazgos = 0;
+
+            rows.forEach(row => {
+                const rowP = parseInt(row.getAttribute('data-p'), 10);
+                const rowI = parseInt(row.getAttribute('data-i'), 10);
+
+                if (rowP === p && rowI === i) {
+                    row.style.display = 'table-row';
+                    hallazgos++;
                 } else {
-                    cell.style.color = '#60a5fa';
+                    row.style.display = 'none';
                 }
             });
-        });
-    </script>
 
+            if (hallazgos === 0) {
+                alert(`Coordenada Interactiva (P:${p}, I:${i}): Celda analizada correctamente. Ningún activo se encuentra mapeado en esta intersección en la matriz actual.`);
+                rows.forEach(row => row.style.display = 'table-row');
+                document.querySelector('.iso-filter-btn').classList.add('active');
+            }
+        }
+    </script>
 </body>
 
 </html>
