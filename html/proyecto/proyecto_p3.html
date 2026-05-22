@@ -391,6 +391,39 @@
             margin-left: 130px;
         }
 
+        /* Custom Information Box */
+        .risk-info-box {
+            background: rgba(13, 22, 43, 0.7);
+            padding: 18px;
+            border-radius: 6px;
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .risk-info-box h4 {
+            font-family: 'Share Tech Mono', sans-serif;
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .risk-info-box p {
+            font-size: 0.85rem;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .risk-info-box small {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: block;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 6px;
+        }
+
         /* Tables Architecture */
         .iso-table-responsive {
             overflow-x: auto;
@@ -634,7 +667,8 @@
 
             .tabs-nav,
             .iso-matrix-controls,
-            .iso-btn-pdf {
+            .iso-btn-pdf,
+            .risk-info-box {
                 display: none !important;
             }
 
@@ -897,6 +931,12 @@
                             </div>
                         </div>
                         <div class="iso-matrix-x-axis-title">Probabilidad (P) &rarr;</div>
+                    </div>
+
+                    <div id="riskInfoPanel" class="risk-info-box">
+                        <h4 id="panelTitle"></h4>
+                        <p id="panelDesc"></p>
+                        <small id="panelMeta"></small>
                     </div>
                 </div>
 
@@ -1262,6 +1302,9 @@
         }
 
         function filterRisk(level) {
+            // Ocultar panel dinámico al usar los filtros de nivel superior
+            document.getElementById('riskInfoPanel').style.display = 'none';
+
             const filterBtns = document.querySelectorAll('.iso-filter-btn');
             filterBtns.forEach(btn => btn.classList.remove('active'));
 
@@ -1284,11 +1327,57 @@
         }
 
         function filterByCoords(p, i) {
+            // Remover estado activo de botones generales
             document.querySelectorAll('.iso-filter-btn').forEach(btn => btn.classList.remove('active'));
+
+            const pLabels = ["", "Raro", "Poco Probable", "Moderado", "Probable", "Casi Seguro"];
+            const iLabels = ["", "Insignificante", "Menor", "Significativo", "Mayor", "Severo"];
+
+            const score = p * i;
+            let scaleTitle = "";
+            let scaleDesc = "";
+            let borderStyle = "";
+            let colorHex = "";
+
+            // Definición explícita y profesional de las escalas de riesgo corporativo
+            if (score >= 16) {
+                scaleTitle = "ZONA CRÍTICA: RIESGO EXTREMO";
+                scaleDesc = "Estrategia Obligatoria: Mitigación inmediata y contención técnica de nivel core. Requiere aislamiento de red distribuida, auditorías duales firmadas por hardware HSM y reporte prioritario ante el CISO y el Comité de Gobernanza. Amenaza la soberanía global de los datos.";
+                colorHex = "var(--risk-extremo)";
+                borderStyle = "1px solid var(--risk-extremo)";
+            } else if (score >= 10) {
+                scaleTitle = "ZONA DE ATENCIÓN: RIESGO ALTO / MUY ALTO";
+                scaleDesc = "Estrategia Obligatoria: Acciones correctivas integradas de manera prioritaria en el backlog DevSecOps. Exige el despliegue de salvaguardas avanzadas del Anexo A (ISO 27001) y la ejecución estricta de evaluaciones de privacidad desde el diseño (Art. 25 GDPR).";
+                colorHex = "var(--risk-muy-alto)";
+                borderStyle = "1px solid var(--risk-muy-alto)";
+            } else if (score >= 4) {
+                scaleTitle = "ZONA DE CONTROL: RIESGO MEDIO";
+                scaleDesc = "Estrategia Obligatoria: Tratamiento mediante los controles operativos estándar e infraestructura ya existente. Monitoreado a través de revisiones periódicas trimestrales y trazas de auditoría syslog inmutables.";
+                colorHex = "var(--risk-medio)";
+                borderStyle = "1px solid var(--risk-medio)";
+            } else {
+                scaleTitle = "ZONA ACEPTABLE: RIESGO BAJO / MUY BAJO";
+                scaleDesc = "Estrategia Obligatoria: Riesgo formalmente asumido y absorbido por el ecosistema. Se gestiona y mantiene bajo control mediante la aplicación rigurosa de buenas prácticas de desarrollo de software ordinario.";
+                colorHex = "var(--accent-green)";
+                borderStyle = "1px solid var(--accent-green)";
+            }
+
+            // Renderizado del panel informativo dinámico
+            const panel = document.getElementById('riskInfoPanel');
+            const pTitle = document.getElementById('panelTitle');
+            const pDesc = document.getElementById('panelDesc');
+            const pMeta = document.getElementById('panelMeta');
+
+            panel.style.display = 'block';
+            panel.style.border = borderStyle;
+            pTitle.style.color = colorHex;
+            pTitle.innerHTML = `<i class="fas fa-shield-halved"></i> ${scaleTitle} (Criticidad Matemática: ${score})`;
+            pDesc.textContent = scaleDesc;
 
             const rows = document.querySelectorAll('#riskTable tbody tr');
             let hallazgos = 0;
 
+            // Filtrado dinámico de las filas en la tabla de activos
             rows.forEach(row => {
                 const rowP = parseInt(row.getAttribute('data-p'), 10);
                 const rowI = parseInt(row.getAttribute('data-i'), 10);
@@ -1301,10 +1390,12 @@
                 }
             });
 
+            // Comportamiento inteligente si la intersección exacta está libre de activos
             if (hallazgos === 0) {
-                alert(`Coordenada Interactiva (P:${p}, I:${i}): Celda analizada correctamente. Ningún activo se encuentra mapeado en esta intersección en la matriz actual.`);
+                pMeta.innerHTML = `<strong>Mapeo Lógico:</strong> Probabilidad ${p} (${pLabels[p]}) &times; Impacto ${i} (${iLabels[i]}). <span style="color:var(--risk-alto)"><i class="fas fa-circle-exclamation"></i> Nota Operativa: Ningún activo de la infraestructura actual se ubica en esta coordenada exacta; la tabla se mantiene completa.</span>`;
                 rows.forEach(row => row.style.display = 'table-row');
-                document.querySelector('.iso-filter-btn').classList.add('active');
+            } else {
+                pMeta.innerHTML = `<strong>Mapeo Lógico:</strong> Probabilidad ${p} (${pLabels[p]}) &times; Impacto ${i} (${iLabels[i]}). <span style="color:var(--accent-green)"><i class="fas fa-circle-check"></i> Éxito: Mostrando los ${hallazgos} activo(s) crítico(s) detectado(s).</span>`;
             }
         }
     </script>
