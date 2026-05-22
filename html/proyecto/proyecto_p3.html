@@ -4,1035 +4,770 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SGSI & GDPR Telegram - Sistema de Gestión de Seguridad e intimidad de la Información</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Share+Tech+Mono&display=swap"
-        rel="stylesheet">
+    <title>Enterprise Risk & Architecture Governance Dashboard</title>
     <style>
         :root {
-            --bg-primary: #0a0f1d;
-            --bg-secondary: #111827;
-            --bg-tertiary: #1f2937;
-            --accent-cyan: #00f0ff;
-            --accent-blue: #0088cc;
-            --accent-purple: #bd00ff;
-            --accent-green: #10b981;
-            --text-main: #e5e7eb;
-            --text-muted: #9ca3af;
-            --border-glow: #00f0ff33;
+            --bg-primary: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
 
-            --risk-extremo: #ef4444;
-            --risk-muy-alto: #f97316;
-            --risk-alto: #eab308;
-            --risk-medio: #3b82f6;
+            /* Severidades cromáticas estonias */
+            --risk-low: #10b981;
+            --risk-medium: #f59e0b;
+            --risk-high: #f97316;
+            --risk-critical: #ef4444;
+
+            /* Badges */
+            --bg-low: #dcfce7;
+            --txt-low: #15803d;
+            --bg-medium: #fef9c3;
+            --txt-medium: #a16207;
+            --bg-high: #ffedd5;
+            --txt-high: #c2410c;
+            --bg-critical: #fee2e2;
+            --txt-critical: #b91c1c;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
-            font-family: 'JetBrains+Mono', monospace;
             background-color: var(--bg-primary);
             color: var(--text-main);
-            line-height: 1.6;
-            padding: 20px;
+            padding: 2rem;
+            line-height: 1.5;
         }
 
-        .container {
+        .dashboard-container {
             max-width: 1400px;
             margin: 0 auto;
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--bg-secondary), #0d2040);
-            padding: 30px;
-            border-radius: 12px;
-            border: 1px solid var(--accent-cyan);
-            box-shadow: 0 0 20px var(--border-glow);
-            margin-bottom: 30px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        header::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background-color: var(--accent-cyan);
-        }
-
-        .header-title {
-            font-family: 'Share Tech Mono', sans-serif;
-            font-size: 2.5rem;
-            color: var(--accent-cyan);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-        }
-
-        .header-subtitle {
-            font-size: 1.1rem;
-            color: var(--text-muted);
-        }
-
-        .meta-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .meta-item span {
-            color: var(--accent-cyan);
-            font-weight: bold;
-        }
-
-        /* Tabs System */
-        .tabs-nav {
             display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--bg-tertiary);
-            padding-bottom: 10px;
-            overflow-x: auto;
+            flex-direction: column;
+            gap: 2rem;
         }
 
-        .tab-btn {
-            background-color: var(--bg-secondary);
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1.5rem;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.02em;
+        }
+
+        .header p {
             color: var(--text-muted);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 12px 20px;
-            cursor: pointer;
-            font-family: 'Share Tech Mono', sans-serif;
-            font-size: 1rem;
+            margin-top: 0.25rem;
+            font-size: 0.95rem;
+        }
+
+        .env-badge {
+            background: #e2e8f0;
+            color: #334155;
+            padding: 4px 12px;
             border-radius: 6px;
-            transition: all 0.3s ease;
-            white-space: nowrap;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
         }
 
-        .tab-btn:hover {
-            color: var(--accent-cyan);
-            border-color: var(--accent-cyan);
-            background-color: rgba(0, 240, 255, 0.05);
+        /* Grid de KPIs Superiores */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
         }
 
-        .tab-btn.active {
-            color: var(--bg-primary);
-            background-color: var(--accent-cyan);
-            border-color: var(--accent-cyan);
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
         }
 
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease forwards;
+        .kpi-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
 
-        .tab-content.active {
-            display: block;
+        .kpi-value {
+            font-size: 1.75rem;
+            font-weight: 700;
         }
 
-        /* Layout Units */
+        /* Distribución de la Sección Interactiva Central */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 450px;
+            gap: 2rem;
+        }
+
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .card {
-            background-color: var(--bg-secondary);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 25px;
-            margin-bottom: 25px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
         }
 
         .card-title {
-            font-family: 'Share Tech Mono', sans-serif;
-            font-size: 1.5rem;
-            color: var(--accent-cyan);
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .clause-badge {
-            font-size: 0.85rem;
-            background-color: var(--bg-tertiary);
-            color: var(--text-main);
-            padding: 4px 10px;
-            border-radius: 4px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .gdpr-badge {
-            font-size: 0.85rem;
-            background-color: rgba(16, 185, 129, 0.15);
-            color: var(--accent-green);
-            padding: 4px 10px;
-            border-radius: 4px;
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            margin-left: 5px;
-        }
-
-        h3 {
-            color: var(--accent-blue);
-            margin: 20px 0 10px 0;
-            font-size: 1.2rem;
-        }
-
-        p {
-            margin-bottom: 15px;
-            text-align: justify;
-        }
-
-        ul,
-        ol {
-            margin-left: 20px;
-            margin-bottom: 15px;
-        }
-
-        li {
-            margin-bottom: 8px;
-        }
-
-        .highlight {
-            color: var(--accent-cyan);
-        }
-
-        .highlight-gdpr {
-            color: var(--accent-green);
-        }
-
-        /* Matrix Elements */
-        .controls-panel {
+        /* Estructura Modular de la Matriz */
+        .matrix-container {
             display: flex;
-            gap: 15px;
-            margin-bottom: 20px;
-            flex-wrap: wrap;
-            background: var(--bg-secondary);
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .matrix-row {
+            display: grid;
+            grid-template-columns: 90px repeat(5, 1fr);
+            gap: 6px;
+            align-items: center;
+        }
+
+        .matrix-label-y {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-align: right;
+            padding-right: 12px;
+        }
+
+        .matrix-cell {
+            aspect-ratio: 1.4;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.95);
+            transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.15s ease;
+            position: relative;
+        }
+
+        .matrix-cell:hover {
+            transform: scale(1.04);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+            z-index: 10;
+        }
+
+        .matrix-cell.active {
+            transform: scale(1.04);
+            box-shadow: 0 0 0 3px #0f172a, 0 6px 16px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+        }
+
+        .matrix-cell .score {
+            align-self: flex-end;
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .matrix-cell .count {
+            background: rgba(0, 0, 0, 0.15);
+            padding: 2px 6px;
+            border-radius: 4px;
+            width: fit-content;
+        }
+
+        /* Inyección de colorimetría limpia */
+        .c-low {
+            background-color: var(--risk-low);
+        }
+
+        .c-medium {
+            background-color: var(--risk-medium);
+            color: #451a03;
+        }
+
+        .c-medium .count {
+            background: rgba(0, 0, 0, 0.08);
+        }
+
+        .c-high {
+            background-color: var(--risk-high);
+        }
+
+        .c-critical {
+            background-color: var(--risk-critical);
+        }
+
+        .matrix-headers-x {
+            display: grid;
+            grid-template-columns: 90px repeat(5, 1fr);
+            gap: 6px;
+            margin-top: 10px;
+        }
+
+        .matrix-label-x {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* Panel de Detalle de Auditoría */
+        .details-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+        }
+
+        .risk-badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            width: fit-content;
+        }
+
+        .badge-low {
+            background: var(--bg-low);
+            color: var(--txt-low);
+        }
+
+        .badge-medium {
+            background: var(--bg-medium);
+            color: var(--txt-medium);
+        }
+
+        .badge-high {
+            background: var(--bg-high);
+            color: var(--txt-high);
+        }
+
+        .badge-critical {
+            background: var(--bg-critical);
+            color: var(--txt-critical);
+        }
+
+        .detail-section {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+
+        .detail-section:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .detail-section h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            margin-bottom: 0.35rem;
+        }
+
+        .detail-section p {
+            font-size: 0.95rem;
+            color: var(--text-main);
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .empty-state {
+            color: var(--text-muted);
+            text-align: center;
+            padding: 5rem 1rem;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        /* Tabla de Registro Completo (Merge de Datos Anteriores) */
+        .table-filters {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            overflow-x: auto;
         }
 
         .filter-btn {
-            background-color: var(--bg-tertiary);
-            color: var(--text-main);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 8px 15px;
-            border-radius: 4px;
+            background: #f1f5f9;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 500;
             cursor: pointer;
-            font-size: 0.9rem;
+            color: #475569;
+            transition: all 0.15s ease;
         }
 
-        .filter-btn.active {
-            background-color: var(--accent-blue);
-            border-color: var(--accent-blue);
-            color: white;
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: #0f172a;
+            color: #ffffff;
         }
 
-        .matrix-container {
+        .table-wrapper {
+            width: 100%;
             overflow-x: auto;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
 
         th {
-            background-color: var(--bg-tertiary);
-            color: var(--accent-cyan);
-            font-family: 'Share Tech Mono', sans-serif;
-            padding: 12px 15px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-            white-space: nowrap;
+            background: #f8fafc;
+            padding: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-bottom: 2px solid var(--border-color);
         }
 
         td {
-            padding: 12px 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            vertical-align: top;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-main);
         }
 
-        tr:hover {
-            background-color: rgba(255, 255, 255, 0.02);
+        tr:hover td {
+            background: #f8fafc;
         }
 
-        .badge {
-            display: inline-block;
+        .code-tag {
+            font-family: monospace;
+            background: #f1f5f9;
             padding: 2px 6px;
             border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .badge-int {
-            background-color: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            border: 1px solid #3b82f6;
-        }
-
-        .badge-ext {
-            background-color: rgba(168, 85, 247, 0.2);
-            color: #c084fc;
-            border: 1px solid #a855f7;
-        }
-
-        .risk-val {
-            font-weight: bold;
-            padding: 4px 8px;
-            border-radius: 4px;
-            text-align: center;
-            display: block;
-        }
-
-        .r-extremo {
-            background-color: rgba(239, 68, 68, 0.2);
-            color: #f87171;
-            border: 1px solid var(--risk-extremo);
-        }
-
-        .r-muy-alto {
-            background-color: rgba(249, 115, 22, 0.2);
-            color: #fb923c;
-            border: 1px solid var(--risk-muy-alto);
-        }
-
-        .r-alto {
-            background-color: rgba(234, 179, 8, 0.2);
-            color: #fde047;
-            border: 1px solid var(--risk-alto);
-        }
-
-        .r-medio {
-            background-color: rgba(59, 130, 246, 0.2);
-            color: #60a5fa;
-            border: 1px solid var(--risk-medio);
-        }
-
-        .btn-export {
-            display: block;
-            width: 100%;
-            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan));
-            color: var(--bg-primary);
-            font-family: 'Share Tech Mono', sans-serif;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-align: center;
-            padding: 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(0, 240, 255, 0.3);
-            transition: transform 0.2s, opacity 0.2s;
-        }
-
-        .btn-export:hover {
-            transform: translateY(-2px);
-            opacity: 0.95;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Print Architecture Stylesheet */
-        @media print {
-            body {
-                background-color: white !important;
-                color: black !important;
-                padding: 0;
-                font-family: Arial, sans-serif;
-                font-size: 10pt;
-            }
-
-            .tabs-nav,
-            .controls-panel,
-            .btn-export,
-            header::before {
-                display: none !important;
-            }
-
-            .tab-content {
-                display: block !important;
-                opacity: 1 !important;
-                transform: none !important;
-                page-break-after: always;
-            }
-
-            .card {
-                background: white !important;
-                border: 1px solid #ccc !important;
-                color: black !important;
-                padding: 15px;
-                margin-bottom: 20px;
-                box-shadow: none !important;
-                page-break-inside: avoid;
-            }
-
-            header {
-                background: white !important;
-                color: black !important;
-                border: 2px solid black !important;
-                box-shadow: none !important;
-                padding: 20px;
-            }
-
-            .header-title {
-                color: black !important;
-                font-size: 22pt;
-            }
-
-            .card-title {
-                color: black !important;
-                border-bottom: 2px solid black !important;
-                font-size: 14pt;
-            }
-
-            h3 {
-                color: #333 !important;
-            }
-
-            .highlight {
-                color: black !important;
-                font-weight: bold;
-            }
-
-            .highlight-gdpr {
-                color: black !important;
-                font-style: italic;
-            }
-
-            table {
-                font-size: 8pt;
-                width: 100%;
-                border: 1px solid black !important;
-            }
-
-            th {
-                background-color: #f0f0f0 !important;
-                color: black !important;
-                border-bottom: 1px solid black !important;
-            }
-
-            td {
-                border-bottom: 1px solid #ddd !important;
-                color: black !important;
-            }
-
-            .badge,
-            .risk-val {
-                background: transparent !important;
-                color: black !important;
-                border: none !important;
-                padding: 0 !important;
-                font-weight: bold;
-            }
-
-            .risk-val::before {
-                content: "[";
-            }
-
-            .risk-val::after {
-                content: "]";
-            }
+            font-size: 0.8rem;
+            color: #0f172a;
         }
     </style>
 </head>
 
 <body>
 
-    <div class="container">
-        <header>
-            <div class="header-title">Ecosistema Global Telegram Messenger</div>
-            <div class="header-subtitle">Marco de Ciberseguridad Híbrido: SGSI (ISO/IEC 27001:2022) e Integración de
-                Privacidad Corporativa (GDPR)</div>
-            <div class="meta-grid">
-                <div class="meta-item">Evaluación: <span>Tercer Parcial + Enfoque Legal</span></div>
-                <div class="meta-item">Asignatura: <span>Seguridad Informática</span></div>
-                <div class="meta-item">Docente: <span>Mtro. Servando</span></div>
-                <div class="meta-item">Marcos de Control: <span>ISO 27001 & GDPR (Reglamento UE)</span></div>
+    <div class="dashboard-container">
+
+        <!-- Bloque Superior: Identidad del Sistema -->
+        <div class="header">
+            <div>
+                <h1>Gobernanza de Arquitectura y Matriz de Riesgos</h1>
+                <p>Auditoría integral unificada y mitigación asíncrona de dependencias del ecosistema.</p>
             </div>
-        </header>
+            <div class="env-badge">Ambiente: Production</div>
+        </div>
 
-        <nav class="tabs-nav">
-            <button class="tab-btn active" onclick="switchTab('tab-iniciales')">1. Perímetro y Gobernanza (Cl.
-                1-3)</button>
-            <button class="tab-btn" onclick="switchTab('tab-liderazgo')">2. Roles, DPO y Soporte (Cl. 4-7)</button>
-            <button class="tab-btn" onclick="switchTab('tab-matriz')">3. Matriz Unificada (21 Activos -
-                ISO/GDPR)</button>
-            <button class="tab-btn" onclick="switchTab('tab-mejora')">4. Cumplimiento Legal y Resiliencia (Cl.
-                9-10)</button>
-        </nav>
-
-        <!-- TAB 1: CLÁUSULAS INICIALES + CUMPLIMIENTO REGULATORIO -->
-        <div id="tab-iniciales" class="tab-content active">
-            <div class="card">
-                <div class="card-title">
-                    Cláusula 1: Objeto, Campo de Aplicación y Soberanía de Datos
-                    <span class="clause-badge">ISO 27001:2022 - Cl. 1</span>
-                    <span class="gdpr-badge">GDPR Art. 3</span>
-                </div>
-                <p>El propósito de este Sistema de Gestión de Seguridad de la Información (SGSI) es establecer,
-                    implementar y optimizar continuamente el marco perimetral de protección de datos dentro de las
-                    operaciones globales de <span class="highlight">Telegram Messenger</span>. El alcance normativo se
-                    amplía formalmente para garantizar la convergencia sistémica con los mandatos de privacidad del
-                    <span class="highlight-gdpr">Reglamento General de Protección de Datos (GDPR - Reglamento UE
-                        2016/679)</span>, salvaguardando los derechos fundamentales de los usuarios.</p>
-                <h3>Soberanía Jurídica y Perímetro Lógico Ampliado</h3>
-                <p>Este sistema opera bajo un enfoque transfronterizo de protección de datos personales y corporativos,
-                    aislando los flujos de información en los siguientes subsectores operativos:</p>
-                <ul>
-                    <li><strong>Infraestructura Core Decentralizada:</strong> Reducción de riesgos regulatorios mediante
-                        la distribución geométrica de clústeres de servidores en jurisdicciones independientes, aislando
-                        de forma física y lógica los datos pertenecientes a ciudadanos de la Unión Europea bajo
-                        criterios del Art. 45 del GDPR.</li>
-                    <li><strong>Mecanismos de Privacidad desde el Diseño (Art. 25 GDPR):</strong> Integración
-                        obligatoria en el ciclo de vida del desarrollo de software (SDLC) de salvaguardas que limiten la
-                        recolección masiva de metadatos de mensajería (principio de minimización de datos).</li>
-                    <li><strong>Capa Móvil y API Multiplataforma:</strong> Blindaje de los canales lógicos y extremos de
-                        conexión que interactúan directamente con los repositorios centrales de almacenamiento en la
-                        nube de Telegram.</li>
-                </ul>
+        <!-- Bloque de Métricas Consolidadas -->
+        <div class="kpi-grid">
+            <div class="kpi-card" style="border-left: 4px solid var(--risk-critical);">
+                <div class="kpi-title">Eventos Críticos</div>
+                <div class="kpi-value" id="kpi-crit">4</div>
             </div>
-
-            <div class="card">
-                <div class="card-title">
-                    Cláusula 2: Referencias Normativas Coincidentes
-                    <span class="clause-badge">ISO 27001:2022 - Cl. 2</span>
-                </div>
-                <p>Los siguientes marcos y directrices legales constituyen la base regulatoria obligatoria e ineludible
-                    para el despliegue técnico del sistema híbrido:</p>
-                <ul>
-                    <li><strong>ISO/IEC 27001:2022 / ISO/IEC 27701:2019:</strong> Requisitos y extensiones técnicas para
-                        la Gestión de la Privacidad de la Información (PIMS).</li>
-                    <li><strong>Reglamento (UE) 2016/679 (GDPR):</strong> Marco normativo de la Unión Europea relativo a
-                        la protección de las personas físicas en lo que respecta al tratamiento de sus datos personales
-                        y a la libre circulación de estos datos.</li>
-                </ul>
+            <div class="kpi-card" style="border-left: 4px solid var(--risk-high);">
+                <div class="kpi-title">Amenazas de Alta Prioridad</div>
+                <div class="kpi-value">4</div>
             </div>
-
-            <div class="card">
-                <div class="card-title">
-                    Cláusula 3: Términos, Definiciones y Roles Legales
-                    <span class="clause-badge">ISO 27001:2022 - Cl. 3</span>
-                    <span class="gdpr-badge">GDPR Art. 4</span>
-                </div>
-                <p>Para efectos de auditoría ante las Autoridades de Control de Protección de Datos y el marco
-                    institucional de Telegram, se determinan las siguientes definiciones operativas:</p>
-                <ol>
-                    <li><strong>Responsable del Tratamiento (Data Controller):</strong> Entidad jurídica que determina
-                        los fines y medios del tratamiento de datos personales. En este perímetro, corresponde a
-                        Telegram Messenger Inc.</li>
-                    <li><strong>Sujeto de Datos (Data Subject):</strong> Toda persona física identificada o
-                        identificable cuyo número de teléfono, identificador único de API, libreta de contactos o
-                        mensajes en la nube sean procesados por la plataforma.</li>
-                    <li><strong>Seudonimización:</strong> El tratamiento de datos personales de manera tal que ya no
-                        puedan atribuirse a un sujeto de datos sin recurrir a información adicional, la cual debe
-                        figurar por separado y estar sujeta a medidas técnicas de cifrado (clave en la gestión de
-                        metadatos de Telegram).</li>
-                    <li><strong>Derecho a la Portabilidad (Art. 20 GDPR):</strong> Facultad del usuario para obtener sus
-                        datos personales en un formato estructurado, de uso común y lectura mecánica, permitiendo su
-                        transferencia directa a otra plataforma de mensajería.</li>
-                </ol>
+            <div class="kpi-card" style="border-left: 4px solid var(--risk-medium);">
+                <div class="kpi-title">Mitigaciones en Curso</div>
+                <div class="kpi-value">3</div>
+            </div>
+            <div class="kpi-card" style="border-left: 4px solid var(--risk-low);">
+                <div class="kpi-title">SLA Global de Servicios</div>
+                <div class="kpi-value">99.94%</div>
             </div>
         </div>
 
-        <!-- TAB 2: ROLES, DPO Y SOPORTE DE INGENIERÍA -->
-        <div id="tab-liderazgo" class="tab-content">
+        <!-- Bloque Central: Matriz + Inspector Dinámico -->
+        <div class="main-layout">
+
+            <!-- Matriz de Probabilidad e Impacto -->
             <div class="card">
-                <div class="card-title">
-                    Cláusula 5: Gobernanza, Liderazgo y Estructura del DPO
-                    <span class="clause-badge">ISO 27001:2022 - Cl. 5</span>
-                    <span class="gdpr-badge">GDPR Art. 37 - 39</span>
+                <div class="card-title">Matriz Cuantitativa (Filtro por Selección)</div>
+
+                <div class="matrix-container">
+                    <!-- P5 -->
+                    <div class="matrix-row">
+                        <div class="matrix-label-y">Muy Alta (5)</div>
+                        <div class="matrix-cell c-medium" data-p="5" data-i="1"><span class="count"
+                                id="m-5-1">0</span><span class="score">5</span></div>
+                        <div class="matrix-cell c-high" data-p="5" data-i="2"><span class="count"
+                                id="m-5-2">1</span><span class="score">10</span></div>
+                        <div class="matrix-cell c-high" data-p="5" data-i="3"><span class="count"
+                                id="m-5-3">0</span><span class="score">15</span></div>
+                        <div class="matrix-cell c-critical" data-p="5" data-i="4"><span class="count"
+                                id="m-5-4">2</span><span class="score">20</span></div>
+                        <div class="matrix-cell c-critical" data-p="5" data-i="5"><span class="count"
+                                id="m-5-5">1</span><span class="score">25</span></div>
+                    </div>
+                    <!-- P4 -->
+                    <div class="matrix-row">
+                        <div class="matrix-label-y">Alta (4)</div>
+                        <div class="matrix-cell c-low" data-p="4" data-i="1"><span class="count"
+                                id="m-4-1">0</span><span class="score">4</span></div>
+                        <div class="matrix-cell c-medium" data-p="4" data-i="2"><span class="count"
+                                id="m-4-2">0</span><span class="score">8</span></div>
+                        <div class="matrix-cell c-high" data-p="4" data-i="3"><span class="count"
+                                id="m-4-3">3</span><span class="score">12</span></div>
+                        <div class="matrix-cell c-high" data-p="4" data-i="4"><span class="count"
+                                id="m-4-4">0</span><span class="score">16</span></div>
+                        <div class="matrix-cell c-critical" data-p="4" data-i="5"><span class="count"
+                                id="m-4-5">1</span><span class="score">20</span></div>
+                    </div>
+                    <!-- P3 -->
+                    <div class="matrix-row">
+                        <div class="matrix-label-y">Media (3)</div>
+                        <div class="matrix-cell c-low" data-p="3" data-i="1"><span class="count"
+                                id="m-3-1">1</span><span class="score">3</span></div>
+                        <div class="matrix-cell c-medium" data-p="3" data-i="2"><span class="count"
+                                id="m-3-2">2</span><span class="score">6</span></div>
+                        <div class="matrix-cell c-medium" data-p="3" data-i="3"><span class="count"
+                                id="m-3-3">0</span><span class="score">9</span></div>
+                        <div class="matrix-cell c-high" data-p="3" data-i="4"><span class="count"
+                                id="m-3-4">1</span><span class="score">12</span></div>
+                        <div class="matrix-cell c-high" data-p="3" data-i="5"><span class="count"
+                                id="m-3-5">0</span><span class="score">15</span></div>
+                    </div>
+                    <!-- P2 -->
+                    <div class="matrix-row">
+                        <div class="matrix-label-y">Baja (2)</div>
+                        <div class="matrix-cell c-low" data-p="2" data-i="1"><span class="count"
+                                id="m-2-1">0</span><span class="score">2</span></div>
+                        <div class="matrix-cell c-low" data-p="2" data-i="2"><span class="count"
+                                id="m-2-2">1</span><span class="score">4</span></div>
+                        <div class="matrix-cell c-medium" data-p="2" data-i="3"><span class="count"
+                                id="m-2-3">0</span><span class="score">6</span></div>
+                        <div class="matrix-cell c-medium" data-p="2" data-i="4"><span class="count"
+                                id="m-2-4">2</span><span class="score">8</span></div>
+                        <div class="matrix-cell c-high" data-p="2" data-i="5"><span class="count"
+                                id="m-2-5">0</span><span class="score">10</span></div>
+                    </div>
+                    <!-- P1 -->
+                    <div class="matrix-row">
+                        <div class="matrix-label-y">Muy Baja (1)</div>
+                        <div class="matrix-cell c-low" data-p="1" data-i="1"><span class="count"
+                                id="m-1-1">0</span><span class="score">1</span></div>
+                        <div class="matrix-cell c-low" data-p="1" data-i="2"><span class="count"
+                                id="m-1-2">0</span><span class="score">2</span></div>
+                        <div class="matrix-cell c-low" data-p="1" data-i="3"><span class="count"
+                                id="m-1-3">1</span><span class="score">3</span></div>
+                        <div class="matrix-cell c-low" data-p="1" data-i="4"><span class="count"
+                                id="m-1-4">0</span><span class="score">4</span></div>
+                        <div class="matrix-cell c-medium" data-p="1" data-i="5"><span class="count"
+                                id="m-1-5">0</span><span class="score">5</span></div>
+                    </div>
+
+                    <!-- Eje X -->
+                    <div class="matrix-headers-x">
+                        <div></div>
+                        <div class="matrix-label-x">Insignificante (1)</div>
+                        <div class="matrix-label-x">Menor (2)</div>
+                        <div class="matrix-label-x">Moderado (3)</div>
+                        <div class="matrix-label-x">Mayor (4)</div>
+                        <div class="matrix-label-x">Catastrófico (5)</div>
+                    </div>
                 </div>
-                <p>La Alta Dirección consolida la seguridad operativa entrelazando el liderazgo directivo tradicional
-                    con los requisitos de fiscalización jurídica externa e interna.</p>
-                <h3>Gobernanza Corporativa y Estructura Organizacional (Cl. 5.3)</h3>
-                <ul>
-                    <li><strong>Delegado de Protección de Datos (DPO / Data Protection Officer):</strong> Designado de
-                        forma obligatoria conforme a los requerimientos del GDPR. Posee independencia funcional
-                        absoluta, reporta directamente al Comité Ejecutivo y actúa como el nexo oficial ante las
-                        agencias regulatorias de privacidad. Supervisa las Evaluaciones de Impacto en la Protección de
-                        Datos (EIPD).</li>
-                    <li><strong>Director de Seguridad (CISO):</strong> Responsable del despliegue de los controles
-                        criptográficos del Anexo A necesarios para respaldar las directrices de confidencialidad e
-                        integridad dictadas por el DPO.</li>
-                </ul>
             </div>
 
-            <div class="card">
-                <div class="card-title">
-                    Cláusula 7: Soporte Avanzado y Habilitación de Procesos Criptográficos
-                    <span class="clause-badge">ISO 27001:2022 - Cl. 7</span>
-                    <span class="gdpr-badge">GDPR Art. 32</span>
+            <!-- Inspector Lateral Unificado -->
+            <div class="card" id="inspector-card">
+                <div class="card-title">Inspector de Riesgos Seleccionado</div>
+                <div id="panel-content" class="empty-state">
+                    Haz clic sobre cualquier bloque numérico de la matriz para auditar las causas y estrategias de
+                    código específicas.
                 </div>
-
-                <h3>7.1 Capacidades Operativas e Infraestructura Concurrente</h3>
-                <p>Telegram garantiza financiamiento irrestricto para el aprovisionamiento de infraestructura de
-                    hardware criptográfico capaz de procesar de forma masiva los algoritmos de anonimización y borrado
-                    seguro distribuidos en la red.</p>
-
-                <h3>7.2 Competencias del Núcleo Crítico de Ingeniería (30 Senior Engineers)</h3>
-                <p>El núcleo élite técnico de <span class="highlight">30 Ingenieros Senior de Infraestructura
-                        Global</span> debe acreditar el cumplimiento obligatorio de las siguientes competencias
-                    profesionales especializadas:</p>
-                <ul>
-                    <li><strong>Ingeniería de Privacidad Avanzada:</strong> Capacitación certificada en principios de
-                        arquitectura de software orientada a la privacidad (*Privacy Engineering*), minimización de
-                        almacenamiento de datos temporales en servidores proxy e inmutabilidad de logs operacionales.
-                    </li>
-                    <li><strong>Criptografía Aplicada y Mitigación Forense:</strong> Dominio de metodologías DevSecOps
-                        con enfoque en blindaje criptográfico de bases de datos persistentes y técnicas avanzadas de
-                        purga lógica de memoria RAM volátil.</li>
-                </ul>
-
-                <h3>7.3 Concientización y Cultura Organizacional (Cl. 7.3)</h3>
-                <p>Todo el personal interno y moderadores regionales son sometidos obligatoriamente a programas
-                    continuos de capacitación en la gestión de solicitudes de usuarios:</p>
-                <ul>
-                    <li><strong>Identificación de Vectores de Exfiltración:</strong> Adiestramiento intensivo trimestral
-                        para detectar ataques de suplantación de identidad corporativa enfocados en engañar al soporte
-                        técnico para extraer ilegalmente historiales de chats de usuarios.</li>
-                </ul>
-
-                <h3>7.4 Ejecución Técnica del Derecho al Olvido y Portabilidad (Art. 17 y 20 GDPR)</h3>
-                <p>El soporte del SGSI automatiza las solicitudes de los derechos ARCO+ mediante procesos de software de
-                    bajo nivel integrados en la aplicación:</p>
-                <ul>
-                    <li><strong>Módulo Automatizado de Portabilidad:</strong> Herramienta nativa integrada en la API que
-                        permite a cualquier usuario descargar en tiempo real un archivo `.json` o `.html` cifrado que
-                        contiene la totalidad de sus conversaciones en la nube, imágenes asociadas, metadatos de
-                        geolocalización de inicio de sesión y lista de contactos indexada.</li>
-                    <li><strong>Purga Criptográfica (Derecho de Supresión / Olvido):</strong> Cuando un usuario decide
-                        eliminar su cuenta o activa el temporizador de autodestrucción por inactividad, el sistema
-                        inicia un borrado asíncrono que sobrescribe con ceros lógicos los bloques de datos indexados en
-                        los centros de datos distribuidos y revoca de forma definitiva las llaves maestras asociadas en
-                        los HSM corporativos en un plazo máximo de 72 horas.</li>
-                </ul>
-
-                <h3>7.5 Control de la Información Documentada del SGSI e Informes EIPD (Cl. 7.5)</h3>
-                <p>Los registros técnicos del SGSI y los reportes de auditoría de privacidad se manejan bajo un esquema
-                    de máxima restricción:</p>
-                <ul>
-                    <li><strong>Cifrado Homomórfico y Trazabilidad:</strong> Los reportes emitidos por el DPO y los
-                        análisis forenses se resguardan en un clúster cerrado bajo firma digital múltiple, limitando los
-                        privilegios de lectura mediante políticas estrictas basadas en roles de alta jerarquía.</li>
-                </ul>
             </div>
+
         </div>
 
-        <!-- TAB 3: MATRIZ DE RIESGOS UNIFICADA (ISO 27001 + GDPR) -->
-        <div id="tab-matriz" class="tab-content">
-            <div class="controls-panel">
-                <span
-                    style="font-weight: bold; display: flex; align-items: center; font-family: 'Share Tech Mono', sans-serif;">FILTRAR
-                    POR NATURALEZA DEL ACTIVO:</span>
-                <button class="filter-btn active" onclick="filterMatrix('todos', this)">Todos los Activos (21)</button>
-                <button class="filter-btn" onclick="filterMatrix('interno', this)">Internos Core (11)</button>
-                <button class="filter-btn" onclick="filterMatrix('externo', this)">Externos / Terceras Partes
-                    (10)</button>
+        <!-- Bloque Inferior: Data Table Completa (Combinación Histórica de Datos) -->
+        <div class="card">
+            <div class="card-title">Registro General y Auditoría de Vulnerabilidades</div>
+
+            <div class="table-filters">
+                <button class="filter-btn active" onclick="filterTable('all')">Todos los Eventos</button>
+                <button class="filter-btn" onclick="filterTable('critical')">Crítico</button>
+                <button class="filter-btn" onclick="filterTable('high')">Alto</button>
+                <button class="filter-btn" onclick="filterTable('medium')">Medio</button>
+                <button class="filter-btn" onclick="filterTable('low')">Bajo</button>
             </div>
 
-            <div class="matrix-container">
-                <table id="matrix-table">
+            <div class="table-wrapper">
+                <table>
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Activo Crítico</th>
-                            <th>Origen</th>
-                            <th>Prob (1-5)</th>
-                            <th>Imp (1-5)</th>
-                            <th>Riesgo</th>
-                            <th>Criticidad</th>
-                            <th>Controles Híbridos de Mitigación (ISO/IEC 27001:2022 + GDPR)</th>
+                            <th>Riesgo de Arquitectura / Infraestructura</th>
+                            <th>Severidad</th>
+                            <th>Matriz (P-I)</th>
+                            <th>Componente Afectado</th>
+                            <th>Estatus de Mitigación</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <!-- ACTIVOS INTERNOS (11) -->
-                        <tr data-origen="interno">
-                            <td>R1</td>
-                            <td><strong>Código fuente de MTProto</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>3</td>
-                            <td>5</td>
-                            <td class="risk-cell">15</td>
-                            <td><span class="risk-val r-alto">Alto</span></td>
-                            <td><strong>A.8.28, A.8.30 / Art. 32 GDPR:</strong> Auditoría criptográfica externa anual.
-                                El blindaje del código garantiza que no existan backdoors que comprometan la privacidad
-                                por defecto de los chats.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R2</td>
-                            <td><strong>Claves criptográficas de servidores</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td class="risk-cell">20</td>
-                            <td><span class="risk-val r-extremo">Extremo</span></td>
-                            <td><strong>A.8.24 / Art. 32 GDPR:</strong> Uso obligatorio de Módulos de Seguridad de
-                                Hardware (HSM) distribuidos geográficamente. Evita brechas masivas sujetas a multas del
-                                4% del volumen de negocio.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R3</td>
-                            <td><strong>Bases de datos de metadatos</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>4</td>
-                            <td>4</td>
-                            <td class="risk-cell">16</td>
-                            <td><span class="risk-val r-extremo">Extremo</span></td>
-                            <td><strong>A.8.23 / Art. 5 GDPR:</strong> Seudonimización inmediata y fragmentación de
-                                metadatos de usuario (ID - número telefónico) en múltiples bases distribuidas para
-                                impedir correlaciones directas de identidad.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R4</td>
-                            <td><strong>Servidores e Infraestructura Core</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td class="risk-cell">20</td>
-                            <td><span class="risk-val r-extremo">Extremo</span></td>
-                            <td><strong>A.8.14, A.8.22 / Art. 32:</strong> Infraestructura como Código (IaC) endurecida.
-                                Respaldos redundantes en caliente para cumplir con el principio de disponibilidad
-                                permanente de los datos.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R5</td>
-                            <td><strong>Código de Aplicaciones Cliente</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>4</td>
-                            <td>2</td>
-                            <td class="risk-cell">8</td>
-                            <td><span class="risk-val r-medio">Medio</span></td>
-                            <td><strong>A.8.25 / Art. 25 GDPR:</strong> Ofuscación agresiva pre-compilación. Publicación
-                                transparente del código de clientes para auditorías públicas en favor de la privacidad
-                                por diseño.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R6</td>
-                            <td><strong>Talento Humano (30 Ingenieros)</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>4</td>
-                            <td>4</td>
-                            <td class="risk-cell">16</td>
-                            <td><span class="risk-val r-extremo">Extremo</span></td>
-                            <td><strong>A.6.2, A.6.6 / Art. 29 GDPR:</strong> Acuerdos de confidencialidad draconianos
-                                internacionales. Privilegios de acceso técnico supervisados y firmados bajo estricto
-                                control de necesidad de conocer.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R7</td>
-                            <td><strong>Documentación de arquitectura</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>2</td>
-                            <td>5</td>
-                            <td class="risk-cell">10</td>
-                            <td><span class="risk-val r-alto">Alto</span></td>
-                            <td><strong>A.5.33, A.7.14:</strong> Cifrado de diagramas técnicos con llaves administradas
-                                por el CISO. Restricción absoluta para evitar vectores dirigidos a la exfiltración de
-                                planos de red.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R8</td>
-                            <td><strong>Logs de auditoría interna</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>3</td>
-                            <td>3</td>
-                            <td class="risk-cell">9</td>
-                            <td><span class="risk-val r-medio">Medio</span></td>
-                            <td><strong>A.8.15 / Art. 30 GDPR:</strong> Registro inmutable (WORM) de operaciones de
-                                acceso a datos de usuarios. Actúa como el inventario verificable ante auditorías de las
-                                Autoridades de Control de la UE.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R9</td>
-                            <td><strong>Entornos de desarrollo y pipelines</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>3</td>
-                            <td>5</td>
-                            <td class="risk-cell">15</td>
-                            <td><span class="risk-val r-muy-alto">Muy Alto</span></td>
-                            <td><strong>A.8.27, A.8.32:</strong> Prohibición absoluta del uso de datos reales de
-                                usuarios en fases de testing de software. Uso mandatorio de bases sintéticas y dummy
-                                anonimizadas.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R10</td>
-                            <td><strong>Redes de administración interna</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td class="risk-cell">20</td>
-                            <td><span class="risk-val r-extremo">Extremo</span></td>
-                            <td><strong>A.8.11 / Art. 32 GDPR:</strong> Autenticación multifactor biométrica y física
-                                por hardware (llaves FIDO2). Arquitectura Zero-Trust aplicada al control de consolas de
-                                servidores.</td>
-                        </tr>
-                        <tr data-origen="interno">
-                            <td>R11</td>
-                            <td><strong>Ecosistema TON Blockchain</strong></td>
-                            <td><span class="badge badge-int">Interno</span></td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td class="risk-cell">12</td>
-                            <td><span class="risk-val r-alto">Alto</span></td>
-                            <td><strong>A.8.19 / Art. 25 GDPR:</strong> Monitoreo algorítmico automatizado sobre smart
-                                contracts de anuncios premium y usernames comerciales para blindar transacciones
-                                monetarias integradas.</td>
-                        </tr>
-
-                        <!-- ACTIVOS EXTERNOS (10) -->
-                        <tr data-origen="externo">
-                            <td>R12</td>
-                            <td><strong>Data Centers de terceros (Co-location)</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>2</td>
-                            <td>4</td>
-                            <td class="risk-cell">8</td>
-                            <td><span class="risk-val r-medio">Medio</span></td>
-                            <td><strong>A.7.2, A.7.5 / Art. 46 GDPR:</strong> Contratos vinculados bajo Cláusulas
-                                Contractuales Tipo (SCCs) de la UE. Destrucción física controlada e in situ de unidades
-                                de almacenamiento de datos en desuso.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R13</td>
-                            <td><strong>Tiendas de aplicaciones (App Stores)</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td class="risk-cell">12</td>
-                            <td><span class="risk-val r-alto">Alto</span></td>
-                            <td><strong>A.5.19, A.5.20:</strong> Firmas digitales criptográficas robustas en binarios y
-                                aprovisionamiento de un canal alterno directo en la web oficial para eludir censuras
-                                corporativas de tiendas comerciales.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R14</td>
-                            <td><strong>Dispositivos finales de los usuarios</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>5</td>
-                            <td>1</td>
-                            <td class="risk-cell">5</td>
-                            <td><span class="risk-val r-medio">Medio</span></td>
-                            <td><strong>A.8.9 / Art. 17 GDPR:</strong> Mecanismos interactivos locales de
-                                autodestrucción inmediata de mensajes, base de datos local cifrada con SQLCipher y
-                                bloqueos de pantalla con PIN numérico.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R15</td>
-                            <td><strong>Proveedores de pasarelas de SMS</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>5</td>
-                            <td>3</td>
-                            <td class="risk-cell">15</td>
-                            <td><span class="risk-val r-muy-alto">Muy Alto</span></td>
-                            <td><strong>A.5.21 / Art. 32 GDPR:</strong> Autenticación Obligatoria por Contraseña (2FA)
-                                local para anular de raíz la intercepción de códigos OTP mediante técnicas de secuestro
-                                de SIM (SIM-Swapping).</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R16</td>
-                            <td><strong>Redes de ISP globales</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>4</td>
-                            <td>3</td>
-                            <td class="risk-cell">12</td>
-                            <td><span class="risk-val r-alto">Alto</span></td>
-                            <td><strong>A.8.20:</strong> Encriptación de tráfico de punta a punta mediante el protocolo
-                                MTProto para mitigar vectores Man-In-The-Middle (MITM) a nivel de nodos de enrutamiento
-                                transoceánico.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R17</td>
-                            <td><strong>Pasarelas de pago de Bots API</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td class="risk-cell">6</td>
-                            <td><span class="risk-val r-medio">Medio</span></td>
-                            <td><strong>A.5.22 / Art. 28 GDPR:</strong> Separación total de datos. Telegram actúa como
-                                transporte agnóstico y pasarela de comunicación cifrada, delegando el almacenamiento
-                                financiero en procesadores PCI-DSS.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R18</td>
-                            <td><strong>Infraestructura de Mitigación DDoS</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>5</td>
-                            <td>5</td>
-                            <td class="risk-cell">25</td>
-                            <td><span class="risk-val r-extremo">Extremo</span></td>
-                            <td><strong>A.8.12, A.8.21:</strong> Contratación de redes perimetrales Anycast con
-                                capacidad de absorción mayor a 5 Tbps para asegurar la continuidad del servicio bajo
-                                ataques informáticos concurrentes.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R19</td>
-                            <td><strong>Servicios DNS globales</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>3</td>
-                            <td>5</td>
-                            <td class="risk-cell">15</td>
-                            <td><span class="risk-val r-muy-alto">Muy Alto</span></td>
-                            <td><strong>A.8.4:</strong> Implementación mandatoria de extensiones DNSSEC en los dominios
-                                raíces corporativos de Telegram para impedir el secuestro y redirección maliciosa hacia
-                                clones.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R20</td>
-                            <td><strong>Red de Voluntarios de Soporte (TSF)</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>3</td>
-                            <td>3</td>
-                            <td class="risk-cell">9</td>
-                            <td><span class="risk-val r-medio">Medio</span></td>
-                            <td><strong>A.6.3 / Art. 29 GDPR:</strong> Acceso denegado a números telefónicos reales
-                                dentro de los paneles de asistencia. Monitoreo por algoritmos de IA para revocar
-                                inmediatamente accesos ante anomalías.</td>
-                        </tr>
-                        <tr data-origen="externo">
-                            <td>R21</td>
-                            <td><strong>Redes CDNs de almacenamiento estático</strong></td>
-                            <td><span class="badge badge-ext">Externo</span></td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td class="risk-cell">6</td>
-                            <td><span class="risk-val r-medio">Medio</span></td>
-                            <td><strong>A.8.1, A.8.2 / Art. 32 GDPR:</strong> Todos los archivos multimedia (videos,
-                                imágenes) distribuidos en cachés externas se almacenan cifrados con llaves simétricas
-                                que solo posee el cliente final.</td>
-                        </tr>
+                    <tbody id="table-body">
+                        <!-- Los datos se renderizan dinámicamente mediante JS -->
                     </tbody>
                 </table>
             </div>
-
-            <button class="btn-export" onclick="window.print()">Exportar Informe Técnico del Sistema de Seguridad y
-                Privacidad a PDF</button>
         </div>
 
-        <!-- TAB 4: EVALUACIÓN DE DESEMPEÑO Y CUMPLIMIENTO LEGAL -->
-        <div id="tab-mejora" class="tab-content">
-            <div class="card">
-                <div class="card-title">
-                    Cláusula 9: Evaluación de Desempeño y Auditorías Conjuntas
-                    <span class="clause-badge">ISO 27001:2022 - Cl. 9</span>
-                    <span class="gdpr-badge">GDPR Art. 32</span>
-                </div>
-                <p>Telegram ejecuta revisiones semestrales programadas de la efectividad técnica del SGSI y de los
-                    niveles de cumplimiento regulatorio internacional mediante auditorías combinadas lideradas en
-                    conjunto por el CISO y el DPO.</p>
-                <h3>Monitoreo y Alertas de Brechas de Seguridad (Art. 33 GDPR)</h3>
-                <ul>
-                    <li><strong>Garantía de Notificación de Incidentes:</strong> En estricto apego al GDPR, el sistema
-                        cuenta con flujos automatizados de respuesta técnica para que, ante la detección de cualquier
-                        brecha de seguridad confirmada que comprometa datos personales, el DPO pueda notificar
-                        formalmente a las Autoridades de Control competentes en un plazo máximo de <span
-                            class="highlight-gdpr">72 horas</span>, adjuntando la evaluación forense inicial y las
-                        contenciones operativas implementadas.</li>
-                    <li><strong>Indicadores Clave (KRIs):</strong> Trazabilidad del tiempo de respuesta ante alertas
-                        tempranas de intrusión física en data centers y tasas de éxito en parches automáticos sobre
-                        vulnerabilidades críticas descubiertas.</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <div class="card-title">
-                    Cláusula 10: Mejora Continua y Mitigación de Impacto en Privacidad
-                    <span class="clause-badge">ISO 27001:2022 - Cl. 10</span>
-                    <span class="gdpr-badge">GDPR Art. 35</span>
-                </div>
-                <p>Ante fallos procedimentales, cambios de código o la adición de nuevas funcionalidades operativas en
-                    Telegram (como integraciones financieras de criptomonedas o bots avanzados), el sistema activa
-                    auditorías reactivas inmediatas de causa raíz.</p>
-                <h3>Evaluaciones de Impacto en la Protección de Datos (EIPD / DPIA)</h3>
-                <p>Como mecanismo permanente de mejora continua, se estipula la ejecución obligatoria de una EIPD antes
-                    del despliegue de cualquier cambio tecnológico que involucre tecnologías emergentes o el tratamiento
-                    automatizado de perfiles lógicos de usuarios. Esto asegura la actualización sistemática de la matriz
-                    general de riesgos, alineando de forma constante la madurez de la infraestructura tecnológica con el
-                    estricto marco normativo internacional.</p>
-            </div>
-        </div>
     </div>
 
     <script>
-        function switchTab(tabId) {
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(content => content.classList.remove('active'));
+        // Repositorio de Información Centralizado (Unión de la base de datos completa de incidentes)
+        const riskDatabase = {
+            "5-2": {
+                id: "RSK-001",
+                titulo: "Inestabilidad en la API de pasarela externa",
+                severidad: "high",
+                score: 10,
+                componente: "payment-gateway",
+                desc: "Frecuentes timeouts detectados en el endpoint remoto de liquidación durante ventanas masivas de procesamiento de transacciones.",
+                mitigacion: "Implementar un patrón de aislamiento Circuit Breaker (resiliencia perimetral) y configurar colas con reintentos exponenciales asíncronos en Redis."
+            },
+            "5-4": {
+                id: "RSK-002",
+                titulo: "Fuga de conexiones activas en el Pool de Datos",
+                severidad: "critical",
+                score: 20,
+                componente: "analytics-db",
+                desc: "Consultas analíticas pesadas no devuelven de manera limpia el cursor de sesión al pool principal, consumiendo el límite máximo de hilos del cluster.",
+                mitigacion: "Configurar un middleware estricto de finalización por inactividad y aislar la carga analítica delegándola a réplicas de lectura de baja prioridad."
+            },
+            "5-5": {
+                id: "RSK-003",
+                titulo: "Vulnerabilidad por Inyección de Dependencias Externas",
+                severidad: "critical",
+                score: 25,
+                componente: "auth-service",
+                desc: "Exposición directa de la firma del framework que permite ejecuciones arbitrarias remotas y secuestro de variables de entorno críticas.",
+                mitigacion: "Forzar la actualización inmediata de imágenes base en el pipeline de CI/CD y automatizar el escaneo preventivo con herramientas de análisis estático."
+            },
+            "4-3": {
+                id: "RSK-004",
+                titulo: "Picos de latencia críticos en empaquetado del Frontend",
+                severidad: "high",
+                score: 12,
+                componente: "core-web-app",
+                desc: "El tamaño total del bundle JavaScript aumentó significativamente impactando los indicadores de Time to Interactive (TTI) en dispositivos con redes lentas.",
+                mitigacion: "Configurar mecanismos dinámicos de Code-Splitting por ruta y habilitar estrategias de empaquetado optimizado del lado del servidor proxy."
+            },
+            "4-5": {
+                id: "RSK-005",
+                titulo: "Pérdida de atomicidad en Caché Distribuida",
+                severidad: "critical",
+                score: 20,
+                componente: "session-manager",
+                desc: "Condiciones de carrera bajo condiciones de alta concurrencia provocan desajustes y estados desactualizados temporales en las sesiones activas.",
+                mitigacion: "Implementar un protocolo estructurado de bloqueo distribuido (Redlock) y estandarizar la asignación de identificadores inmutables únicos."
+            },
+            "3-1": {
+                id: "RSK-006",
+                titulo: "Conflictos de tipado estricto en el Monorrepo",
+                severidad: "low",
+                score: 3,
+                componente: "shared-types-lib",
+                desc: "Declaraciones de tipos redundantes generan advertencias de compilación menores en terminales locales sin bloquear el pipeline de despliegue.",
+                mitigacion: "Unificar esquemas de interfaces en un módulo inmutable único para evitar dobles instanciaciones globales."
+            },
+            "3-2": {
+                id: "RSK-007",
+                titulo: "Ausencia de logs estructurados uniformes",
+                severidad: "medium",
+                score: 6,
+                componente: "notification-worker",
+                desc: "Cadenas de logs en formato plano que complican los procesos de filtrado inmediato de incidencias a nivel agregador de telemetría.",
+                mitigacion: "Configurar un serializador nativo JSON estructurado y estandarizar los identificadores de transacciones en todas las capas del microservicio."
+            },
+            "3-4": {
+                id: "RSK-008",
+                titulo: "Consumo crítico de Almacenamiento Efímero local",
+                severidad: "high",
+                score: 12,
+                componente: "media-uploader",
+                desc: "La carga de adjuntos del usuario almacena archivos enteros en el disco virtual intermedio antes de concretar el flujo final hacia el almacenamiento de objetos.",
+                mitigacion: "Migrar la lógica de guardado a procesamiento directo mediante Streams asíncronos en memoria hacia el servidor persistente."
+            },
+            "2-2": {
+                id: "RSK-009",
+                titulo: "Reglas CSS obsoletas heredadas",
+                severidad: "low",
+                score: 4,
+                componente: "legacy-portal",
+                desc: "Advertencias cosméticas visualizables en consolas del navegador debido al uso de selectores CSS incompatibles con estándares modernos.",
+                mitigacion: "Refactorizar layouts antiguos a Flexbox moderno y depurar las hojas de estilo del portal de control heredado."
+            },
+            "2-4": {
+                id: "RSK-010",
+                titulo: "Degradación en Colas de Cola de Mensajería",
+                severidad: "medium",
+                score: 8,
+                componente: "email-dispatcher",
+                desc: "Aparición de retrasos intermitentes en la entrega de notificaciones no prioritarias en picos de alta demanda de tráfico de transacciones.",
+                mitigacion: "Incrementar de forma dinámica el número de hilos de procesamiento y escalar horizontalmente el número de nodos worker de la infraestructura."
+            },
+            "1-3": {
+                id: "RSK-011",
+                titulo: "Desactualización de Linters locales",
+                severidad: "low",
+                score: 3,
+                componente: "dev-environment",
+                desc: "Diferencias de formato en la sintaxis local que desencadenan advertencias durante el desarrollo pero se corrigen automáticamente en pre-commit.",
+                mitigacion: "Homologar los archivos de configuración interna del linter mediante un gancho global automatizado en el sistema de control de versiones."
+            }
+        };
 
-            const buttons = document.querySelectorAll('.tab-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
+        // Renderizar la tabla de datos inicial
+        function populateTable() {
+            const tbody = document.getElementById('table-body');
+            tbody.innerHTML = '';
 
-            document.getElementById(tabId).classList.add('active');
+            Object.keys(riskDatabase).forEach(key => {
+                const [p, i] = key.split('-');
+                const item = riskDatabase[key];
 
-            const currentButton = Array.from(buttons).find(btn => btn.getAttribute('onclick').includes(tabId));
-            if (currentButton) currentButton.classList.add('active');
+                const tr = document.createElement('tr');
+                tr.setAttribute('data-severity', item.severidad);
+                tr.style.cursor = 'pointer';
+                tr.onclick = () => selectMatrixCell(p, i);
+
+                tr.innerHTML = `
+                <td><strong>${item.id}</strong></td>
+                <td>${item.titulo}</td>
+                <td><span class="risk-badge badge-${item.severidad}">${item.severidad}</span></td>
+                <td><span class="code-tag">P:${p} | I:${i}</span></td>
+                <td><span class="code-tag">${item.componente}</span></td>
+                <td><span style="font-size:0.85rem; font-weight:500;">${item.score >= 15 ? '🚨 Requiere Acción' : '⏳ Monitoreo'}</span></td>
+            `;
+                tbody.appendChild(tr);
+            });
         }
 
-        function filterMatrix(type, element) {
-            const filterBtns = document.querySelectorAll('.filter-btn');
-            filterBtns.forEach(btn => btn.classList.remove('active'));
-            element.classList.add('active');
+        // Lógica interactiva de selección coordinada entre Matriz e Inspector
+        function selectMatrixCell(p, i) {
+            document.querySelectorAll('.matrix-cell').forEach(c => c.classList.remove('active'));
 
-            const rows = document.querySelectorAll('#matrix-table tbody tr');
+            const cell = document.querySelector(`.matrix-cell[data-p="${p}"][data-i="${i}"]`);
+            if (cell) cell.classList.add('active');
+
+            const key = `${p}-${i}`;
+            const panel = document.getElementById('panel-content');
+
+            if (riskDatabase[key]) {
+                const data = riskDatabase[key];
+                panel.className = "details-panel";
+                panel.innerHTML = `
+                <div>
+                    <span class="risk-badge badge-${data.severidad}">${data.severidad.toUpperCase()}</span>
+                    <span class="code-tag" style="float: right;">ID: ${data.id}</span>
+                </div>
+                <div class="detail-section">
+                    <h4>Riesgo Evaluado</h4>
+                    <p><strong>${data.titulo}</strong></p>
+                </div>
+                <div class="detail-section">
+                    <div class="meta-grid">
+                        <div>
+                            <h4>Métricas de Matriz</h4>
+                            <p>Probabilidad: ${p} | Impacto: ${i}</p>
+                        </div>
+                        <div>
+                            <h4>Puntuación Final</h4>
+                            <p>Score Completo: <strong>${data.score}</strong></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="detail-section">
+                    <h4>Componente de Arquitectura</h4>
+                    <p><span class="code-tag">${data.componente}</span></p>
+                </div>
+                <div class="detail-section">
+                    <h4>Causa Raíz / Análisis Técnico</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">${data.desc}</p>
+                </div>
+                <div class="detail-section">
+                    <h4>Estrategia de Mitigación en Código</h4>
+                    <p style="font-size: 0.9rem; font-weight: 500; color: #0f172a; border-left: 3px solid var(--risk-${data.severidad}); padding-left: 8px;">${data.mitigacion}</p>
+                </div>
+            `;
+                // Desplazar la vista sutilmente hacia el inspector si está en pantallas pequeñas
+                if (window.innerWidth <= 1024) {
+                    document.getElementById('inspector-card').scrollIntoView({ behavior: 'smooth' });
+                }
+            } else {
+                panel.className = "empty-state";
+                panel.innerHTML = `Cuadrante [P:${p} | I:${i}] libre de amenazas activas registradas. El sistema opera dentro del margen estándar.`;
+            }
+        }
+
+        // Filtrado dinámico de la tabla inferior
+        function filterTable(severity) {
+            // Actualizar estados visuales de los botones de filtro
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const rows = document.querySelectorAll('#table-body tr');
             rows.forEach(row => {
-                if (type === 'todos') {
-                    row.style.display = 'table-row';
+                if (severity === 'all' || row.getAttribute('data-severity') === severity) {
+                    row.style.display = '';
                 } else {
-                    const rowOrigen = row.getAttribute('data-origen');
-                    if (rowOrigen === type) {
-                        row.style.display = 'table-row';
-                    } else {
-                        row.style.display = 'none';
-                    }
+                    row.style.display = 'none';
                 }
             });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const riskCells = document.querySelectorAll('.risk-cell');
-            riskCells.forEach(cell => {
-                const val = parseInt(cell.textContent.trim(), 10);
-                if (val >= 16) {
-                    cell.style.color = '#f87171';
-                    cell.style.fontWeight = 'bold';
-                } else if (val >= 12) {
-                    cell.style.color = '#fb923c';
-                    cell.style.fontWeight = 'bold';
-                } else if (val >= 9) {
-                    cell.style.color = '#fde047';
-                } else {
-                    cell.style.color = '#60a5fa';
-                }
+        // Asignación de manejadores de eventos en celdas de la grilla
+        document.querySelectorAll('.matrix-cell').forEach(cell => {
+            cell.addEventListener('click', () => {
+                const p = cell.getAttribute('data-p');
+                const i = cell.getAttribute('data-i');
+                selectMatrixCell(p, i);
             });
         });
-    </script>
 
+        // Inicialización del sistema
+        window.onload = () => {
+            populateTable();
+        };
+    </script>
 </body>
 
 </html>
