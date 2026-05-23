@@ -23,7 +23,7 @@
             --accent-orange: #f97316;
             --text-primary: #e5e7eb;
             --text-muted: #8892b0;
-            --font-tech: 'JetBrains+Mono', monospace;
+            --font-tech: 'JetBrains Mono', monospace;
             --font-display: 'Share Tech Mono', sans-serif;
             --shadow-alert: 0 0 15px rgba(255, 49, 49, 0.2);
             --border-neon: 1px solid rgba(255, 49, 49, 0.2);
@@ -38,7 +38,7 @@
         body {
             background-color: var(--bg-main);
             color: var(--text-primary);
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-tech);
             line-height: 1.6;
             padding: 20px;
         }
@@ -175,65 +175,65 @@
             gap: 10px;
         }
 
-        /* --- RECURSO VISUAL INNOVADOR: DIAGRAMA MODELO DIAMANTE EN CSS --- */
+        /* --- RECURSO VISUAL: DIAGRAMA MODELO DIAMANTE 3x3 CORREGIDO --- */
         .diamond-wrapper {
             background: rgba(5, 7, 15, 0.6);
             border: 1px dashed rgba(255, 255, 255, 0.1);
             border-radius: 8px;
-            padding: 40px 20px;
+            padding: 60px 40px;
             margin-top: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
 
         .diamond-matrix {
             position: relative;
-            width: 100%;
-            max-width: 700px;
-            height: 450px;
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-            gap: 40px;
+            grid-template-columns: 1fr 300px 1fr;
+            grid-template-rows: auto auto auto;
+            gap: 40px 20px;
+            width: 100%;
+            max-width: 900px;
+            align-items: center;
         }
 
-        /* Líneas Cruzadas de Conexión del Diamante */
-        .diamond-matrix::before,
-        .diamond-matrix::after {
+        /* Línea Vertical Perfectamente Centrada */
+        .diamond-matrix::before {
             content: "";
             position: absolute;
-            background: rgba(0, 240, 255, 0.15);
+            left: 50%;
+            top: 50px;
+            bottom: 50px;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-purple), var(--accent-orange));
+            transform: translateX(-50%);
             z-index: 1;
         }
 
-        /* Línea Vertical */
-        .diamond-matrix::before {
-            top: 10%;
-            left: 50%;
-            width: 2px;
-            height: 80%;
-            background: linear-gradient(to bottom, var(--accent-purple), var(--accent-orange));
-        }
-
-        /* Línea Horizontal */
+        /* Línea Horizontal Perfectamente Centrada */
         .diamond-matrix::after {
+            content: "";
+            position: absolute;
             top: 50%;
-            left: 10%;
-            width: 80%;
+            left: 50px;
+            right: 50px;
             height: 2px;
             background: linear-gradient(to right, var(--accent-red), var(--accent-cyan));
+            transform: translateY(-50%);
+            z-index: 1;
         }
 
         .diamond-node {
             background-color: var(--bg-card);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 6px;
-            padding: 15px;
+            padding: 18px;
             z-index: 2;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
-            display: flex;
-            flex-direction: column;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            width: 100%;
+            max-width: 300px;
         }
 
         .node-header {
@@ -241,47 +241,49 @@
             font-size: 1.1rem;
             margin-bottom: 8px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding-bottom: 4px;
+            padding-bottom: 6px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
         .node-content {
-            font-size: 0.82rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
             text-align: justify;
+            line-height: 1.5;
         }
 
         .node-content strong {
             color: #ffffff;
         }
 
-        /* Posicionamiento específico de los 4 vértices fundamentales */
+        /* Posicionamiento en la cuadrícula 3x3 */
         .node-adversary {
-            grid-column: 1 / span 2;
+            grid-column: 2;
+            grid-row: 1;
             justify-self: center;
-            width: 280px;
             border-top: 3px solid var(--accent-purple);
         }
 
         .node-capability {
             grid-column: 1;
             grid-row: 2;
+            justify-self: end;
             border-left: 3px solid var(--accent-red);
         }
 
         .node-infrastructure {
-            grid-column: 2;
+            grid-column: 3;
             grid-row: 2;
+            justify-self: start;
             border-right: 3px solid var(--accent-cyan);
         }
 
         .node-victim {
-            grid-column: 1 / span 2;
+            grid-column: 2;
+            grid-row: 3;
             justify-self: center;
-            width: 280px;
-            margin-top: 20px;
             border-bottom: 3px solid var(--accent-orange);
         }
 
@@ -359,6 +361,37 @@
 
         .intel-table tr:nth-child(even) {
             background-color: rgba(21, 28, 51, 0.2);
+        }
+
+        /* Responsividad Táctica */
+        @media(max-width: 820px) {
+            .diamond-matrix {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                gap: 25px;
+            }
+
+            .diamond-matrix::before,
+            .diamond-matrix::after {
+                display: none;
+            }
+
+            .diamond-node {
+                grid-column: 1 !important;
+                grid-row: auto !important;
+                justify-self: center !important;
+                max-width: 400px;
+            }
+
+            .node-capability {
+                border-left: none;
+                border-top: 3px solid var(--accent-red);
+            }
+
+            .node-infrastructure {
+                border-right: none;
+                border-top: 3px solid var(--accent-cyan);
+            }
         }
     </style>
 </head>
