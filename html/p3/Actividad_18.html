@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 18: Modelo Diamante de Intrusión (Caso Canvas 2026) - SGSI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-main: #060913;
+            --bg-card: #0d1222;
+            --bg-card-header: #151c33;
+            --accent-red: #ff3131;
+            --accent-cyan: #00f0ff;
+            --accent-purple: #bd00ff;
+            --accent-orange: #f97316;
+            --text-primary: #e5e7eb;
+            --text-muted: #8892b0;
+            --font-tech: 'JetBrains+Mono', monospace;
+            --font-display: 'Share Tech Mono', sans-serif;
+            --shadow-alert: 0 0 15px rgba(255, 49, 49, 0.2);
+            --border-neon: 1px solid rgba(255, 49, 49, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            border: var(--border-neon);
+            box-shadow: var(--shadow-alert);
+            background-color: rgba(13, 18, 34, 0.95);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* --- ACTION BAR (EXPORTACIÓN CONFIGURABLE) --- */
+        .iso-action-bar {
+            background-color: var(--bg-card-header);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent-red);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .iso-badge-status {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--accent-red);
+            text-shadow: 0 0 10px rgba(255, 49, 49, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-export-pdf {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--accent-red), #990000);
+            color: #ffffff;
+            border: 1px solid var(--accent-red);
+            padding: 10px 20px;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 0 10px rgba(255, 49, 49, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-export-pdf:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+            background: linear-gradient(135deg, var(--accent-cyan), #00b3bf);
+            color: var(--bg-main);
+            border-color: var(--accent-cyan);
+        }
+
+        /* --- HEADER Y METADATOS INDUSTRIALES --- */
+        header {
+            padding: 40px 25px;
+            background: linear-gradient(180deg, rgba(21, 28, 51, 0.6) 0%, rgba(6, 9, 19, 0) 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            text-align: center;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            color: #ffffff;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            color: var(--accent-purple);
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            font-weight: bold;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            text-align: left;
+        }
+
+        .meta-card {
+            background-color: rgba(21, 28, 51, 0.4);
+            border-left: 3px solid var(--accent-red);
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .meta-card h3 {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .meta-card ul {
+            list-style: none;
+            font-size: 0.9rem;
+        }
+
+        .meta-card ul li {
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* --- SECCIÓN CONTENIDO GENERAL --- */
+        .content-section {
+            padding: 30px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            color: var(--accent-cyan);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- RECURSO VISUAL INNOVADOR: DIAGRAMA MODELO DIAMANTE EN CSS --- */
+        .diamond-wrapper {
+            background: rgba(5, 7, 15, 0.6);
+            border: 1px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 40px 20px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .diamond-matrix {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            height: 450px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 40px;
+        }
+
+        /* Líneas Cruzadas de Conexión del Diamante */
+        .diamond-matrix::before,
+        .diamond-matrix::after {
+            content: "";
+            position: absolute;
+            background: rgba(0, 240, 255, 0.15);
+            z-index: 1;
+        }
+
+        /* Línea Vertical */
+        .diamond-matrix::before {
+            top: 10%;
+            left: 50%;
+            width: 2px;
+            height: 80%;
+            background: linear-gradient(to bottom, var(--accent-purple), var(--accent-orange));
+        }
+
+        /* Línea Horizontal */
+        .diamond-matrix::after {
+            top: 50%;
+            left: 10%;
+            width: 80%;
+            height: 2px;
+            background: linear-gradient(to right, var(--accent-red), var(--accent-cyan));
+        }
+
+        .diamond-node {
+            background-color: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            padding: 15px;
+            z-index: 2;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .node-header {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .node-content {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            text-align: justify;
+        }
+
+        .node-content strong {
+            color: #ffffff;
+        }
+
+        /* Posicionamiento específico de los 4 vértices fundamentales */
+        .node-adversary {
+            grid-column: 1 / span 2;
+            justify-self: center;
+            width: 280px;
+            border-top: 3px solid var(--accent-purple);
+        }
+
+        .node-capability {
+            grid-column: 1;
+            grid-row: 2;
+            border-left: 3px solid var(--accent-red);
+        }
+
+        .node-infrastructure {
+            grid-column: 2;
+            grid-row: 2;
+            border-right: 3px solid var(--accent-cyan);
+        }
+
+        .node-victim {
+            grid-column: 1 / span 2;
+            justify-self: center;
+            width: 280px;
+            margin-top: 20px;
+            border-bottom: 3px solid var(--accent-orange);
+        }
+
+        /* --- CRONOLOGÍA / CYBER KILL CHAIN --- */
+        .kill-chain-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            margin-top: 20px;
+            padding-left: 20px;
+        }
+
+        .kill-chain-timeline::before {
+            content: "";
+            position: absolute;
+            left: 5px;
+            top: 10px;
+            bottom: 10px;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .timeline-step {
+            position: relative;
+            padding-left: 25px;
+        }
+
+        .timeline-step::before {
+            content: "";
+            position: absolute;
+            left: 1px;
+            top: 6px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--accent-red);
+            box-shadow: 0 0 8px var(--accent-red);
+        }
+
+        .step-header {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+
+        .step-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-align: justify;
+        }
+
+        /* --- TABLA DE ATRIBUTOS TÉCNICOS --- */
+        .intel-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+
+        .intel-table th,
+        .intel-table td {
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            text-align: left;
+        }
+
+        .intel-table th {
+            background-color: var(--bg-card-header);
+            color: var(--accent-cyan);
+            font-family: var(--font-display);
+            font-size: 1rem;
+        }
+
+        .intel-table tr:nth-child(even) {
+            background-color: rgba(21, 28, 51, 0.2);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <div class="iso-action-bar">
+            <div class="iso-badge-status">
+                <i class="fas fa-skull-crossbones"></i> THREAT_INTEL // DIAMOND_MODEL_ACTIVE
+            </div>
+            <a href="./Proyecto tercer parcial ISO 2701 Seguridad informática.pdf"
+                download="Proyecto tercer parcial ISO 2701 Seguridad informática.pdf" class="btn-export-pdf">
+                <i class="fas fa-download"></i> Exportar Reporte PDF
+            </a>
+        </div>
+
+        <header>
+            <h1>Análisis de Intrusión: Modelo Diamante</h1>
+            <div class="subtitle">Caso de Estudio: Compromiso Masivo Canvas LMS (Mayo 2026)</div>
+
+            <div class="meta-grid">
+                <div class="meta-card">
+                    <h3><i class="fas fa-shield-alt"></i> Analistas de Ciberseguridad</h3>
+                    <ul>
+                        <li><span>López López Josué Emmanuel</span> <span>182078</span></li>
+                        <li><span>Mata Martínez Aaron Efraim</span> <span>179419</span></li>
+                        <li><span>Rodríguez Hernández Edgar Omar</span> <span>177888</span></li>
+                        <li><span>Rodriguez Morin Estefano Alessandro</span> <span>178584</span></li>
+                        <li><span>Ros Padilla Iván</span> <span>177573</span></li>
+                        <li><span>Salinas Carrillo Mauricio Josafat</span> <span>177406</span></li>
+                    </ul>
+                </div>
+                <div class="meta-card" style="border-left-color: var(--accent-purple);">
+                    <h3><i class="fas fa-university"></i> Control Académico e Instancia</h3>
+                    <ul>
+                        <li>Catedrático: Servando López Contreras</li>
+                        <li>Institución: Universidad Politécnica de San Luis Potosí</li>
+                        <li>Metodología Base: Caltagirone Diamond Model</li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <section class="content-section">
+            <div class="section-title">
+                <i class="fas fa-project-diagram"></i> Estructura del Modelo Diamante de Intrusión
+            </div>
+
+            <div class="diamond-wrapper">
+                <div class="diamond-matrix">
+
+                    <div class="diamond-node node-adversary">
+                        <div class="node-header"><i class="fas fa-user-secret" style="color: var(--accent-purple);"></i>
+                            Adversario</div>
+                        <div class="node-content">
+                            <strong>Actor:</strong> ShinyHunters.<br>
+                            Grupo de ciberdelincuencia de élite internacional que reapareció públicamente para ejecutar
+                            extorsión financiera masiva.
+                        </div>
+                    </div>
+
+                    <div class="diamond-node node-capability">
+                        <div class="node-header"><i class="fas fa-tools" style="color: var(--accent-red);"></i>
+                            Capacidad (TTPs)</div>
+                        <div class="node-content">
+                            Explotación masiva de configuraciones en cuentas <strong>"Free-for-Teacher"</strong>
+                            combinada con fallos de día cero (<strong>0-day</strong>) en la plataforma de tickets de
+                            soporte técnico para el escalado vertical de privilegios.
+                        </div>
+                    </div>
+
+                    <div class="diamond-node node-infrastructure">
+                        <div class="node-header"><i class="fas fa-server" style="color: var(--accent-cyan);"></i>
+                            Infraestructura</div>
+                        <div class="node-content">
+                            Uso y abuso de la infraestructura en la nube de <strong>AWS (Amazon Web Services)</strong>
+                            propiedad de Instructure, dominios proxy de Comando y Control (C2) ocultos, y pasarelas de
+                            la red descentralizada <strong>TOX</strong> para coacción.
+                        </div>
+                    </div>
+
+                    <div class="diamond-node node-victim">
+                        <div class="node-header"><i class="fas fa-bullseye" style="color: var(--accent-orange);"></i>
+                            Víctima</div>
+                        <div class="node-content">
+                            <strong>Entidad:</strong> Instructure Inc. (Plataforma Canvas LMS).<br>
+                            <strong>Activo Crítico Comprometido:</strong> Exfiltración neta de 3.65 Terabytes (TB) de
+                            datos confidenciales del servidor.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="section-title">
+                <i class="fas fa-table"></i> Desglose Técnico de Evidencias Obtenidas
+            </div>
+            <table class="intel-table">
+                <thead>
+                    <tr>
+                        <th>Elemento Core</th>
+                        <th>Descripción Operativa</th>
+                        <th>Evidencia en el Vector de Ataque</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Adversario</strong></td>
+                        <td>Actor responsable de la intrusión.</td>
+                        <td>ShinyHunters (Motivación económica y reputacional).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Capacidad</strong></td>
+                        <td>Herramientas y vulnerabilidades explotadas.</td>
+                        <td>Abuso de API e inyección en el gestor de tickets (0-day).</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Infraestructura</strong></td>
+                        <td>Canales lógicos de conexión y exfiltración.</td>
+                        <td>Nodos AWS comprometidos y enrutamiento cifrado TOX.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Víctima</strong></td>
+                        <td>Objetivo geográfico o lógico y datos afectados.</td>
+                        <td>Instructure / Base de datos centralizada Canvas (3.65 TB).</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="content-section" style="border-bottom: none;">
+            <div class="section-title">
+                <i class="fas fa-route"></i> Correlación con la Cadena de Destrucción (Cyber Kill Chain)
+            </div>
+
+            <div class="kill-chain-timeline">
+                <div class="timeline-step">
+                    <div class="step-header">Fase 01: Entrega y Acceso Inicial (Delivery)</div>
+                    <div class="step-desc">El adversario evade los controles perimetrales de firewall utilizando una
+                        dirección IP catalogada de confianza (Trusted IP Address) para acceder directamente a la consola
+                        interna.</div>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-header">Fase 02: Movimiento Lateral (Lateral Movement)</div>
+                    <div class="step-desc">Se detecta el despliegue de herramientas de proxy (Pivot) dentro de la red
+                        interna de AWS, mapeado bajo la técnica estándar de MITRE ATT&CK <strong>T1090</strong>
+                        (Proxying a través de conexiones tunelizadas TTP).</div>
+                </div>
+                <div class="timeline-step">
+                    <div class="step-header">Fase 03: Acciones sobre Objetivos (Actions on Objectives)</div>
+                    <div class="step-desc">Establecimiento exitoso de canales de comunicación encubiertos C2,
+                        procediendo a la exfiltración masiva automatizada de los 3.65 TB de datos hacia repositorios
+                        controlados por los atacantes antes de emitir la nota de rescate.</div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+
+</html>

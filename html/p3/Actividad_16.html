@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 16: Dilemas Éticos en Ciberseguridad - SGSI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-main: #0a0f1d;
+            --bg-card: #111827;
+            --bg-card-header: #1f2937;
+            --accent-cyan: #00f0ff;
+            --accent-purple: #bd00ff;
+            --accent-green: #39ff14;
+            --accent-red: #ff3131;
+            --text-primary: #e5e7eb;
+            --text-muted: #9ca3af;
+            --font-tech: 'JetBrains+Mono', monospace;
+            --font-display: 'Share Tech Mono', sans-serif;
+            --shadow-glow: 0 0 15px rgba(0, 240, 255, 0.2);
+            --border-neon: 1px solid rgba(0, 240, 255, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            border: var(--border-neon);
+            box-shadow: var(--shadow-glow);
+            background-color: rgba(17, 24, 39, 0.8);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        /* --- ACCIONES / BARRA SUPERIOR DE EXPORTACIÓN --- */
+        .iso-action-bar {
+            background-color: var(--bg-card-header);
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent-cyan);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .iso-badge-status {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--accent-cyan);
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* BOTÓN DE DESCARGA CONFIGURABLE */
+        .btn-export-pdf {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, var(--accent-purple), #8a00c2);
+            color: #ffffff;
+            border: 1px solid var(--accent-cyan);
+            padding: 10px 20px;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 0 10px rgba(189, 0, 255, 0.4);
+            transition: all 0.3s ease;
+        }
+
+        .btn-export-pdf:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+            background: linear-gradient(135deg, var(--accent-cyan), #00b3bf);
+            color: var(--bg-main);
+        }
+
+        /* --- HEADER / METADATOS --- */
+        header {
+            padding: 40px 25px;
+            background: linear-gradient(180deg, rgba(31, 41, 55, 0.4) 0%, rgba(10, 15, 29, 0) 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 2.8rem;
+            color: #ffffff;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            color: var(--accent-cyan);
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+        }
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            text-align: left;
+            margin-top: 20px;
+        }
+
+        .meta-card {
+            background-color: rgba(31, 41, 55, 0.3);
+            border-left: 3px solid var(--accent-purple);
+            padding: 15px;
+            border-radius: 4px;
+        }
+
+        .meta-card h3 {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .meta-card ul {
+            list-style: none;
+            font-size: 0.9rem;
+        }
+
+        .meta-card ul li {
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* --- SECCIÓN INTRODUCCIÓN --- */
+        .intro-section {
+            padding: 30px 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            color: var(--accent-cyan);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* --- GRID DE ESCENARIOS --- */
+        .scenarios-container {
+            padding: 25px;
+        }
+
+        .scenario-card {
+            background-color: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            margin-bottom: 35px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .scenario-header {
+            background-color: var(--bg-card-header);
+            padding: 15px 20px;
+            border-bottom: 2px solid var(--accent-purple);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .scenario-header.type-2 {
+            border-bottom-color: var(--accent-cyan);
+        }
+
+        .scenario-header.type-3 {
+            border-bottom-color: var(--accent-green);
+        }
+
+        .scenario-title {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            color: #ffffff;
+        }
+
+        .scenario-body {
+            padding: 25px;
+        }
+
+        .narrative-box {
+            background-color: rgba(10, 15, 29, 0.6);
+            border-left: 4px solid var(--text-muted);
+            padding: 15px;
+            margin-bottom: 25px;
+            font-style: italic;
+            font-size: 0.95rem;
+        }
+
+        /* Módulos de Análisis técnico-ético */
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media(min-width: 768px) {
+            .analysis-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .analysis-block {
+            background-color: rgba(31, 41, 55, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .block-subtitle {
+            font-size: 1rem;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+            padding-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .framework-list {
+            list-style: none;
+        }
+
+        .framework-list li {
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+
+        .framework-list strong {
+            color: #ffffff;
+            display: block;
+            margin-bottom: 2px;
+        }
+
+        /* Distintivos Especiales */
+        .badge-delito {
+            display: inline-block;
+            padding: 4px 10px;
+            background-color: rgba(255, 49, 49, 0.15);
+            border: 1px solid var(--accent-red);
+            color: var(--accent-red);
+            font-weight: bold;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+
+        .justification-box {
+            grid-column: 1 / -1;
+            background: linear-gradient(90deg, rgba(189, 0, 255, 0.05) 0%, rgba(0, 240, 255, 0.05) 100%);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .justification-box .block-subtitle {
+            color: #ffffff;
+            border-bottom-color: var(--accent-purple);
+        }
+
+        /* --- MULTIMEDIA / INFOGRAFÍA PLACEHOLDER --- */
+        .visual-resource-center {
+            margin: 25px 0;
+            background-color: rgba(10, 15, 29, 0.9);
+            border: 1px dashed var(--accent-cyan);
+            padding: 30px;
+            text-align: center;
+            border-radius: 6px;
+        }
+
+        .visual-icon {
+            font-size: 2.5rem;
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="dashboard-container">
+
+        <div class="iso-action-bar">
+            <div class="iso-badge-status">
+                <i class="fas fa-terminal"></i> CORE_ETHICS_MODULE // NOM-ISO-2701
+            </div>
+            <a href="./Proyecto tercer parcial ISO 2701 Seguridad informática.pdf"
+                download="Proyecto tercer parcial ISO 2701 Seguridad informática.pdf" class="btn-export-pdf">
+                <i class="fas fa-cloud-download-alt"></i> Exportar PDF de Repositorio
+            </a>
+        </div>
+
+        <header>
+            <h1>Dilemas Éticos en Ciberseguridad</h1>
+            <div class="subtitle">Seguridad Informática II</div>
+
+            <div class="meta-grid">
+                <div class="meta-card">
+                    <h3><i class="fas fa-users"></i> Integrantes del Equipo</h3>
+                    <ul>
+                        <li><span>López López Josué Emmanuel</span> <span>182078</span></li>
+                        <li><span>Mata Martínez Aaron Efraim</span> <span>179419</span></li>
+                        <li><span>Rodríguez Hernández Edgar Omar</span> <span>177888</span></li>
+                        <li><span>Rodriguez Morin Estefano Alessandro</span> <span>178584</span></li>
+                        <li><span>Ros Padilla Iván</span> <span>177573</span></li>
+                        <li><span>Salinas Carrillo Mauricio Josafat</span> <span>177406</span></li>
+                    </ul>
+                </div>
+                <div class="meta-card" style="border-left-color: var(--accent-cyan);">
+                    <h3><i class="fas fa-user-shield"></i> Cátedra</h3>
+                    <ul>
+                        <li>Profesor: Servando López Contreras</li>
+                        <li>Instancia: Evaluación Tercer Parcial</li>
+                        <li>Fecha de Registro: 15 de marzo de 2026</li>
+                    </ul>
+                </div>
+            </div>
+        </header>
+
+        <section class="intro-section">
+            <div class="section-title">
+                <i class="fas fa-info-circle"></i> Marco Introductorio
+            </div>
+            <p>En el entorno actual, la ciberseguridad va más allá del dominio técnico; requiere un marco ético y legal
+                sólido que guíe la toma de decisiones. Los profesionales de la información se enfrentan constantemente a
+                dilemas complejos donde la protección de los activos, el cumplimiento de la ley y el respeto a la
+                privacidad entran en conflicto, exigiendo un criterio profesional íntegro y normativo.</p>
+        </section>
+
+        <div class="scenarios-container" style="padding-bottom: 0;">
+            <div class="visual-resource-center">
+                <div class="visual-icon"><i class="fas fa-balance-scale-left"></i></div>
+                <div class="section-title" style="justify-content: center; margin-bottom: 5px;">Matriz Tripartita de
+                    Control Ético</div>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">
+                    [Infografía Interactiva: Correlación de los Marcos Utilitaristas, Enfoque de Derechos y Leyes de
+                    Delitos Informáticos Asociados]
+                </p>
+            </div>
+        </div>
+
+        <main class="scenarios-container">
+
+            <article class="scenario-card">
+                <div class="scenario-header">
+                    <div class="scenario-title">Escenario 01 // Acceso No Autorizado Interno</div>
+                    <span style="color: var(--accent-purple); font-weight: bold;">[E1]</span>
+                </div>
+                <div class="scenario-body">
+                    <div class="narrative-box">
+                        "Durante una revisión de logs, detectas que un compañero accedió a correos privados del director
+                        general sin autorización. El compañero argumenta que lo hizo para 'detectar posibles fugas de
+                        información'."
+                    </div>
+                    <div class="analysis-grid">
+                        <div class="analysis-block">
+                            <div class="block-subtitle"><i class="fas fa-search"></i> Identificación del Dilema</div>
+                            <p style="font-size: 0.9rem;">Contraposición entre el deber percibido de protección
+                                preventiva frente al derecho irrestricto de confidencialidad y privacidad de la alta
+                                dirección. Cuestiona si un fin legítimo justifica el uso de medios ilícitos y
+                                unilaterales.</p>
+                        </div>
+                        <div class="analysis-block">
+                            <div class="block-subtitle"><i class="fas fa-gavel"></i> Clasificación y Mandamientos</div>
+                            <ul class="framework-list">
+                                <li><strong>Mandamientos Violados:</strong> M3 (No indagarás en archivos ajenos) y M10
+                                    (Respetar y considerar a tus semejantes).</li>
+                            </ul>
+                            <div class="badge-delito">Delito Informático: Acceso Ilícito a Sistemas</div>
+                        </div>
+                        <div class="analysis-block" style="grid-column: 1 / -1;">
+                            <div class="block-subtitle"><i class="fas fa-book"></i> Aplicación de Marcos Éticos</div>
+                            <ul class="framework-list">
+                                <li><strong>A) Ética Utilitarista:</strong> El beneficio individual de intentar
+                                    descubrir una fuga no supera el daño colectivo. Destruye la confianza institucional
+                                    y la gobernanza corporativa.</li>
+                                <li><strong>B) Enfoque de Derechos:</strong> El director conserva el derecho fundamental
+                                    a la privacidad. Solo se suspende bajo investigaciones oficiales autorizadas
+                                    legalmente.</li>
+                                <li><strong>C) Enfoque del Bien Común:</strong> La estabilidad reside en el cumplimiento
+                                    de las Políticas de Uso Aceptable. La acción arbitraria disuelve el orden operativo.
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="justification-box">
+                            <div class="block-subtitle"><i class="fas fa-shield-alt"></i> Justificación Profesional
+                                Técnica</div>
+                            <p style="font-size: 0.9rem;">La prioridad es salvaguardar la <strong>Tríada CIA</strong>
+                                (Confidencialidad, Integridad y Disponibilidad). La acción técnica inmediata obliga a
+                                <strong>congelar y preservar las bitácoras (logs)</strong> para asegurar la cadena de
+                                custodia, tramitando el reporte directamente al Comité de Ética o Dirección Jurídica sin
+                                confrontar al infractor.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="scenario-card">
+                <div class="scenario-header type-2">
+                    <div class="scenario-title">Escenario 02 // Vulnerabilidad Crítica No Reportada</div>
+                    <span style="color: var(--accent-cyan); font-weight: bold;">[E2]</span>
+                </div>
+                <div class="scenario-body">
+                    <div class="narrative-box">
+                        "Durante un pentest encuentras una vulnerabilidad crítica en un sistema financiero que permite
+                        extraer dinero. El cliente aún no ha firmado el contrato final y tú sabes que podrías explotarla
+                        sin ser detectado."
+                    </div>
+                    <div class="analysis-grid">
+                        <div class="analysis-grid">
+                            <div class="analysis-block">
+                                <div class="block-subtitle"><i class="fas fa-search"></i> Identificación del Dilema
+                                </div>
+                                <p style="font-size: 0.9rem;">Conflicto de intereses extremo entre el lucro cesante y
+                                    beneficio económico personal inmediato por explotación invisible, frente al rigor y
+                                    la integridad civil/penal del auditor de seguridad.</p>
+                            </div>
+                            <div class="analysis-block">
+                                <div class="block-subtitle"><i class="fas fa-gavel"></i> Clasificación y Mandamientos
+                                </div>
+                                <ul class="framework-list">
+                                    <li><strong>Mandamientos Respetados:</strong> M1 (No usar la PC para dañar), M4 (No
+                                        usar la PC para robar) y M9 (Pensar en consecuencias sociales).</li>
+                                </ul>
+                                <div class="badge-delito">Delito Asistido por Computadora: Fraude Financiero</div>
+                            </div>
+                        </div>
+                        <div class="analysis-block" style="grid-column: 1 / -1;">
+                            <div class="block-subtitle"><i class="fas fa-book"></i> Aplicación de Marcos Éticos</div>
+                            <ul class="framework-list">
+                                <li><strong>A) Ética Utilitarista:</strong> Explotar el fallo causa quiebra reputacional
+                                    y pérdida masiva a usuarios. Reportar previene desastres socioeconómicos para miles
+                                    de cuentahabientes.</li>
+                                <li><strong>B) Enfoque de Derechos:</strong> Los usuarios poseen el derecho inalienable
+                                    a la protección patrimonial y seguridad digital.</li>
+                                <li><strong>C) Enfoque del Bien Común:</strong> El ecosistema financiero depende de la
+                                    confianza colectiva; resguardarla estabiliza económicamente a la sociedad.</li>
+                            </ul>
+                        </div>
+                        <div class="justification-box" style="border-color: rgba(0, 240, 255, 0.3);">
+                            <div class="block-subtitle" style="border-bottom-color: var(--accent-cyan);"><i
+                                    class="fas fa-shield-alt"></i> Justificación Profesional Técnica</div>
+                            <p style="font-size: 0.9rem;">La ausencia de un contrato de cierre formal no exime de los
+                                acuerdos de confidencialidad previos (<strong>NDA</strong>) ni del principio de buena
+                                fe. La praxis técnica exige cesar las interacciones con el exploit, documentar
+                                detalladamente el vector de ataque y emitir una notificación urgente mediante canales
+                                oficiales bajo la metodología de <strong>Divulgación Responsable (Responsible
+                                    Disclosure)</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <article class="scenario-card">
+                <div class="scenario-header type-3">
+                    <div class="scenario-title">Escenario 03 // Uso de Herramientas OSINT</div>
+                    <span style="color: var(--accent-green); font-weight: bold;">[E3]</span>
+                </div>
+                <div class="scenario-body">
+                    <div class="narrative-box">
+                        "Estás investigando a una persona sospechosa de fraude. Encuentras información personal en
+                        fuentes abiertas. Tu superior te pide usar esa información para presionarlo psicológicamente."
+                    </div>
+                    <div class="analysis-grid">
+                        <div class="analysis-block">
+                            <div class="block-subtitle"><i class="fas fa-search"></i> Identificación del Dilema</div>
+                            <p style="font-size: 0.9rem;">Colisión directa entre la obediencia jerárquica obligatoria
+                                hacia la cadena de mando corporativa y la transgresión de barreras legales mediante
+                                tácticas invasivas (acoso o extorsión).</p>
+                        </div>
+                        <div class="analysis-block">
+                            <div class="block-subtitle"><i class="fas fa-gavel"></i> Clasificación y Mandamientos</div>
+                            <ul class="framework-list">
+                                <li><strong>Mandamientos Violados:</strong> M1 (Uso para infligir daño directo) y M10
+                                    (Violación del respeto básico entre semejantes).</li>
+                            </ul>
+                            <div class="badge-delito">Delito Asistido por Computadora: Extorsión y Doxxing</div>
+                        </div>
+                        <div class="analysis-block" style="grid-column: 1 / -1;">
+                            <div class="block-subtitle"><i class="fas fa-book"></i> Aplicación de Marcos Éticos</div>
+                            <ul class="framework-list">
+                                <li><strong>A) Ética Utilitarista:</strong> La coacción psicológica contamina la validez
+                                    de la evidencia, activando la doctrina del <em>"fruto del árbol envenenado"</em>,
+                                    permitiendo la absolución del defraudador.</li>
+                                <li><strong>B) Enfoque de Derechos:</strong> Todo sospechoso retiene su derecho
+                                    constitucional al debido proceso y resguardo de datos frente a intimidación.</li>
+                                <li><strong>C) Enfoque del Bien Común:</strong> Evita que los equipos de seguridad
+                                    operen de forma paramilitar o como justicieros corporativos, protegiendo el Estado
+                                    de Derecho.</li>
+                            </ul>
+                        </div>
+                        <div class="justification-box" style="border-color: rgba(57, 255, 20, 0.3);">
+                            <div class="block-subtitle" style="border-bottom-color: var(--accent-green);"><i
+                                    class="fas fa-shield-alt"></i> Justificación Profesional Técnica</div>
+                            <p style="font-size: 0.9rem;">Los límites de las metodologías <strong>OSINT</strong> están
+                                demarcados por el alcance legal y técnico preestablecido. La información pública no
+                                otorga autorización de explotación punitiva. Se debe emitir una **negativa asertiva**,
+                                entregando únicamente el informe de inteligencia técnica formal al departamento legal, y
+                                escalar el caso mediante canales de <strong>Whistleblowing</strong> si persiste la
+                                coacción jerárquica.</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+        </main>
+    </div>
+
+</body>
+
+</html>
