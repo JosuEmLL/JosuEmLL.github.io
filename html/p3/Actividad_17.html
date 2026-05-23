@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actividad 17: Evaluación de Vulnerabilidades CVSS v3.1 - SGSI</title>
+    <title>Actividad 17: Evaluación de Vulnerabilidades con CVSS v3.1 - SGSI</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,16 +14,17 @@
 
     <style>
         :root {
-            --bg-main: #0a0f1d;
-            --bg-card: #111827;
-            --bg-card-header: #1f2937;
+            --bg-main: #060913;
+            --bg-card: #0d1222;
+            --bg-card-header: #151c33;
             --accent-cyan: #00f0ff;
+            --accent-red: #ff3131;
             --accent-purple: #bd00ff;
             --accent-orange: #f97316;
-            --accent-yellow: #eab308;
+            --accent-green: #10b981;
             --text-primary: #e5e7eb;
-            --text-muted: #9ca3af;
-            --font-tech: 'JetBrains+Mono', monospace;
+            --text-muted: #8892b0;
+            --font-tech: 'JetBrains Mono', monospace;
             --font-display: 'Share Tech Mono', sans-serif;
             --shadow-glow: 0 0 15px rgba(0, 240, 255, 0.15);
             --border-neon: 1px solid rgba(0, 240, 255, 0.2);
@@ -38,7 +39,7 @@
         body {
             background-color: var(--bg-main);
             color: var(--text-primary);
-            font-family: 'JetBrains Mono', monospace;
+            font-family: var(--font-tech);
             line-height: 1.6;
             padding: 20px;
         }
@@ -48,7 +49,7 @@
             margin: 0 auto;
             border: var(--border-neon);
             box-shadow: var(--shadow-glow);
-            background-color: rgba(17, 24, 39, 0.85);
+            background-color: rgba(13, 18, 34, 0.95);
             border-radius: 8px;
             overflow: hidden;
         }
@@ -60,7 +61,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 2px solid var(--accent-orange);
+            border-bottom: 2px solid var(--accent-cyan);
             flex-wrap: wrap;
             gap: 15px;
         }
@@ -68,8 +69,8 @@
         .iso-badge-status {
             font-family: var(--font-display);
             font-size: 1.2rem;
-            color: var(--accent-orange);
-            text-shadow: 0 0 10px rgba(249, 115, 22, 0.4);
+            color: var(--accent-cyan);
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
             display: flex;
             align-items: center;
             gap: 10px;
@@ -79,9 +80,9 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: linear-gradient(135deg, var(--accent-orange), #c2410c);
-            color: #ffffff;
-            border: 1px solid var(--accent-orange);
+            background: linear-gradient(135deg, var(--accent-cyan), #007a80);
+            color: var(--bg-main);
+            border: 1px solid var(--accent-cyan);
             padding: 10px 20px;
             font-family: var(--font-display);
             font-size: 1rem;
@@ -90,29 +91,29 @@
             border-radius: 4px;
             cursor: pointer;
             text-decoration: none;
-            box-shadow: 0 0 10px rgba(249, 115, 22, 0.3);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
             transition: all 0.3s ease;
         }
 
         .btn-export-pdf:hover {
             transform: translateY(-2px);
-            box-shadow: 0 0 20px rgba(249, 115, 22, 0.6);
-            background: linear-gradient(135deg, var(--accent-cyan), #00b3bf);
-            color: var(--bg-main);
-            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(255, 49, 49, 0.6);
+            background: linear-gradient(135deg, var(--accent-red), #990000);
+            color: #ffffff;
+            border-color: var(--accent-red);
         }
 
-        /* --- HEADER Y METADATOS --- */
+        /* --- HEADER Y METADATOS INDUSTRIALES --- */
         header {
             padding: 40px 25px;
-            background: linear-gradient(180deg, rgba(31, 41, 55, 0.4) 0%, rgba(10, 15, 29, 0) 100%);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            background: linear-gradient(180deg, rgba(21, 28, 51, 0.6) 0%, rgba(6, 9, 19, 0) 100%);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
             text-align: center;
         }
 
         h1 {
             font-family: var(--font-display);
-            font-size: 2.6rem;
+            font-size: 2.3rem;
             color: #ffffff;
             letter-spacing: 2px;
             margin-bottom: 5px;
@@ -124,6 +125,7 @@
             font-size: 1.1rem;
             margin-bottom: 30px;
             letter-spacing: 1px;
+            font-weight: bold;
         }
 
         .meta-grid {
@@ -134,8 +136,8 @@
         }
 
         .meta-card {
-            background-color: rgba(31, 41, 55, 0.3);
-            border-left: 3px solid var(--accent-orange);
+            background-color: rgba(21, 28, 51, 0.4);
+            border-left: 3px solid var(--accent-cyan);
             padding: 15px;
             border-radius: 4px;
         }
@@ -158,213 +160,236 @@
             justify-content: space-between;
         }
 
-        /* --- DISEÑO DEL CONTENIDO / SECCIONES --- */
+        /* --- SECCIÓN CONTENIDO GENERAL --- */
         .content-section {
             padding: 30px 25px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
 
         .section-title {
             font-family: var(--font-display);
             font-size: 1.6rem;
-            color: var(--accent-cyan);
-            margin-bottom: 20px;
+            color: var(--accent-orange);
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        /* Tarjeta de Escenario */
+        /* --- ESTILOS DEL ESCENARIO BASE --- */
         .scenario-box {
-            background: rgba(10, 15, 29, 0.6);
+            background-color: rgba(6, 9, 19, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 6px;
             padding: 20px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
-        .scenario-box ol {
-            margin-left: 20px;
-            margin-top: 10px;
+        .scenario-box p {
             font-size: 0.95rem;
-            color: var(--text-muted);
+            color: var(--text-primary);
+            margin-bottom: 15px;
+            text-align: justify;
         }
 
-        .scenario-box ol li {
-            margin-bottom: 5px;
-        }
-
-        .scenario-box strong {
-            color: #ffffff;
-        }
-
-        /* --- COMPONENTE INTERACTIVO / CALCULADORA CVSS MOCK --- */
-        .cvss-dashboard {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        @media(min-width: 900px) {
-            .cvss-dashboard {
-                grid-template-columns: 2fr 1fr;
-            }
-        }
-
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
-        }
-
-        .metric-card {
-            background-color: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 4px;
-            padding: 15px;
-        }
-
-        .metric-name {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            margin-bottom: 10px;
+        .vector-badge-list {
             display: flex;
-            justify-content: space-between;
+            gap: 10px;
+            flex-wrap: wrap;
+            list-style: none;
+        }
+
+        .vector-badge-list li {
+            background-color: var(--bg-card-header);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .vector-badge-list li strong {
+            color: var(--accent-cyan);
+        }
+
+        /* --- INTERFAZ INTERACTIVA CVSS v3.1 --- */
+        .cvss-container {
+            background-color: var(--bg-card);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 8px;
+            padding: 25px;
+            margin: 15px 0;
+        }
+
+        .cvss-grid {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 30px;
+        }
+
+        .metric-group {
+            margin-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            padding-bottom: 12px;
+        }
+
+        .metric-label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            font-weight: bold;
         }
 
         .metric-options {
             display: flex;
-            gap: 5px;
+            gap: 8px;
             flex-wrap: wrap;
         }
 
-        .opt-btn {
-            flex: 1;
-            text-align: center;
-            background-color: rgba(31, 41, 55, 0.5);
+        .metric-btn {
+            background: rgba(21, 28, 51, 0.6);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            color: var(--text-muted);
-            padding: 6px 4px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            border-radius: 3px;
+            color: var(--text-primary);
+            padding: 6px 14px;
+            font-size: 0.8rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-tech);
+            transition: all 0.2s ease;
         }
 
-        /* Clases activas simuladas del reporte técnico */
-        .opt-btn.active-high {
-            background-color: rgba(249, 115, 22, 0.2);
-            border-color: var(--accent-orange);
-            color: var(--accent-orange);
-        }
-
-        .opt-btn.active-low {
-            background-color: rgba(234, 179, 8, 0.2);
-            border-color: var(--accent-yellow);
-            color: var(--accent-yellow);
-        }
-
-        .opt-btn.active-cyan {
-            background-color: rgba(0, 240, 255, 0.15);
+        .metric-btn:hover {
+            background: rgba(0, 240, 255, 0.1);
             border-color: var(--accent-cyan);
-            color: var(--accent-cyan);
         }
 
-        /* Panel de Puntuación (Score) */
-        .score-panel {
-            background: linear-gradient(145deg, #1f2937, #111827);
-            border: 1px solid rgba(249, 115, 22, 0.3);
+        .metric-btn.active {
+            background: var(--accent-cyan);
+            color: var(--bg-main);
+            border-color: var(--accent-cyan);
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+        }
+
+        /* PANEL DE REPORTE DE CALCULO EN VIVO */
+        .cvss-display-panel {
+            background-color: #060913;
+            border: 1px solid rgba(249, 115, 22, 0.2);
             border-radius: 6px;
-            padding: 25px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
             text-align: center;
         }
 
-        .score-circle {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            border: 4px dashed var(--accent-orange);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-display);
-            font-size: 2.5rem;
-            color: var(--accent-orange);
-            font-weight: bold;
-            margin-bottom: 15px;
-            box-shadow: 0 0 15px rgba(249, 115, 22, 0.2);
+        .score-shield {
+            width: 100%;
+            padding: 20px 0;
+            border-radius: 4px;
+            background: rgba(21, 28, 51, 0.4);
+            border: 1px dashed rgba(255, 255, 255, 0.05);
         }
 
-        .score-severity {
-            background-color: rgba(249, 115, 22, 0.15);
-            color: var(--accent-orange);
-            padding: 4px 15px;
+        .shield-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            letter-spacing: 1.5px;
+        }
+
+        .shield-number {
+            font-family: var(--font-display);
+            font-size: 4.5rem;
             font-weight: bold;
-            border-radius: 4px;
-            font-size: 0.9rem;
-            text-transform: uppercase;
+            line-height: 1;
+            margin: 10px 0;
+            transition: color 0.3s ease;
+        }
+
+        .shield-status {
+            display: inline-block;
+            font-family: var(--font-display);
+            padding: 4px 18px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 3px;
             letter-spacing: 1px;
         }
 
-        /* --- PANEL TERMINAL / VECTOR STRING --- */
-        .terminal-box {
-            background-color: #05070f;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 6px;
-            padding: 15px 20px;
-            font-family: var(--font-tech);
-            font-size: 0.9rem;
+        /* Colores dinámicos */
+        .cvss-none {
+            color: #60a5fa;
+            background: rgba(96, 165, 250, 0.15);
+        }
+
+        .cvss-low {
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.15);
+        }
+
+        .cvss-med {
+            color: #eab308;
+            background: rgba(234, 179, 8, 0.15);
+        }
+
+        .cvss-high {
+            color: #f97316;
+            background: rgba(249, 115, 22, 0.15);
+        }
+
+        .cvss-crit {
+            color: #ff3131;
+            background: rgba(255, 49, 49, 0.2);
+            box-shadow: 0 0 10px rgba(255, 49, 49, 0.3);
+        }
+
+        .vector-string-box {
+            width: 100%;
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        .vector-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .vector-text {
+            background-color: #151c33;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 12px;
+            font-size: 0.72rem;
+            word-break: break-all;
+            color: var(--text-primary);
+            border-radius: 4px;
+        }
+
+        .panel-notes {
             margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            overflow-x: auto;
-        }
-
-        .vector-string {
-            color: var(--accent-cyan);
-            white-space: nowrap;
-        }
-
-        /* --- BLOQUE DE INTERPRETACIÓN TÉCNICA --- */
-        .analysis-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        @media(min-width: 768px) {
-            .analysis-container {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .analysis-block {
-            background-color: rgba(31, 41, 55, 0.2);
-            border-left: 4px solid var(--accent-cyan);
-            padding: 20px;
-            border-radius: 0 4px 4px 0;
-        }
-
-        .analysis-block h4 {
-            color: #ffffff;
-            margin-bottom: 10px;
-            font-size: 1.05rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .analysis-block p {
-            font-size: 0.9rem;
+            font-size: 0.72rem;
             color: var(--text-muted);
             text-align: justify;
+            line-height: 1.4;
+        }
+
+        .interpretation-text {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            text-align: justify;
+            line-height: 1.6;
+        }
+
+        .interpretation-text strong {
+            color: #ffffff;
+        }
+
+        @media (max-width: 820px) {
+            .cvss-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -375,7 +400,7 @@
 
         <div class="iso-action-bar">
             <div class="iso-badge-status">
-                <i class="fas fa-calculator"></i> CVSS_V3.1_ENGINE // METRICS_SYSTEM
+                <i class="fas fa-calculator"></i> CVSS_V3.1 // INTERACTIVE_VULN_EVALUATION
             </div>
             <a href="./Proyecto tercer parcial ISO 2701 Seguridad informática.pdf"
                 download="Proyecto tercer parcial ISO 2701 Seguridad informática.pdf" class="btn-export-pdf">
@@ -385,11 +410,11 @@
 
         <header>
             <h1>Evaluación de Vulnerabilidades con CVSS v3.1</h1>
-            <div class="subtitle">Seguridad Informática II — Análisis Técnico Estructurado</div>
+            <div class="subtitle">Análisis del Sistema Web Interno de la Organización</div>
 
             <div class="meta-grid">
                 <div class="meta-card">
-                    <h3><i class="fas fa-code-branch"></i> Célula de Auditoría</h3>
+                    <h3><i class="fas fa-user-shield"></i> Equipo Especialista</h3>
                     <ul>
                         <li><span>López López Josué Emmanuel</span> <span>182078</span></li>
                         <li><span>Mata Martínez Aaron Efraim</span> <span>179419</span></li>
@@ -399,12 +424,12 @@
                         <li><span>Salinas Carrillo Mauricio Josafat</span> <span>177406</span></li>
                     </ul>
                 </div>
-                <div class="meta-card" style="border-left-color: var(--accent-cyan);">
-                    <h3><i class="fas fa-shield-alt"></i> Control Institucional</h3>
+                <div class="meta-card" style="border-left-color: var(--accent-orange);">
+                    <h3><i class="fas fa-graduation-cap"></i> Control Institucional</h3>
                     <ul>
-                        <li>Docente: Servando López Contreras</li>
-                        <li>Mapeo Normativo: ISO/IEC 27001:2022</li>
-                        <li>Fecha de Registro: 15 de mayo de 2026</li>
+                        <li>Catedrático: Servando López Contreras</li>
+                        <li>Materia: Seguridad Informática II</li>
+                        <li>Fecha de Reporte: 15 de Mayo de 2026</li>
                     </ul>
                 </div>
             </div>
@@ -412,157 +437,255 @@
 
         <section class="content-section">
             <div class="section-title">
-                <i class="fas fa-network-wired"></i> Contexto de la Vulnerabilidad
+                <i class="fas fa-terminal"></i> Escenario Técnico de la Amenaza
             </div>
             <div class="scenario-box">
-                <p>Una organización detecta una vulnerabilidad en un <strong>sistema web interno</strong> con las
-                    siguientes propiedades métricas determinadas por el equipo técnico:</p>
-                <ol>
-                    <li>Puede explotarse de manera remota a través de la red (<strong>Network</strong>).</li>
-                    <li>La complejidad intrínseca para ejecutar el ataque es baja (<strong>Low</strong>).</li>
-                    <li>El vector requiere credenciales de privilegios elevados de manera mandatoria
-                        (<strong>High</strong>).</li>
-                    <li>No se requiere ningún tipo de interacción por parte del usuario objetivo
-                        (<strong>None</strong>).</li>
-                    <li>La explotación del fallo no altera el alcance del sistema afectado (<strong>Unchanged</strong>).
-                    </li>
-                    <li>El impacto en la tríada CIA (<strong>Confidencialidad, Integridad y Disponibilidad</strong>) se
-                        evalúa de nivel bajo (<strong>Low</strong>).</li>
-                </ol>
+                <p>
+                    Se detectó una vulnerabilidad de seguridad en un sistema web interno que permite interrupciones y
+                    exfiltraciones controladas. Las variables recopiladas por los auditores determinan que la falla
+                    puede explotarse remotamente a través de la red sin requerir que un usuario legítimo realice
+                    acciones de interacción. Sin embargo, exige credenciales de administración con privilegios sumamente
+                    elevados para poder inyectar la carga útil.
+                </p>
+                <ul class="vector-badge-list">
+                    <li>Acceso: <strong>Red (Network)</strong></li>
+                    <li>Complejidad: <strong>Baja (Low)</strong></li>
+                    <li>Privilegios: <strong>Elevados (High)</strong></li>
+                    <li>Interacción: <strong>Ninguna (None)</strong></li>
+                    <li>Alcance: <strong>Sin Cambios (Unchanged)</strong></li>
+                    <li>Impactos C/I/A: <strong>Bajo (Low)</strong></li>
+                </ul>
             </div>
         </section>
 
         <section class="content-section">
             <div class="section-title">
-                <i class="fas fa-th-large"></i> Matriz de Métricas Base e Impacto
+                <i class="fas fa-sliders-h"></i> Simulador y Calculadora de Métrica Base en Tiempo Real
             </div>
 
-            <div class="cvss-dashboard">
+            <div class="cvss-container">
+                <div class="cvss-grid">
 
-                <div class="metrics-grid">
+                    <div class="cvss-selectors">
 
-                    <div class="metric-card">
-                        <div class="metric-name">Vector de Ataque (AV) <span>[N]</span></div>
-                        <div class="metric-options">
-                            <span class="opt-btn active-cyan">Físico</span>
-                            <span class="opt-btn">Local</span>
-                            <span class="opt-btn">Adyacente</span>
-                            <span class="opt-btn active-cyan">Red (N)</span>
+                        <div class="metric-group" data-metric="AV">
+                            <label class="metric-label">Vector de Ataque (AV)</label>
+                            <div class="metric-options">
+                                <button class="metric-btn active" data-value="N">Network (N)</button>
+                                <button class="metric-btn" data-value="A">Adjacent (A)</button>
+                                <button class="metric-btn" data-value="L">Local (L)</button>
+                                <button class="metric-btn" data-value="P">Physical (P)</button>
+                            </div>
+                        </div>
+
+                        <div class="metric-group" data-metric="AC">
+                            <label class="metric-label">Complejidad del Ataque (AC)</label>
+                            <div class="metric-options">
+                                <button class="metric-btn active" data-value="L">Low (L)</button>
+                                <button class="metric-btn" data-value="H">High (H)</button>
+                            </div>
+                        </div>
+
+                        <div class="metric-group" data-metric="PR">
+                            <label class="metric-label">Privilegios Requeridos (PR)</label>
+                            <div class="metric-options">
+                                <button class="metric-btn" data-value="N">None (N)</button>
+                                <button class="metric-btn" data-value="L">Low (L)</button>
+                                <button class="metric-btn active" data-value="H">High (H)</button>
+                            </div>
+                        </div>
+
+                        <div class="metric-group" data-metric="UI">
+                            <label class="metric-label">Interacción del Usuario (UI)</label>
+                            <div class="metric-options">
+                                <button class="metric-btn active" data-value="N">None (N)</button>
+                                <button class="metric-btn" data-value="R">Required (R)</button>
+                            </div>
+                        </div>
+
+                        <div class="metric-group" data-metric="S">
+                            <label class="metric-label">Alcance / Scope (S)</label>
+                            <div class="metric-options">
+                                <button class="metric-btn active" data-value="U">Unchanged (U)</button>
+                                <button class="metric-btn" data-value="C">Changed (C)</button>
+                            </div>
+                        </div>
+
+                        <div class="metric-group" data-metric="C">
+                            <label class="metric-label">Impacto en Confidencialidad (C)</label>
+                            <div class="metric-options">
+                                <button class="metric-btn" data-value="N">None (N)</button>
+                                <button class="metric-btn active" data-value="L">Low (L)</button>
+                                <button class="metric-btn" data-value="H">High (H)</button>
+                            </div>
+                        </div>
+
+                        <div class="metric-group" data-metric="I">
+                            <label class="metric-label">Impacto en Integridad (I)</label>
+                            <div class="metric-options">
+                                <button class="metric-btn" data-value="N">None (N)</button>
+                                <button class="metric-btn active" data-value="L">Low (L)</button>
+                                <button class="metric-btn" data-value="H">High (H)</button>
+                            </div>
+                        </div>
+
+                        <div class="metric-group" data-metric="A">
+                            <label class="metric-label">Impacto en Disponibilidad (A)</label>
+                            <div class="metric-options">
+                                <button class="metric-btn" data-value="N">None (N)</button>
+                                <button class="metric-btn active" data-value="L">Low (L)</button>
+                                <button class="metric-btn" data-value="H">High (H)</button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="metric-card">
-                        <div class="metric-name">Complejidad (AC) <span>[L]</span></div>
-                        <div class="metric-options">
-                            <span class="opt-btn">Alta</span>
-                            <span class="opt-btn active-cyan">Baja (L)</span>
+                    <div class="cvss-display-panel">
+                        <div class="score-shield">
+                            <div class="shield-title">CVSS BASE SCORE</div>
+                            <div id="cvss-score-value" class="shield-number" style="color:#eab308;">4.7</div>
+                            <div id="cvss-severity-badge" class="shield-status cvss-med">MEDIO</div>
                         </div>
-                    </div>
 
-                    <div class="metric-card">
-                        <div class="metric-name">Privilegios (PR) <span>[H]</span></div>
-                        <div class="metric-options">
-                            <span class="opt-btn">Ninguno</span>
-                            <span class="opt-btn">Bajos</span>
-                            <span class="opt-btn active-cyan">Altos (H)</span>
+                        <div class="vector-string-box">
+                            <div class="vector-title"><i class="fas fa-fingerprint"></i> Vector String Oficial</div>
+                            <div id="cvss-vector-text" class="vector-text">CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:L/I:L/A:L
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="metric-card">
-                        <div class="metric-name">Interacción (UI) <span>[N]</span></div>
-                        <div class="metric-options">
-                            <span class="opt-btn">Requerida</span>
-                            <span class="opt-btn active-cyan">Ninguna (N)</span>
-                        </div>
-                    </div>
-
-                    <div class="metric-card">
-                        <div class="metric-name">Alcance (S) <span>[U]</span></div>
-                        <div class="metric-options">
-                            <span class="opt-btn">Cambiado</span>
-                            <span class="opt-btn active-cyan">Sin Cambio (U)</span>
-                        </div>
-                    </div>
-
-                    <div class="metric-card">
-                        <div class="metric-name">Confidencialidad (C) <span>[L]</span></div>
-                        <div class="metric-options">
-                            <span class="opt-btn">Ninguno</span>
-                            <span class="opt-btn active-low">Bajo (L)</span>
-                            <span class="opt-btn">Alto</span>
-                        </div>
-                    </div>
-
-                    <div class="metric-card">
-                        <div class="metric-name">Integridad (I) <span>[L]</span></div>
-                        <div class="metric-options">
-                            <span class="opt-btn">Ninguno</span>
-                            <span class="opt-btn active-low">Bajo (L)</span>
-                            <span class="opt-btn">Alto</span>
-                        </div>
-                    </div>
-
-                    <div class="metric-card">
-                        <div class="metric-name">Disponibilidad (A) <span>[L]</span></div>
-                        <div class="metric-options">
-                            <span class="opt-btn">Ninguno</span>
-                            <span class="opt-btn active-low">Bajo (L)</span>
-                            <span class="opt-btn">Alto</span>
+                        <div class="panel-notes">
+                            <p><i class="fas fa-exclamation-triangle"></i> Modificar los parámetros recalculará el
+                                impacto matemático base bajo el algoritmo oficial de First.org.</p>
                         </div>
                     </div>
 
                 </div>
-
-                <div class="score-panel">
-                    <div class="score-circle">4.7</div>
-                    <div class="score-severity">Media</div>
-                    <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 10px;">Rango Base CVSS: [4.0 -
-                        6.9]</p>
-                </div>
-
-            </div>
-
-            <div class="terminal-box">
-                <div>
-                    <span style="color: #6b7280;">$ cvss-vector --generate</span><br>
-                    <span class="vector-string">CVSS:3.1/AV:N/AC:L/PR:H/UI:N/S:U/C:L/I:L/A:L</span>
-                </div>
-                <i class="fas fa-code" style="color: var(--accent-orange); opacity: 0.7;"></i>
             </div>
         </section>
 
         <section class="content-section" style="border-bottom: none;">
             <div class="section-title">
-                <i class="fas fa-analytics"></i> Interpretación Técnica Corporativa
+                <i class="fas fa-user-check"></i> Interpretación Técnica del Riesgo Evaluado
             </div>
-
-            <div class="analysis-container">
-                <div class="analysis-block">
-                    <h4><i class="fas fa-exclamation-triangle" style="color: var(--accent-orange);"></i> Análisis del
-                        Perfil del Atacante</h4>
-                    <p>A pesar de requerir privilegios elevados, la vulnerabilidad representa un riesgo latente
-                        significativo. El ataque puede originarse desde la red pública con baja complejidad y de forma
-                        automatizada (sin intervención del usuario). Los vectores de amenaza probables corresponden a
-                        usuarios internos con credenciales maliciosas, administradores comprometidos o actores externos
-                        que hayan escalado privilegios previamente mediante campañas de phishing o secuestro de sesión
-                        (Session Hijacking).</p>
-                </div>
-
-                <div class="analysis-block" style="border-left-color: var(--accent-purple);">
-                    <h4><i class="fas fa-link" style="color: var(--accent-purple);"></i> Contención y Cadenas de Ataque
-                    </h4>
-                    <p>Que el impacto consolidado en Confidencialidad, Integridad y Disponibilidad sea tipificado como
-                        "Bajo" implica que el fallo por sí mismo no compromete la totalidad del servidor raíz. No
-                        obstante, en un entorno de infraestructura distribuida, esta falla puede ser utilizada como
-                        puente estratégico dentro de una <strong>Cadena de Ataque (Exploit Chain)</strong>, permitiendo
-                        exfiltraciones parciales de información o modificaciones no autorizadas en las bases de datos
-                        del sistema web interno.</p>
-                </div>
+            <div class="interpretation-text">
+                <p style="margin-bottom: 12px;">
+                    Aunque la vulnerabilidad requiere privilegios elevados, sigue siendo de alta relevancia operativa
+                    porque puede explotarse a través de la **red (Network)**, con **baja complejidad** y **sin
+                    interacción del usuario**. Esto significa que, si un atacante interno, un administrador malicioso o
+                    un vector externo que haya conseguido credenciales elevadas mediante phishing, robo de sesión o
+                    malas configuraciones obtiene acceso, podría explotar la falla de manera directa.
+                </p>
+                <p>
+                    Que el impacto final sea calificado como **Bajo (Low)** en confidencialidad, integridad y
+                    disponibilidad demuestra que el fallo no compromete la totalidad del servidor perimetral, pero sí
+                    puede provocar filtraciones limitadas de información corporativa y alteraciones parciales. Debe
+                    atenderse con prioridad debido al riesgo latente de que sea utilizado como pivote en una **cadena de
+                    ataque estructurada** de mayor envergadura.
+                </p>
             </div>
         </section>
 
     </div>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const weights = {
+                AV: { N: 0.85, A: 0.62, L: 0.55, P: 0.20 },
+                AC: { L: 0.77, H: 0.44 },
+                PR: {
+                    U: { N: 0.85, L: 0.62, H: 0.27 },
+                    C: { N: 0.85, L: 0.68, H: 0.50 }
+                },
+                UI: { N: 0.85, R: 0.62 },
+                C: { H: 0.56, L: 0.22, N: 0.00 },
+                I: { H: 0.56, L: 0.22, N: 0.00 },
+                A: { H: 0.56, L: 0.22, N: 0.00 }
+            };
+
+            const buttons = document.querySelectorAll(".metric-btn");
+            buttons.forEach(button => {
+                button.addEventListener("click", function () {
+                    const group = this.closest(".metric-group");
+                    group.querySelectorAll(".metric-btn").forEach(btn => btn.classList.remove("active"));
+                    this.classList.add("active");
+                    calculateCVSS();
+                });
+            });
+
+            function calculateCVSS() {
+                const getVal = (metric) => document.querySelector(`.metric-group[data-metric="${metric}"] .metric-btn.active`).getAttribute("data-value");
+
+                const AV = getVal("AV");
+                const AC = getVal("AC");
+                const PR = getVal("PR");
+                const UI = getVal("UI");
+                const S = getVal("S");
+                const C = getVal("C");
+                const I = getVal("I");
+                const A = getVal("A");
+
+                const vectorStr = `CVSS:3.1/AV:${AV}/AC:${AC}/PR:${PR}/UI:${UI}/S:${S}/C:${C}/I:${I}/A:${A}`;
+                document.getElementById("cvss-vector-text").innerText = vectorStr;
+
+                const av_weight = weights.AV[AV];
+                const ac_weight = weights.AC[AC];
+                const pr_weight = weights.PR[S][PR];
+                const ui_weight = weights.UI[UI];
+                const c_weight = weights.C[C];
+                const i_weight = weights.I[I];
+                const a_weight = weights.A[A];
+
+                const iss = 1 - ((1 - c_weight) * (1 - i_weight) * (1 - a_weight));
+
+                let impact = 0;
+                if (S === 'U') {
+                    impact = 6.42 * iss;
+                } else {
+                    impact = 7.52 * (iss - 0.029) - 3.25 * Math.pow(iss - 0.02, 15);
+                }
+
+                const exploitability = 8.22 * av_weight * ac_weight * pr_weight * ui_weight;
+
+                let totalScore = 0;
+                if (iss > 0) {
+                    if (S === 'U') {
+                        totalScore = Math.min((impact + exploitability), 10);
+                    } else {
+                        totalScore = Math.min(1.08 * (impact + exploitability), 10);
+                    }
+                }
+
+                const finalizedScore = iss <= 0 ? 0 : (Math.ceil(totalScore * 10) / 10).toFixed(1);
+
+                const scoreElement = document.getElementById("cvss-score-value");
+                scoreElement.innerText = finalizedScore;
+
+                const badge = document.getElementById("cvss-severity-badge");
+                badge.className = "shield-status";
+
+                if (finalizedScore == 0) {
+                    badge.innerText = "INFORMATIVO";
+                    badge.classList.add("cvss-none");
+                    scoreElement.style.color = "#60a5fa";
+                } else if (finalizedScore >= 0.1 && finalizedScore <= 3.9) {
+                    badge.innerText = "BAJO";
+                    badge.classList.add("cvss-low");
+                    scoreElement.style.color = "#10b981";
+                } else if (finalizedScore >= 4.0 && finalizedScore <= 6.9) {
+                    badge.innerText = "MEDIO";
+                    badge.classList.add("cvss-med");
+                    scoreElement.style.color = "#eab308";
+                } else if (finalizedScore >= 7.0 && finalizedScore <= 8.9) {
+                    badge.innerText = "ALTO";
+                    badge.classList.add("cvss-high");
+                    scoreElement.style.color = "#f97316";
+                } else if (finalizedScore >= 9.0 && finalizedScore <= 10.0) {
+                    badge.innerText = "CRÍTICO";
+                    badge.classList.add("cvss-crit");
+                    scoreElement.style.color = "#ff3131";
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
